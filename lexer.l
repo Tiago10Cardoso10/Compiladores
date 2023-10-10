@@ -20,12 +20,24 @@ enter ("\n"|\r\n|\r)
 %X COMMENT
 
 %%
+"/*"                        { 
+                                BEGIN(COMMENT);
+                                coluna+=2; 
+                            }
 
+<COMMENT>.                  { 
+                                coluna++; 
+                            }
 
-"/*" { BEGIN(COMMENT);coluna+=2; }
-<COMMENT>. { coluna++; }
-<COMMENT>\n { coluna=0;linha++; }
-<COMMENT>"*/" { BEGIN(INITIAL);coluna+=2; }
+<COMMENT>\n                 { 
+                                coluna=0;
+                                linha++; 
+                            }
+
+<COMMENT>"*/"               { 
+                                BEGIN(INITIAL);
+                                coluna+=2;
+                            }
 
 {puct}+                     {   
                                 printf("%s\n", yytext);
@@ -55,7 +67,7 @@ enter ("\n"|\r\n|\r)
                                 coluna++; 
                             }
 
-{notdigit}+{escape}      {
+{notdigit}+{escape}         {
                                 printf("%s\n", yytext);
                                 coluna++; 
                             }
@@ -68,6 +80,7 @@ enter ("\n"|\r\n|\r)
 [ \t\n]                     { 
                                 coluna++;
                             }
+
 .                           { 
                                 coluna++;
                                 printf("Line %d, column %d: unrecognized character (%s)\n",linha,coluna,yytext); 
