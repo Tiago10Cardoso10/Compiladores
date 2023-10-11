@@ -7,7 +7,6 @@ int coluna = 0;
 
 %}
 
-
 digit   [0-9]
 notdigit [a-zA-Z]           
 alltypes [a-zA-Z0-9]
