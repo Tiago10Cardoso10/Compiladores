@@ -15,19 +15,29 @@ tokens ("integer"|"double"|"if"|"else"|"then")
 puct ("("|")"|"="|","|"*"|"/"|"+"|"-")
 escape ("\\f"|"\\n"|"\\r"|"\\t"|"\\\\"|"\\")
 enter ("\n"|\r\n|\r)
-signal ("+"|"-")
-expoente ("e"|"E")
 
 
 %X COMMENT
 
 %%
+"/*"                        { 
+                                BEGIN(COMMENT);
+                                coluna+=2; 
+                            }
 
+<COMMENT>.                  { 
+                                coluna++; 
+                            }
 
-"/*" { BEGIN(COMMENT);coluna+=2; }
-<COMMENT>. { coluna++; }
-<COMMENT>\n { coluna=0;linha++; }
-<COMMENT>"*/" { BEGIN(INITIAL);coluna+=2; }
+<COMMENT>\n                 { 
+                                coluna=0;
+                                linha++; 
+                            }
+
+<COMMENT>"*/"               { 
+                                BEGIN(INITIAL);
+                                coluna+=2;
+                            }
 
 {puct}+                     {   
                                 printf("%s\n", yytext);
@@ -40,21 +50,6 @@ expoente ("e"|"E")
                                     yytext[i] = toupper(yytext[i]);
                                 }
                                 printf("%s\n", yytext);
-                                coluna++;
-                            }
-
-{digit}+"."{digit}*{expoente}{signal}*{digit}+ {
-                                printf("DECIMAL(%s)\n", yytext);
-                                coluna++;
-                            }
-
-"."{digit}+{expoente}{signal}*{digit}+         {
-                                printf("DECIMAL(%s)\n", yytext);
-                                coluna++;
-                            }
-
-{digit}+{expoente}{signal}*{digit}+            {
-                                printf("DECIMAL(%s)\n", yytext);
                                 coluna++;
                             }
 
@@ -72,7 +67,7 @@ expoente ("e"|"E")
                                 coluna++; 
                             }
 
-{notdigit}+{escape}      {
+{notdigit}+{escape}         {
                                 printf("%s\n", yytext);
                                 coluna++; 
                             }
@@ -85,6 +80,7 @@ expoente ("e"|"E")
 [ \t\n]                     { 
                                 coluna++;
                             }
+
 .                           { 
                                 coluna++;
                                 printf("Line %d, column %d: unrecognized character (%s)\n",linha,coluna,yytext); 
