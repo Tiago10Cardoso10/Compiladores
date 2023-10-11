@@ -43,18 +43,18 @@ expoente ("e"|"E")
                                 coluna++;
                             }
 
-{digit}+"."{digit}*{expoente}{signal}*{digit}+                    {
-                                printf("DECIMAL CIENTIFICO(%s)\n", yytext);
+{digit}+"."{digit}*{expoente}{signal}*{digit}+ {
+                                printf("DECIMAL(%s)\n", yytext);
                                 coluna++;
                             }
 
-"."{digit}+{expoente}{signal}*{digit}+                    {
-                                printf("DECIMAL CIENTIFICO(%s)\n", yytext);
+"."{digit}+{expoente}{signal}*{digit}+         {
+                                printf("DECIMAL(%s)\n", yytext);
                                 coluna++;
                             }
 
-{digit}+{expoente}{signal}*{digit}+                    {
-                                printf("DECIMAL CIENTIFICO(%s)\n", yytext);
+{digit}+{expoente}{signal}*{digit}+            {
+                                printf("DECIMAL(%s)\n", yytext);
                                 coluna++;
                             }
 
