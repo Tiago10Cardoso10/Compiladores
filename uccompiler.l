@@ -148,13 +148,15 @@ enter ("\n"|"\r")
 
 {digit}+                                        {   printf("NATURAL(%s)\n",yytext);coluna+=yyleng;}
 
-{digit}+"."{digit}*{expoente}{signal}*{digit}+    {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
+{digit}+"."{digit}*{expoente}{signal}?{digit}+    {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
 
-"."{digit}+{expoente}{signal}*{digit}+          {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
+"."{digit}+{expoente}{signal}?{digit}+          {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
 
-{digit}+{expoente}{signal}*{digit}+             {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
+{digit}+{expoente}{signal}?{digit}+             {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
 
 {digit}*"."{digit}+                             {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng; }
+
+{digit}+"."{digit}*                             {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng; }
 
 {enter}*                {   linha++;coluna = 0;}
 
