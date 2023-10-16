@@ -1,10 +1,44 @@
-//Normal comment
-/*Normal comment*/
-//Normal comment /* /* */
-/* // // */
-/*
-Normal comment
-
-*/
-/*ERROR
-ERROR
+auto
+_auto
+break
+break_
+case
+__case
+char_123
+const
+continue
+default
+do
+while
+do-while
+do while
+double
+else
+enum
+extern
+float
+for
+goto
+if
+inline
+int
+long
+register
+restrict
+return
+short
+signed
+sizeof
+static
+struct
+switch
+typedef
+union
+unsigned
+void
+volatile
+while
+_Bool
+_Complex
+_Imaginary
+Else
