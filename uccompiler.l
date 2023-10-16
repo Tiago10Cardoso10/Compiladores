@@ -26,7 +26,7 @@ reserved    ("char"|"else"|"while"|"if"|"int"|"short"|"double"|"return"|"void"|"
 
 %X COMMENT
 %X COMMENT2
-%X CHARLIT
+%X CHRLIT
 
 enter ("\n"|"\r")
 
@@ -34,7 +34,7 @@ enter ("\n"|"\r")
 
 "/*"                    {   comment = 1; BEGIN(COMMENT); colunareserved = coluna + 1; linhareserved = linha; coluna+=2;}
 "//"                    {   BEGIN(COMMENT2); colunareserved = coluna + 1; linhareserved = linha; coluna+=2;}
-"'"                     {   BEGIN(CHARLIT); colunareserved = coluna + 1; linhareserved = linha; coluna++;}
+"'"                     {   BEGIN(CHRLIT); colunareserved = coluna + 1; linhareserved = linha; coluna++;}
 
 <COMMENT>\n             {   coluna = 0; linha++;}
 
@@ -50,15 +50,22 @@ enter ("\n"|"\r")
 <COMMENT2>. {coluna++;}
 <COMMENT2>\n {BEGIN(INITIAL); coluna = 0; linha++;}
 
-<CHARLIT>"'" {BEGIN(INITIAL); coluna++;}
+<CHRLIT>([^'\n\\]|\\([nt\\\'\"]|[0-7]{1,3}))\'      { printf("CHRLIT('%s)\n", yytext);
+                                                    coluna += yyleng;
+                                                    BEGIN(INITIAL); }
 
-<CHARLIT>(\\[0-7]{1,3}|\\t|\\n|\\'|\\\\|\\"")     {printf("CHRLIT('%s)\n", yytext); BEGIN(INITIAL); coluna += yyleng;}
+<CHRLIT>.*\'                {printf("Line %d, column %d: invalid char constant ('%s)\n", linha ,coluna, yytext);
+                            coluna+=yyleng;
+                            BEGIN(INITIAL); }
 
+<CHRLIT>\n                  {printf("Line %d, column %d: unterminated char constant\n", linha, coluna);
+                            coluna += yyleng; 
+                            linha++;
+                            BEGIN(INITIAL); }
 
-<CHARLIT>\n        {   
-                            printf("Line %d, column %d: unterminated char constant\n",linhareserved,colunareserved);
-                            BEGIN(INITIAL); linha++; coluna = 0;
-                        }
+<CHRLIT>.                   {printf("Line %d, column %d: unterminated char constant ('%s)\n", linha, coluna, yytext);
+                            coluna += yyleng; 
+                            BEGIN(INITIAL); }
 
 {reserved}              {   if(strcmp(yytext,"char") == 0)          {printf("CHAR\n");coluna+=yyleng;;
                             } else if (strcmp(yytext,"else") == 0)  {printf("ELSE\n");coluna+=yyleng;;
