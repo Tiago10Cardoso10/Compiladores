@@ -10,7 +10,7 @@ int comment = 0;
 int linhareserved = 0;
 int colunareserved = 0;
 int more = 0;
-int num_plicas = 0;
+int num_backslashes = 0;
 
 char agrupar[100];
 
@@ -35,7 +35,7 @@ enter ("\n"|"\r")
 
 "/*"                    {   comment = 1; BEGIN(COMMENT); colunareserved = coluna + 1; linhareserved = linha; coluna+=2;}
 "//"                    {   BEGIN(COMMENT2); colunareserved = coluna + 1; linhareserved = linha; coluna+=2;}
-"'"                     {   num_plicas = 1; BEGIN(CHRLIT); colunareserved = coluna + 1; linhareserved = linha; coluna++;}
+"'"                     {   num_backslashes = 1; BEGIN(CHRLIT); colunareserved = coluna + 1; linhareserved = linha; coluna++;}
 
 <COMMENT>\n             {   coluna = 0; linha++;}
 
@@ -55,10 +55,13 @@ enter ("\n"|"\r")
                                                         printf("CHRLIT('%s)\n", yytext);
                                                         coluna += yyleng;
                                                         BEGIN(INITIAL); 
-                                                    }
-
-<CHRLIT>.*\'                {
-                                printf("Line %d, column %d: invalid char constant ('%s)\n", linhareserved ,colunareserved, yytext);
+                                                    }   
+<CHRLIT>[^'\n]*\'           {    
+                                if (num_backslashes % 2 == 0) {
+                                    printf("Line %d, column %d: invalid char constant ('%s)\n", linhareserved ,colunareserved, yytext);
+                                } else {
+                                    printf("Line %d, column %d: unterminated char constant\n", linhareserved, colunareserved);
+                                }
                                 coluna+=yyleng;
                                 BEGIN(INITIAL); 
                             }
@@ -70,10 +73,10 @@ enter ("\n"|"\r")
                                 BEGIN(INITIAL); 
                             }
 
-<CHRLIT>.                   {
+<CHRLIT><<EOF>>             {
                                 printf("Line %d, column %d: unterminated char constant\n", linhareserved, colunareserved);
-                                coluna += yyleng; 
-                                BEGIN(INITIAL); 
+                                coluna += yyleng;
+                                BEGIN(INITIAL);
                             }
 
 {reserved}              {   if(strcmp(yytext,"char") == 0)          {printf("CHAR\n");coluna+=yyleng;
