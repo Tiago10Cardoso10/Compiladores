@@ -1,12 +1,10 @@
-//teste comentario
-/* este está certo
-nao
-deve dar
-erro
-aqui
-*/
-/*  						*/   
-/* teste de
-erro
-de
-comentario
+<>qwertyuiopásdfghjklç~\zxcvbnm,.-______j!"#$%&/(==?*´\~@
+|| |char
+elsewhileifshort    inT intdoublereturnvoid^&&<=>=
+{    [#}!=++--
+      int double  return  void    short   while   else
+      \tolelele
+/*lll
+kkk*/?
+wtf//gefggt
+#

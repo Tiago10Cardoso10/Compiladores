@@ -1,18 +1,16 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <ctype.h>
 #include <string.h>
 
 int linha = 1;
-int coluna = 0;
+int coluna = 1;
 int comment = 0;
 int linhareserved = 0;
 int colunareserved = 0;
-int more = 0;
-int num_backslashes = 0;
-
-char agrupar[100];
+int l_flag = 0;
 
 %}
 
@@ -21,161 +19,138 @@ notdigit    [a-zA-Z_]
 alltypes    [a-zA-Z_0-9] 
 signal      ("+"|"-")
 expoente    ("e"|"E")
-
-
+notaccepted [^\'\\\n]
+chrlit      {notaccepted}|"\\n"|"\\t"|"\\\\"|"\\\'"|"\\\""|"\\"[0-7]{1,3}|\t
 reserved    ("char"|"else"|"while"|"if"|"int"|"short"|"double"|"return"|"void"|"&"|"|"|"^"|"&&"|"="|"*"|","|"/"|"=="|">="|">"|"{"|"<="|"("|")"|"<"|"-"|"%"|"!="|"!"|"||"|"+"|"}"|";"|"["|"]"|"++"|"--"|"auto"|"break"|"case"|"const"|"continue"|"default"|"do"|"long"|"register"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"volatile"|"enum"|"extern"|"float"|"for"|"goto"|"inline"|"restrict"|"_Bool"|"_Complex"|"_Imaginary")
+enter ("\n"|"\r")
 
 %X COMMENT
 %X COMMENT2
-%X CHRLIT
-
-enter ("\n"|"\r")
 
 %%
 
-"/*"                    {   comment = 1; BEGIN(COMMENT); colunareserved = coluna + 1; linhareserved = linha; coluna+=2;}
-"//"                    {   BEGIN(COMMENT2); colunareserved = coluna + 1; linhareserved = linha; coluna+=2;}
-"'"                     {   num_backslashes = 1; BEGIN(CHRLIT); colunareserved = coluna + 1; linhareserved = linha; coluna++;}
-
-<COMMENT>\n             {   coluna = 0; linha++;}
-
-<COMMENT>"*/"           {   comment = 0; BEGIN(INITIAL); coluna+=2;}
-
-<COMMENT>.              {   coluna++; }
-
-<COMMENT><<EOF>>        {   if (comment){
-                                printf("Line %d, column %d: unterminated comment\n",linhareserved,colunareserved);
-                            }   
-                            yyterminate();}
-
-<COMMENT2>. {coluna++;}
-<COMMENT2>\n {BEGIN(INITIAL); coluna = 0; linha++;}
-
-<CHRLIT>([^'\n\\]|\\([nt\\\'\"]|[0-7]{1,3}))\'      {   
-                                                        printf("CHRLIT('%s)\n", yytext);
-                                                        coluna += yyleng;
-                                                        BEGIN(INITIAL); 
-                                                    }   
-<CHRLIT>[^'\n]*\'           {    
-                                if (num_backslashes % 2 == 0) {
-                                    printf("Line %d, column %d: invalid char constant ('%s)\n", linhareserved ,colunareserved, yytext);
-                                } else {
-                                    printf("Line %d, column %d: unterminated char constant\n", linhareserved, colunareserved);
-                                }
-                                coluna+=yyleng;
-                                BEGIN(INITIAL); 
-                            }
-
-<CHRLIT>\n                  {
-                                printf("Line %d, column %d: unterminated char constant\n", linhareserved, colunareserved);
-                                coluna += yyleng; 
-                                linha++;
-                                BEGIN(INITIAL); 
-                            }
-
-<CHRLIT><<EOF>>             {
-                                printf("Line %d, column %d: unterminated char constant\n", linhareserved, colunareserved);
-                                coluna += yyleng;
-                                BEGIN(INITIAL);
-                            }
-
-{reserved}              {   if(strcmp(yytext,"char") == 0)          {printf("CHAR\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"else") == 0)  {printf("ELSE\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"while") == 0) {printf("WHILE\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"if") == 0)    {printf("IF\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"int") == 0)   {printf("INT\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"short") == 0) {printf("SHORT\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"double") == 0){printf("DOUBLE\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"return") == 0){printf("RETURN\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"void") == 0)  {printf("VOID\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"&") == 0)     {printf("BITWISEAND\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"|") == 0)     {printf("BITWISEOR\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"^") == 0)     {printf("BITWISEXOR\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"&&") == 0)    {printf("AND\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"=") == 0)     {printf("ASSIGN\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"*") == 0)     {printf("MUL\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,",") == 0)     {printf("COMMA\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"/") == 0)     {printf("DIV\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"==") == 0)    {printf("EQ\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,">=") == 0)    {printf("GE\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,">") == 0)     {printf("GT\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"{") == 0)     {printf("LBRACE\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"<=") == 0)    {printf("LE\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"(") == 0)     {printf("LPAR\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"<") == 0)     {printf("LT\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"-") == 0)     {printf("MINUS\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"%") == 0)     {printf("MOD\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"!=") == 0)    {printf("NE\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"!") == 0)     {printf("NOT\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"||") == 0)    {printf("OR\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"+") == 0)     {printf("PLUS\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"}") == 0)     {printf("RBRACE\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,")") == 0)     {printf("RPAR\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,";") == 0)     {printf("SEMI\n");coluna+=yyleng;
-                            }  else if (strcmp(yytext,"[") == 0)    {printf("RESERVED([)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"]") == 0)     {printf("RESERVED(])\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"--") == 0)    {printf("RESERVED(--)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"++") == 0)    {printf("RESERVED(++)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"auto") == 0)    {printf("RESERVED(auto)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"break") == 0)    {printf("RESERVED(break)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"case") == 0)    {printf("RESERVED(case)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"const") == 0)    {printf("RESERVED(const)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"continue") == 0)    {printf("RESERVED(continue)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"default") == 0)    {printf("RESERVED(default)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"do") == 0)    {printf("RESERVED(do)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"long") == 0)    {printf("RESERVED(long)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"register") == 0)    {printf("RESERVED(register)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"signed") == 0)    {printf("RESERVED(signed)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"sizeof") == 0)    {printf("RESERVED(sizeof)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"static") == 0)    {printf("RESERVED(static)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"struct") == 0)    {printf("RESERVED(struct)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"switch") == 0)    {printf("RESERVED(switch)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"typedef") == 0)    {printf("RESERVED(typedef)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"union") == 0)    {printf("RESERVED(union)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"unsigned") == 0)    {printf("RESERVED(unsigned)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"volatile") == 0)    {printf("RESERVED(volatile)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"enum") == 0)    {printf("RESERVED(enum)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"extern") == 0)    {printf("RESERVED(extern)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"float") == 0)    {printf("RESERVED(float)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"for") == 0)    {printf("RESERVED(for)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"goto") == 0)    {printf("RESERVED(goto)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"inline") == 0)    {printf("RESERVED(inline)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"restrict") == 0)    {printf("RESERVED(restrict)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"_Bool") == 0)    {printf("RESERVED(_Bool)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"_Complex") == 0)    {printf("RESERVED(_Complex)\n");coluna+=yyleng;
-                            } else if (strcmp(yytext,"_Imaginary") == 0)    {printf("RESERVED(_Imaginary)\n");coluna+=yyleng;
+{reserved}              {   if(strcmp(yytext,"char") == 0 && l_flag)              {printf("CHAR\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"else") == 0 && l_flag)      {printf("ELSE\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"while") == 0 && l_flag)     {printf("WHILE\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"if") == 0 && l_flag)        {printf("IF\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"int") == 0 && l_flag)       {printf("INT\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"short") == 0 && l_flag)     {printf("SHORT\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"double") == 0 && l_flag)    {printf("DOUBLE\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"return") == 0 && l_flag)    {printf("RETURN\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"void") == 0 && l_flag)      {printf("VOID\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"&") == 0 && l_flag)         {printf("BITWISEAND\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"|") == 0 && l_flag)         {printf("BITWISEOR\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"^") == 0 && l_flag)         {printf("BITWISEXOR\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"&&") == 0 && l_flag)        {printf("AND\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"=") == 0 && l_flag)         {printf("ASSIGN\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"*") == 0 && l_flag)         {printf("MUL\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,",") == 0 && l_flag)         {printf("COMMA\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"/") == 0 && l_flag)         {printf("DIV\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"==") == 0 && l_flag)        {printf("EQ\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,">=") == 0 && l_flag)        {printf("GE\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,">") == 0 && l_flag)         {printf("GT\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"{") == 0 && l_flag)         {printf("LBRACE\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"<=") == 0 && l_flag)        {printf("LE\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"(") == 0 && l_flag)         {printf("LPAR\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"<") == 0 && l_flag)         {printf("LT\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"-") == 0 && l_flag)         {printf("MINUS\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"%") == 0 && l_flag)         {printf("MOD\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"!=") == 0 && l_flag)        {printf("NE\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"!") == 0 && l_flag)         {printf("NOT\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"||") == 0 && l_flag)        {printf("OR\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"+") == 0 && l_flag)         {printf("PLUS\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"}") == 0 && l_flag)         {printf("RBRACE\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,")") == 0 && l_flag)         {printf("RPAR\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,";") == 0 && l_flag)         {printf("SEMI\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"[") == 0 && l_flag)        {printf("RESERVED([)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"]") == 0 && l_flag)         {printf("RESERVED(])\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"--") == 0 && l_flag)        {printf("RESERVED(--)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"++") == 0 && l_flag)        {printf("RESERVED(++)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"auto") == 0 && l_flag)      {printf("RESERVED(auto)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"break") == 0 && l_flag)     {printf("RESERVED(break)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"case") == 0 && l_flag)      {printf("RESERVED(case)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"const") == 0 && l_flag)     {printf("RESERVED(const)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"continue") == 0 && l_flag)  {printf("RESERVED(continue)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"default") == 0 && l_flag)   {printf("RESERVED(default)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"do") == 0 && l_flag)        {printf("RESERVED(do)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"long") == 0 && l_flag)      {printf("RESERVED(long)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"register") == 0 && l_flag)  {printf("RESERVED(register)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"signed") == 0 && l_flag)    {printf("RESERVED(signed)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"sizeof") == 0 && l_flag)    {printf("RESERVED(sizeof)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"static") == 0 && l_flag)    {printf("RESERVED(static)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"struct") == 0 && l_flag)    {printf("RESERVED(struct)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"switch") == 0 && l_flag)    {printf("RESERVED(switch)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"typedef") == 0 && l_flag)   {printf("RESERVED(typedef)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"union") == 0 && l_flag)     {printf("RESERVED(union)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"unsigned") == 0 && l_flag)  {printf("RESERVED(unsigned)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"volatile") == 0 && l_flag)  {printf("RESERVED(volatile)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"enum") == 0 && l_flag)      {printf("RESERVED(enum)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"extern") == 0 && l_flag)    {printf("RESERVED(extern)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"float") == 0 && l_flag)     {printf("RESERVED(float)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"for") == 0 && l_flag)       {printf("RESERVED(for)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"goto") == 0 && l_flag)      {printf("RESERVED(goto)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"inline") == 0 && l_flag)    {printf("RESERVED(inline)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"restrict") == 0 && l_flag)  {printf("RESERVED(restrict)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"_Bool") == 0 && l_flag)     {printf("RESERVED(_Bool)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"_Complex") == 0 && l_flag)  {printf("RESERVED(_Complex)\n");coluna+=yyleng;
+                            } else if (strcmp(yytext,"_Imaginary") == 0 && l_flag){printf("RESERVED(_Imaginary)\n");coluna+=yyleng;
                             }
                         }
 
-{notdigit}+{alltypes}*                          {   printf("IDENTIFIER(%s)\n",yytext); coluna+=yyleng;}
+{notdigit}+{alltypes}*                          {   if(l_flag)printf("IDENTIFIER(%s)\n",yytext); coluna+=yyleng;}
 
-{digit}+                                        {   printf("NATURAL(%s)\n",yytext);coluna+=yyleng;}
+{digit}+                                        {   if(l_flag)printf("NATURAL(%s)\n",yytext);coluna+=yyleng;}
 
-{digit}+"."{digit}*{expoente}{signal}?{digit}+    {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
+{digit}+"."{digit}*{expoente}{signal}?{digit}+  {   if(l_flag)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
 
-"."{digit}+{expoente}{signal}?{digit}+          {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
+"."{digit}+{expoente}{signal}?{digit}+          {   if(l_flag)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
 
-{digit}+{expoente}{signal}?{digit}+             {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
+{digit}+{expoente}{signal}?{digit}+             {   if(l_flag)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
 
-{digit}*"."{digit}+                             {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng; }
+{digit}*"."{digit}+                             {   if(l_flag)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng; }
 
-{digit}+"."{digit}*                             {   printf("DECIMAL(%s)\n", yytext);coluna+=yyleng; }
+{digit}+"."{digit}*                             {   if(l_flag)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng; }
 
-{enter}*                {   linha++;coluna = 0;}
+{enter}                 {   linha++;coluna = 1;}
 
-[ \t\n]                 { coluna++;}
+[ \t\n]                 {   coluna+=yyleng;}
 
-.                       { 
-                            coluna++;
-                            printf("Line %d, column %d: unrecognized character (%s)\n",linha,coluna,yytext); 
+"/*"                    {   BEGIN(COMMENT); colunareserved = coluna; linhareserved = linha; coluna+=yyleng;}
+"//"                    {   BEGIN(COMMENT2); colunareserved = coluna; linhareserved = linha; coluna+=yyleng;}
+
+<COMMENT>\n|\r|(\n\r)             {   coluna = 1; linha++;}
+
+<COMMENT>"*/"           {   BEGIN(INITIAL); coluna+=yyleng;}
+
+<COMMENT>.              {   coluna+= yyleng; }
+
+<COMMENT><<EOF>>        {   
+                            printf("Line %d, column %d: unterminated comment\n",linhareserved,colunareserved);
+                            yyterminate();
                         }
+
+<COMMENT2>.             {   coluna+=yyleng;}
+<COMMENT2>\n|\r|(\n\r)  {   BEGIN(INITIAL); coluna = 1; linha++;}
+
+\'{chrlit}\'                        {if(l_flag) printf("CHRLIT(%s)\n", yytext); coluna += yyleng;}
+'(({chrlit})*|([^\n\r'])*)          {printf("Line %d, column %d: unterminated char constant\n", linha, coluna); coluna += yyleng; }
+'({chrlit}|\\[^\n'])*'              {printf("Line %d, column %d: invalid char constant (%s)\n", linha, coluna, yytext); coluna += yyleng; }
+.                                   { 
+                                        printf("Line %d, column %d: unrecognized character (%s)\n",linha,coluna,yytext);
+                                        coluna+=yyleng;  
+                                    }
 
 %%
-
-
 
 extern int yylex();
-int main() {
+int main(int argc, char* argv[]) {
+    for(int i=1; i<argc; i++){
+        if(strcmp(argv[i], "-l") == 0){
+            l_flag = 1;
+        }else{
+            printf("Invalid argument: %s\n", argv[i]);
+        }
+    }
     yylex();    /* run the lexical analysis automaton */
     return 0;
 }
