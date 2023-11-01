@@ -17,6 +17,11 @@ int l_flag = 0;
 
 %}
 
+%{
+#include "y.tab.h"
+int yyparse(void);
+%}
+
 digit       [0-9]
 notdigit    [a-zA-Z_]
 alltypes    [a-zA-Z_0-9] 
