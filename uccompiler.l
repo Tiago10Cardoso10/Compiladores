@@ -76,7 +76,7 @@ achrlit     \'{chrlit}\'
                             } else if (strcmp(yytext,";") == 0 && flag == 1)         {printf("SEMI\n");if(flag == 2){return SEMI;}}
                             }
 
-{reserved}                                      {if (flag == 1){printf("RESERVED([)\n");if(flag == 2){return RESERVED;}}}
+{reserved}                                      {if (flag == 1){printf("RESERVED(%s)\n",yytext);if(flag == 2){return RESERVED;}}}
 
 {identifier}                                    {   if(flag == 1)printf("IDENTIFIER(%s)\n",yytext); coluna+=yyleng;if(flag == 2){return IDENTIFIER;}} 
 

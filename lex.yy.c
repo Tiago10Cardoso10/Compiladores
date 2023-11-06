@@ -1058,7 +1058,7 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 79 "uccompiler.l"
-{if (flag == 1){printf("RESERVED([)\n");if(flag == 2){return RESERVED;}}}
+{if (flag == 1){printf("RESERVED(%s)\n",yytext);if(flag == 2){return RESERVED;}}}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
