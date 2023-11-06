@@ -1,104 +1,172 @@
 %{
+/*
+Henrique José Correia Brás - 2021229812
+Tiago Rafael Cardoso Santos - 2021229679
+*/
+
 #include <stdio.h>
-extern int yylex(void);
-void yyerror(char *);
-extern char *yytext;
+
+int yylex(void);
+void yyerror(const char* s);
+
+
 %}
 
-%token CHAR INT VOID SHORT DOUBLE
-%token IDENTIFIER NATURAL CHRLIT DECIMAL
-%token LPAR RPAR LBRACE RBRACE LBRACKET RBRACKET SEMI COMMA
-%token ASSIGN PLUS MINUS MUL DIV MOD OR AND BITWISEAND BITWISEOR BITWISEXOR
-%token EQ NE LE GE LT GT NOT IF ELSE WHILE RETURN
-%token LOWER_THAN_ELSE 
-%left '+' '-'
+%token PLUS MINUS MUL DIV ASSIGN COMMA SEMI LPAR RPAR LBRACE RBRACE CHAR INT VOID SHORT DOUBLE IF ELSE WHILE RETURN
+%token <id> RESERVED IDENTIFIER NATURAL DECIMAL CHRLIT
+
+%left   COMMA
+%left   OR
+%left   AND
+%left   BITWISEOR
+%left   BITWISEXOR
+%left   BITWISEAND
+%left   EQ NE
+%left   LT GT LE GE
+%left   PLUS MINUS
+%left   DIV MUL MOD
+%left   RPAR LPAR
+%right  NOT
+%right  ASSIGN
+
 
 %%
 
-FunctionsAndDeclarations: FunctionDefinition
-                       | FunctionDeclaration
-                       | Declaration
-                       | FunctionsAndDeclarations FunctionDefinition
-                       | FunctionsAndDeclarations FunctionDeclaration
-                       | FunctionsAndDeclarations Declaration;
+FunctionsAndDeclarations:
+    FunctionOrDeclaration                                   {}
+    | FunctionsAndDeclarations FunctionOrDeclaration        {}
+    ;
 
-FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody;
+FunctionOrDeclaration:
+    FunctionDefinition                                      {}
+    | FunctionDeclaration                                   {}
+    | Declaration                                           {}
+    ;
 
-FunctionBody: LBRACE DeclarationsAndStatements RBRACE;
+FunctionDefinition:
+    TypeSpec FunctionDeclarator FunctionBody                {}
+    ;
 
-DeclarationsAndStatements: Statement DeclarationsAndStatements
-                          | Declaration DeclarationsAndStatements
-                          | Statement
-                          | Declaration;
+FunctionBody:
+    LBRACE OpcionalDeclarationAndStatements RBRACE          {}
+    ;
 
-FunctionDeclaration: TypeSpec FunctionDeclarator SEMI;
+OpcionalDeclarationAndStatements:
+    | DeclarationsAndStatements                             {}
+    ;
 
-FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR;
+DeclarationsAndStatements:
+    Statement DeclarationsAndStatements                     {}
+    | Declaration DeclarationsAndStatements                 {}
+    | Statement                                             {}
+    | Declaration                                           {}
+    ;
 
-ParameterList: ParameterDeclaration
-             | ParameterDeclaration COMMA ParameterList;
+FunctionDeclaration:
+    TypeSpec FunctionDeclarator SEMI                       {}
+    ;
 
-ParameterDeclaration: TypeSpec IDENTIFIER
-                    | TypeSpec;
+FunctionDeclarator:
+    IDENTIFIER LPAR ParameterList RPAR                      {}
+    ;
 
-Declaration: TypeSpec DeclaratorList SEMI;
+ParameterList:
+    ParameterDeclaration                                    {}
+    | ParameterList COMMA ParameterDeclaration              {}
+    ;
 
-TypeSpec: CHAR
-        | INT
-        | VOID
-        | SHORT
-        | DOUBLE;
+ParameterDeclaration: 
+    TypeSpec IDENTIFIER                                     {}
+    | TypeSpec                                              {}
+    ;
 
-DeclaratorList: Declarator
-              | Declarator COMMA DeclaratorList;
+Declaration:
+    TypeSpec DeclaratorList SEMI                            {}
+    ;
 
-Declarator: IDENTIFIER
-          | IDENTIFIER ASSIGN Expr;
+DeclaratorList:---
+    Declarator                                              {}
+    | DeclaratorList COMMA Declarator                       {}
+    ;
 
-Statement: Expr SEMI
-         | LBRACE Statements RBRACE
-         | IF LPAR Expr RPAR Statement LOWER_THAN_ELSE
-         | IF LPAR Expr RPAR Statement ELSE Statement
-         | WHILE LPAR Expr RPAR Statement
-         | RETURN SEMI
-         | RETURN Expr SEMI;
+TypeSpec:
+    CHAR                                                    {}
+    | INT                                                   {}
+    | VOID                                                  {}
+    | SHORT                                                 {}
+    | DOUBLE                                                {}
+    ;
 
-Statements: Statement
-          | Statement Statements;
+Declarator:
+    IDENTIFIER                                              {}
+    | IDENTIFIER ASSIGN Expr                                {}
+    ;
 
-Expr: Expr ASSIGN Expr
-     | Expr COMMA Expr
-     | Expr PLUS Expr
-     | Expr MINUS Expr
-     | Expr MUL Expr
-     | Expr DIV Expr
-     | Expr MOD Expr
-     | Expr OR Expr
-     | Expr AND Expr
-     | Expr BITWISEAND Expr
-     | Expr BITWISEOR Expr
-     | Expr BITWISEXOR Expr
-     | Expr EQ Expr
-     | Expr NE Expr
-     | Expr LE Expr
-     | Expr GE Expr
-     | Expr LT Expr
-     | Expr GT Expr
-     | PLUS Expr    
-     | MINUS Expr 
-     | NOT Expr 
-     | IDENTIFIER LPAR ExprList RPAR
-     | IDENTIFIER
-     | NATURAL
-     | CHRLIT
-     | DECIMAL
-     | LPAR Expr RPAR;
+Statement:
+    SEMI                                                    {}
+    | Expr SEMI                                             {}
+    | LBRACE Statements RBRACE                              {}
+    | IF LPAR Expr RPAR Statement                           {}
+    | IF LPAR Expr RPAR Statement ELSE Statement            {}
+    | WHILE LPAR Expr RPAR Statement                        {}
+    | RETURN SEMI                                           {}
+    | RETURN Expr SEMI                                      {}
+    ;
 
-ExprList: Expr
-        | Expr COMMA ExprList;
+Statements:
+    | Statements Statement                                  {}
+    ;
+
+Expr:
+    Expr ASSIGN Expr                                        {}                       
+    | Expr COMMA Expr                                       {}                                                            
+
+    | Expr PLUS Expr                                        {}                       
+    | Expr MINUS Expr                                       {}                       
+    | Expr MUL Expr                                         {} 
+    | Expr DIV Expr                                         {} 
+    | Expr MOD Expr                                         {}
+
+    | Expr OR Expr                                          {}  
+    | Expr AND Expr                                         {}    
+    | Expr BITWISEAND Expr                                  {}    
+    | Expr BITWISEOR Expr                                   {}   
+    | Expr BITWISEXOR Expr                                  {}
+
+    | Expr EQ Expr                                          {}  
+    | Expr NE Expr                                          {}   
+    | Expr LE Expr                                          {}   
+    | Expr GE Expr                                          {}   
+    | Expr LT Expr                                          {}   
+    | Expr GT Expr                                          {}    
+
+    | PLUS Expr                                             {}
+    | MINUS ArgumentExpr                                    {}
+    | NOT Expr                                              {}
+
+    | IDENTIFIER LPAR RPAR                                  {}               
+    | IDENTIFIER LPAR ArgumentExpr RPAR                     {}
+
+    | IDENTIFIER                                            {}                               
+    | NATURAL                                               {}                         
+    | CHRLIT                                                {}                           
+    | DECIMAL                                               {}                                     
+    | LPAR Expr RPAR                                        {}               
+    ;
+
+ArgumentExpr:
+    Expr                                                    {}
+    | ArgumentExpr COMMA Expr                               {}
+    ;
+
 
 %%
 
-void yyerror(char *error) {
-    printf("%s '%s'\n", error, yytext);
+void yyerror(const char* message) {
+    fprintf(stderr, "Syntax Error: %s\n", message);
+}
+
+int main() {
+    yyparse();
+    return 0;
 }
