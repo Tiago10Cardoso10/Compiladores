@@ -140,6 +140,21 @@ extern int yydebug;
 #define NOT 295
 
 /* Value type.  */
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+union YYSTYPE
+{
+#line 40 "uccompiler.y"
+
+    char *v;
+    struct no *no;
+
+#line 152 "y.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
+# define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
+#endif
 
 
 extern YYSTYPE yylval;

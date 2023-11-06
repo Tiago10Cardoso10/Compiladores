@@ -4,22 +4,49 @@ Henrique José Correia Brás - 2021229812
 Tiago Rafael Cardoso Santos - 2021229679
 */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdarg.h>
+    #include <stdio.h>
+    #include <string.h>
+    #include <stdlib.h>
+    #include <stdarg.h>
 
 
 int yylex(void);
 void yyerror(const char* s);
 
+typedef enum{
+        // Falta descobrir para que é isto
+        no_raiz,
+        no_declaracao,
+        no_metodos,
+        no_Statement2,
+        no_operadores,
+        no_terminais,
+        no_id
+    } tipo_no;
+
+typedef struct no * node;
+    typedef struct no{
+        node pai;
+        node filho;
+        node irmao;
+        tipo_no no_tipo;
+        char *valor;           
+        char *tipo;            
+        int num_filhos;
+    } no;
+
 
 %}
 
-%token PLUS MINUS MUL DIV ASSIGN COMMA SEMI LPAR RPAR LBRACE RBRACE CHAR INT VOID SHORT DOUBLE IF ELSE WHILE RETURN
-%token <id> RESERVED IDENTIFIER NATURAL DECIMAL CHRLIT
+%union {
+    char *v;
+    struct no *no;
+}
 
-%type <no> FunctionsAndDeclarations FunctionAndDeclaration2 FunctionDefinition FunctionBody DeclarationAndStatement2Opcional DeclarationsAndStatement2 FunctionDeclaration FunctionDeclarator ParameterList ParameterDeclaration Declaration Declaration2 TypeSpec Declarator Statement Statement2 Expr Expr2
+%token PLUS MINUS MUL DIV ASSIGN COMMA SEMI LPAR RPAR LBRACE RBRACE CHAR INT VOID SHORT DOUBLE IF ELSE WHILE RETURN
+%token <v> RESERVED IDENTIFIER NATURAL DECIMAL CHRLIT
+
+%type <no> FunctionsAndDeclarations FunctionAndDeclarations2 FunctionDefinition FunctionBody DeclarationAndStatement2 DeclarationsAndStatement FunctionDeclaration FunctionDeclarator ParameterList ParameterDeclaration Declaration Declaration2 TypeSpec Declarator Statement Statement2 Expr Expr2
 
 %left   COMMA
 %left   OR
@@ -39,11 +66,11 @@ void yyerror(const char* s);
 %%
 
 FunctionsAndDeclarations:
-    FunctionAndDeclaration2                                   {}
-    | FunctionsAndDeclarations FunctionAndDeclaration       {}
+    FunctionAndDeclarations2                                {}
+    | FunctionsAndDeclarations FunctionAndDeclarations2     {}
     ;
 
-FunctionAndDeclaration2:
+FunctionAndDeclarations2:
     FunctionDefinition                                      {}
     | FunctionDeclaration                                   {}
     | Declaration                                           {}
@@ -54,16 +81,16 @@ FunctionDefinition:
     ;
 
 FunctionBody:
-    LBRACE DeclarationAndStatement2Opcional RBRACE          {}
+    LBRACE DeclarationAndStatement2 RBRACE                  {}
     ;
 
-DeclarationAndStatement2Opcional:
-    | DeclarationsAndStatement2                             {}
+DeclarationAndStatement2:
+    DeclarationsAndStatement                                {}
     ;
 
-DeclarationsAndStatement2:
-    Statement DeclarationsAndStatement2                     {}
-    | Declaration DeclarationsAndStatement2                 {}
+DeclarationsAndStatement:
+    Statement DeclarationsAndStatement                      {}
+    | Declaration DeclarationsAndStatement                  {}
     | Statement                                             {}
     | Declaration                                           {}
     ;
@@ -87,12 +114,12 @@ ParameterDeclaration:
     ;
 
 Declaration:
-    TypeSpec Declaration2 SEMI                            {}
+    TypeSpec Declaration2 SEMI                              {}
     ;
 
 Declaration2:
     Declarator                                              {}
-    | Declaration2 COMMA Declarator                       {}
+    | Declaration2 COMMA Declarator                         {}
     ;
 
 TypeSpec:
@@ -111,7 +138,7 @@ Declarator:
 Statement:
     SEMI                                                    {}
     | Expr SEMI                                             {}
-    | LBRACE Statement2 RBRACE                              {}
+    | Statement2 RBRACE                                     {}
     | IF LPAR Expr RPAR Statement                           {}
     | IF LPAR Expr RPAR Statement ELSE Statement            {}
     | WHILE LPAR Expr RPAR Statement                        {}
@@ -120,7 +147,8 @@ Statement:
     ;
 
 Statement2:
-    | Statement2 Statement                                  {}
+    LBRACE
+    | LBRACE Statement2 Statement                           {}
     ;
 
 Expr:
@@ -147,11 +175,11 @@ Expr:
     | Expr GT Expr                                          {}    
 
     | PLUS Expr                                             {}
-    | MINUS Expr2                                    {}
+    | MINUS Expr2                                           {}
     | NOT Expr                                              {}
 
     | IDENTIFIER LPAR RPAR                                  {}               
-    | IDENTIFIER LPAR Expr2 RPAR                     {}
+    | IDENTIFIER LPAR Expr2 RPAR                            {}
 
     | IDENTIFIER                                            {}                               
     | NATURAL                                               {}                         
@@ -162,17 +190,7 @@ Expr:
 
 Expr2:
     Expr                                                    {}
-    | Expr2 COMMA Expr                               {}
+    | Expr2 COMMA Expr                                      {}
     ;
 
-
 %%
-
-void yyerror ( char * s ) {
-    printf ( " Line %d ,column %d : %s : % s\n " , < num linha > ,<num coluna > , s , yytext );
-}
-
-int main() {
-    yyparse();
-    return 0;
-}

@@ -1,5 +1,5 @@
 # Definições
-CC = gcc
+CC = cc
 LEX = lex
 YACC = yacc
 OUTPUT = uccompiler
@@ -10,13 +10,13 @@ YACC_FILE = uccompiler.y
 all: $(OUTPUT)
 
 $(OUTPUT): lex.yy.c
-	$(CC) lex.yy.c  y.tab.c -o $(OUTPUT) -ll
-
-lex.yy.c: $(LEX_FILE)
-	$(LEX) $(LEX_FILE)
+	$(CC) lex.yy.c y.tab.c -o $(OUTPUT) -ll
 
 y.tab.c:$(YACC_FILE)
 	$(YACC) -dv (YACC_FILE)
+
+lex.yy.c: $(LEX_FILE)
+	$(LEX) $(LEX_FILE)
 
 run: $(OUTPUT)
 	./$(OUTPUT)
