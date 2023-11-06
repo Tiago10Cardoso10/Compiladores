@@ -63,7 +63,7 @@ DeclarationsAndStatements:
     ;
 
 FunctionDeclaration:
-    TypeSpec FunctionDeclarator SEMI                       {}
+    TypeSpec FunctionDeclarator SEMI                        {}
     ;
 
 FunctionDeclarator:
@@ -84,7 +84,7 @@ Declaration:
     TypeSpec DeclaratorList SEMI                            {}
     ;
 
-DeclaratorList:---
+DeclaratorList:
     Declarator                                              {}
     | DeclaratorList COMMA Declarator                       {}
     ;
@@ -162,8 +162,8 @@ ArgumentExpr:
 
 %%
 
-void yyerror(const char* message) {
-    fprintf(stderr, "Syntax Error: %s\n", message);
+void yyerror ( char * s ) {
+    printf ( " Line %d ,column %d : %s : % s\n " , < num linha > ,<num coluna > , s , yytext );
 }
 
 int main() {

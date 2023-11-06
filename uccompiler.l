@@ -7,6 +7,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 #include <stdbool.h>
 #include <ctype.h>
 #include <string.h>
+#include "y.tab.h"
 
 int linha = 1;
 int coluna = 1;
@@ -121,7 +122,7 @@ enter       (\n|\r|\n\r)
 "/*"                    {   BEGIN(COMMENT); colunareserved = coluna; linhareserved = linha; coluna+=yyleng;}
 "//"                    {   BEGIN(COMMENT2); colunareserved = coluna; linhareserved = linha; coluna+=yyleng;}
 
-<COMMENT>\n|\r|(\n\r)             {   coluna = 1; linha++;}
+<COMMENT>\n|\r|(\n\r)   {   coluna = 1; linha++;}
 
 <COMMENT>"*/"           {   BEGIN(INITIAL); coluna+=yyleng;}
 
@@ -135,7 +136,7 @@ enter       (\n|\r|\n\r)
 <COMMENT2>.             {   coluna+=yyleng;}
 <COMMENT2>\n|\r|(\n\r)  {   BEGIN(INITIAL); coluna = 1; linha++;}
 
-\'{chrlit}\'                        {if(flag == 1) printf("CHRLIT(%s)\n", yytext); coluna += yyleng;return CHRLIT}
+\'{chrlit}\'                        {if(flag == 1) printf("CHRLIT(%s)\n", yytext); coluna += yyleng;return CHRLIT;}
 '(({chrlit})*|([^\n\r'])*)          {printf("Line %d, column %d: unterminated char constant\n", linha, coluna); coluna += yyleng; }
 '({chrlit}|\\[^\n'])*'              {printf("Line %d, column %d: invalid char constant (%s)\n", linha, coluna, yytext); coluna += yyleng; }
 .                                   { 
