@@ -5,6 +5,10 @@ Tiago Rafael Cardoso Santos - 2021229679
 */
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdarg.h>
+
 
 int yylex(void);
 void yyerror(const char* s);
@@ -14,6 +18,8 @@ void yyerror(const char* s);
 
 %token PLUS MINUS MUL DIV ASSIGN COMMA SEMI LPAR RPAR LBRACE RBRACE CHAR INT VOID SHORT DOUBLE IF ELSE WHILE RETURN
 %token <id> RESERVED IDENTIFIER NATURAL DECIMAL CHRLIT
+
+%type <no> FunctionsAndDeclarations FunctionAndDeclaration2 FunctionDefinition FunctionBody DeclarationAndStatement2Opcional DeclarationsAndStatement2 FunctionDeclaration FunctionDeclarator ParameterList ParameterDeclaration Declaration Declaration2 TypeSpec Declarator Statement Statement2 Expr Expr2
 
 %left   COMMA
 %left   OR
@@ -33,11 +39,11 @@ void yyerror(const char* s);
 %%
 
 FunctionsAndDeclarations:
-    FunctionOrDeclaration                                   {}
-    | FunctionsAndDeclarations FunctionOrDeclaration        {}
+    FunctionAndDeclaration2                                   {}
+    | FunctionsAndDeclarations FunctionAndDeclaration       {}
     ;
 
-FunctionOrDeclaration:
+FunctionAndDeclaration2:
     FunctionDefinition                                      {}
     | FunctionDeclaration                                   {}
     | Declaration                                           {}
@@ -48,16 +54,16 @@ FunctionDefinition:
     ;
 
 FunctionBody:
-    LBRACE OpcionalDeclarationAndStatements RBRACE          {}
+    LBRACE DeclarationAndStatement2Opcional RBRACE          {}
     ;
 
-OpcionalDeclarationAndStatements:
-    | DeclarationsAndStatements                             {}
+DeclarationAndStatement2Opcional:
+    | DeclarationsAndStatement2                             {}
     ;
 
-DeclarationsAndStatements:
-    Statement DeclarationsAndStatements                     {}
-    | Declaration DeclarationsAndStatements                 {}
+DeclarationsAndStatement2:
+    Statement DeclarationsAndStatement2                     {}
+    | Declaration DeclarationsAndStatement2                 {}
     | Statement                                             {}
     | Declaration                                           {}
     ;
@@ -81,12 +87,12 @@ ParameterDeclaration:
     ;
 
 Declaration:
-    TypeSpec DeclaratorList SEMI                            {}
+    TypeSpec Declaration2 SEMI                            {}
     ;
 
-DeclaratorList:
+Declaration2:
     Declarator                                              {}
-    | DeclaratorList COMMA Declarator                       {}
+    | Declaration2 COMMA Declarator                       {}
     ;
 
 TypeSpec:
@@ -105,7 +111,7 @@ Declarator:
 Statement:
     SEMI                                                    {}
     | Expr SEMI                                             {}
-    | LBRACE Statements RBRACE                              {}
+    | LBRACE Statement2 RBRACE                              {}
     | IF LPAR Expr RPAR Statement                           {}
     | IF LPAR Expr RPAR Statement ELSE Statement            {}
     | WHILE LPAR Expr RPAR Statement                        {}
@@ -113,8 +119,8 @@ Statement:
     | RETURN Expr SEMI                                      {}
     ;
 
-Statements:
-    | Statements Statement                                  {}
+Statement2:
+    | Statement2 Statement                                  {}
     ;
 
 Expr:
@@ -141,11 +147,11 @@ Expr:
     | Expr GT Expr                                          {}    
 
     | PLUS Expr                                             {}
-    | MINUS ArgumentExpr                                    {}
+    | MINUS Expr2                                    {}
     | NOT Expr                                              {}
 
     | IDENTIFIER LPAR RPAR                                  {}               
-    | IDENTIFIER LPAR ArgumentExpr RPAR                     {}
+    | IDENTIFIER LPAR Expr2 RPAR                     {}
 
     | IDENTIFIER                                            {}                               
     | NATURAL                                               {}                         
@@ -154,9 +160,9 @@ Expr:
     | LPAR Expr RPAR                                        {}               
     ;
 
-ArgumentExpr:
+Expr2:
     Expr                                                    {}
-    | ArgumentExpr COMMA Expr                               {}
+    | Expr2 COMMA Expr                               {}
     ;
 
 
