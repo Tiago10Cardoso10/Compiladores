@@ -16,7 +16,6 @@ void yyerror(const char* s);
 %token <id> RESERVED IDENTIFIER NATURAL DECIMAL CHRLIT
 
 %left   COMMA
-%right  ASSIGN
 %left   OR
 %left   AND
 %left   BITWISEOR
@@ -26,8 +25,10 @@ void yyerror(const char* s);
 %left   LT GT LE GE
 %left   PLUS MINUS
 %left   DIV MUL MOD
-%right  NOT
 %left   RPAR LPAR
+%right  NOT
+%right  ASSIGN
+
 
 %%
 
@@ -47,10 +48,10 @@ FunctionDefinition:
     ;
 
 FunctionBody:
-    LBRACE OptionalDeclarationAndStatements RBRACE          {}
+    LBRACE OpcionalDeclarationAndStatements RBRACE          {}
     ;
 
-OptionalDeclarationAndStatements:
+OpcionalDeclarationAndStatements:
     | DeclarationsAndStatements                             {}
     ;
 
@@ -83,7 +84,7 @@ Declaration:
     TypeSpec DeclaratorList SEMI                            {}
     ;
 
-DeclaratorList:
+DeclaratorList:---
     Declarator                                              {}
     | DeclaratorList COMMA Declarator                       {}
     ;
