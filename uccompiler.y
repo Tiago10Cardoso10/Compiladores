@@ -46,7 +46,8 @@ typedef struct no * node;
 %token PLUS MINUS MUL DIV ASSIGN COMMA SEMI LPAR RPAR LBRACE RBRACE CHAR INT VOID SHORT DOUBLE IF ELSE WHILE RETURN
 %token <v> RESERVED IDENTIFIER NATURAL DECIMAL CHRLIT
 
-%type <no> FunctionsAndDeclarations FunctionAndDeclarations2 FunctionDefinition FunctionBody DeclarationAndStatement2 DeclarationsAndStatement FunctionDeclaration FunctionDeclarator ParameterList ParameterDeclaration Declaration Declaration2 TypeSpec Declarator Statement Statement2 Expr Expr2
+%type <no> FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator Statement Statement2 Expr Expr2 Expr3 
+
 
 %left   COMMA
 %left   OR
@@ -62,37 +63,37 @@ typedef struct no * node;
 %right  NOT
 %right  ASSIGN
 
+%right  UNARY
+
+
 
 %%
-
-FunctionsAndDeclarations:
-    FunctionAndDeclarations2                                {}
-    | FunctionsAndDeclarations FunctionAndDeclarations2     {}
+FunctionsAndDeclarations: 
+    FunctionDefinition FunctionsAndDeclarations2            {}
+    | FunctionDeclaration FunctionsAndDeclarations2         {}
+    | Declaration  FunctionsAndDeclarations2                {}
     ;
 
-FunctionAndDeclarations2:
-    FunctionDefinition                                      {}
-    | FunctionDeclaration                                   {}
-    | Declaration                                           {}
+FunctionsAndDeclarations2: /* empty*/                       {}
+    | FunctionDefinition FunctionsAndDeclarations2          {}
+    | FunctionDeclaration FunctionsAndDeclarations2         {}
+    | Declaration  FunctionsAndDeclarations2                {}
     ;
 
 FunctionDefinition:
     TypeSpec FunctionDeclarator FunctionBody                {}
     ;
 
-FunctionBody:
-    LBRACE DeclarationAndStatement2 RBRACE                  {}
+FunctionBody: 
+    LBRACE RBRACE                                           {}
+    | LBRACE DeclarationsAndStatements RBRACE               {}
     ;
 
-DeclarationAndStatement2:
-    DeclarationsAndStatement                                {}
-    ;
-
-DeclarationsAndStatement:
-    Statement DeclarationsAndStatement                      {}
-    | Declaration DeclarationsAndStatement                  {}
+DeclarationsAndStatements:
+    Statement DeclarationsAndStatements                     {}
+    | Declaration DeclarationsAndStatements                 {}
     | Statement                                             {}
-    | Declaration                                           {}
+    | Declaration                                           {}  
     ;
 
 FunctionDeclaration:
@@ -104,25 +105,29 @@ FunctionDeclarator:
     ;
 
 ParameterList:
-    ParameterDeclaration                                    {}
-    | ParameterList COMMA ParameterDeclaration              {}
+    ParameterDeclaration ParameterList2                     {}
+    ;
+
+ParameterList2: /* empty */                                 {}
+    | COMMA ParameterDeclaration ParameterList2             {}
     ;
 
 ParameterDeclaration: 
-    TypeSpec IDENTIFIER                                     {}
-    | TypeSpec                                              {}
+    TypeSpec                                                {}
+    | TypeSpec IDENTIFIER                                   {}
     ;
 
 Declaration:
-    TypeSpec Declaration2 SEMI                              {}
+    TypeSpec Declarator Declaration2 SEMI                   {}
+    
+    | error SEMI                                            {}
     ;
 
-Declaration2:
-    Declarator                                              {}
-    | Declaration2 COMMA Declarator                         {}
+Declaration2:   /* empty */                                 {}
+    | COMMA Declarator Declaration2                         {}
     ;
 
-TypeSpec:
+TypeSpec: 
     CHAR                                                    {}
     | INT                                                   {}
     | VOID                                                  {}
@@ -138,59 +143,61 @@ Declarator:
 Statement:
     SEMI                                                    {}
     | Expr SEMI                                             {}
-    | Statement2 RBRACE                                     {}
+    | LBRACE Statement2 RBRACE                              {}
     | IF LPAR Expr RPAR Statement                           {}
     | IF LPAR Expr RPAR Statement ELSE Statement            {}
     | WHILE LPAR Expr RPAR Statement                        {}
-    | RETURN SEMI                                           {}
-    | RETURN Expr SEMI                                      {}
+    | RETURN Expr SEMI                                      {} 
+
+    | LBRACE error RBRACE                                   {}
     ;
 
-Statement2:
-    LBRACE
-    | LBRACE Statement2 Statement                           {}
+Statement2: /* empty */                                     {}
+    | Statement Statement2                                  {}
     ;
 
 Expr:
-    Expr ASSIGN Expr                                        {}                       
-    | Expr COMMA Expr                                       {}                                                            
+    Expr ASSIGN Expr                                        {}
+    | Expr COMMA Expr                                        {}
+    | Expr PLUS Expr {}
+    | Expr MINUS Expr {}
+    | Expr MUL Expr {}
+    | Expr DIV Expr {}
+    | Expr MOD Expr {}
 
-    | Expr PLUS Expr                                        {}                       
-    | Expr MINUS Expr                                       {}                       
-    | Expr MUL Expr                                         {} 
-    | Expr DIV Expr                                         {} 
-    | Expr MOD Expr                                         {}
+    | Expr OR Expr {}
+    | Expr AND Expr {}
+    | Expr BITWISEAND Expr {}
+    | Expr BITWISEOR Expr{}
+    | Expr BITWISEXOR Expr {}
 
-    | Expr OR Expr                                          {}  
-    | Expr AND Expr                                         {}    
-    | Expr BITWISEAND Expr                                  {}    
-    | Expr BITWISEOR Expr                                   {}   
-    | Expr BITWISEXOR Expr                                  {}
+    | Expr EQ Expr {}
+    | Expr NE Expr {}
+    | Expr LE Expr {}
+    | Expr GE Expr {}
+    | Expr LT Expr {}
+    | Expr GT Expr {}
 
-    | Expr EQ Expr                                          {}  
-    | Expr NE Expr                                          {}   
-    | Expr LE Expr                                          {}   
-    | Expr GE Expr                                          {}   
-    | Expr LT Expr                                          {}   
-    | Expr GT Expr                                          {}    
+    | PLUS Expr %prec UNARY {}
+    | MINUS Expr %prec UNARY {}
+    | NOT Expr %prec UNARY {}
 
-    | PLUS Expr                                             {}
-    | MINUS Expr2                                           {}
-    | NOT Expr                                              {}
+    | IDENTIFIER LPAR RPAR {}
+    | IDENTIFIER LPAR Expr2 RPAR {}
 
-    | IDENTIFIER LPAR RPAR                                  {}               
-    | IDENTIFIER LPAR Expr2 RPAR                            {}
-
-    | IDENTIFIER                                            {}                               
-    | NATURAL                                               {}                         
-    | CHRLIT                                                {}                           
-    | DECIMAL                                               {}                                     
-    | LPAR Expr RPAR                                        {}               
+    | IDENTIFIER {}
+    | NATURAL {}
+    | CHRLIT {}
+    | DECIMAL {}
+    | LPAR Expr RPAR
     ;
 
 Expr2:
-    Expr                                                    {}
-    | Expr2 COMMA Expr                                      {}
+    Expr {}
+    | Expr Expr3 {}
     ;
+
+Expr3: {}
+    | COMMA Expr {}
 
 %%

@@ -25,6 +25,7 @@ alltypes    [a-zA-Z_0-9]
 signal      ("+"|"-")
 expoente    ("e"|"E")
 notaccepted [^\'\\\n]
+
 chrlit      {notaccepted}|"\\n"|"\\t"|"\\\\"|"\\\'"|"\\\""|"\\"[0-7]{1,3}|\t
 especial    ("char"|"else"|"while"|"if"|"int"|"short"|"double"|"return"|"void"|"&"|"|"|"^"|"&&"|"="|"*"|","|"/"|"=="|">="|">"|"{"|"<="|"("|")"|"<"|"-"|"%"|"!="|"!"|"||"|"+"|"}"|";")
 reserved    ("["|"]"|"++"|"--"|"auto"|"break"|"case"|"const"|"continue"|"default"|"do"|"long"|"register"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"volatile"|"enum"|"extern"|"float"|"for"|"goto"|"inline"|"restrict"|"_Bool"|"_Complex"|"_Imaginary")
@@ -76,13 +77,13 @@ achrlit     \'{chrlit}\'
                             } else if (strcmp(yytext,";") == 0 && flag == 1)         {printf("SEMI\n");if(flag == 2){return SEMI;}}
                             }
 
-{reserved}                                      {if (flag == 1){printf("RESERVED(%s)\n",yytext);if(flag == 2){return RESERVED;}}}
+{reserved}                                      {if (flag == 1){printf("RESERVED(%s)\n",yytext);if(flag == 2){yylval.v = strdup(yytext);return RESERVED;}}}
 
-{identifier}                                    {   if(flag == 1)printf("IDENTIFIER(%s)\n",yytext); coluna+=yyleng;if(flag == 2){return IDENTIFIER;}} 
+{identifier}                                    {   if(flag == 1)printf("IDENTIFIER(%s)\n",yytext); coluna+=yyleng;if(flag == 2){yylval.v = strdup(yytext);return IDENTIFIER;}} 
 
-{natural}                                       {   if(flag == 1)printf("NATURAL(%s)\n",yytext);coluna+=yyleng;if(flag == 2){return NATURAL;}} 
+{natural}                                       {   if(flag == 1)printf("NATURAL(%s)\n",yytext);coluna+=yyleng;if(flag == 2){yylval.v = strdup(yytext);return NATURAL;}} 
 
-{decimal}                                       {   if(flag == 1)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;if(flag == 2){return DECIMAL;}}
+{decimal}                                       {   if(flag == 1)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;if(flag == 2){yylval.v = strdup(yytext);return DECIMAL;}}
 
 {enter}                 {   linha++;coluna = 1;}
 
@@ -105,7 +106,7 @@ achrlit     \'{chrlit}\'
 <COMMENT2>.             {   coluna+=yyleng;}
 <COMMENT2>\n|\r|(\n\r)  {   BEGIN(INITIAL); coluna = 1; linha++;}
 
-{achrlit}                           {if(flag == 1) printf("CHRLIT(%s)\n", yytext); coluna += yyleng;if(flag == 2){return CHRLIT;}}
+{achrlit}                           {if(flag == 1) printf("CHRLIT(%s)\n", yytext); coluna += yyleng;if(flag == 2){yylval.v = strdup(yytext);return CHRLIT;}}
 '(({chrlit})*|([^\n\r'])*)          {printf("Line %d, column %d: unterminated char constant\n", linha, coluna); coluna += yyleng; }
 '({chrlit}|\\[^\n'])*'              {printf("Line %d, column %d: invalid char constant (%s)\n", linha, coluna, yytext); coluna += yyleng; }
 .                                   { 
@@ -116,7 +117,7 @@ achrlit     \'{chrlit}\'
 %%
 
 void yyerror(const char *s) { 
-    printf ( " Line %d ,column %d : %s : %s\n " ,linha,(int)(coluna-strlen(yytext)), s , yytext );
+    printf ( "Line %d ,column %d: %s: %s\n " ,linha,(int)(coluna-strlen(yytext)), s , yytext );
 
 }
 
