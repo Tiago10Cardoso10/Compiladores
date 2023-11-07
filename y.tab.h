@@ -143,7 +143,11 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
+<<<<<<< HEAD
 #line 38 "uccompiler.y"
+=======
+#line 40 "uccompiler.y"
+>>>>>>> TiagoCardoso
 
     char *v;
     struct no *no;

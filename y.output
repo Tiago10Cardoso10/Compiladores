@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Nonterminals useless in grammar
 
     ParameterDeclarations
@@ -5,19 +6,28 @@ Nonterminals useless in grammar
     TypeSpecifier
 
 
+=======
+>>>>>>> TiagoCardoso
 Terminals unused in grammar
 
     RESERVED
 
 
+<<<<<<< HEAD
 State 51 conflicts: 18 shift/reduce
 State 118 conflicts: 1 shift/reduce
+=======
+State 38 conflicts: 1 shift/reduce
+State 52 conflicts: 18 shift/reduce
+State 119 conflicts: 1 shift/reduce
+>>>>>>> TiagoCardoso
 
 
 Grammar
 
     0 $accept: FunctionsAndDeclarations $end
 
+<<<<<<< HEAD
     1 FunctionsAndDeclarations: FunctionOrDeclaration
     2                         | FunctionsAndDeclarations FunctionOrDeclaration
 
@@ -104,12 +114,100 @@ Grammar
 
    68 ArgumentExpr: Expr
    69             | ArgumentExpr COMMA Expr
+=======
+    1 FunctionsAndDeclarations: FunctionAndDeclarations2
+    2                         | FunctionsAndDeclarations FunctionAndDeclarations2
+
+    3 FunctionAndDeclarations2: FunctionDefinition
+    4                         | FunctionDeclaration
+    5                         | Declaration
+
+    6 FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody
+
+    7 FunctionBody: LBRACE DeclarationAndStatement2 RBRACE
+
+    8 DeclarationAndStatement2: DeclarationsAndStatement
+
+    9 DeclarationsAndStatement: Statement DeclarationsAndStatement
+   10                         | Declaration DeclarationsAndStatement
+   11                         | Statement
+   12                         | Declaration
+
+   13 FunctionDeclaration: TypeSpec FunctionDeclarator SEMI
+
+   14 FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR
+
+   15 ParameterList: ParameterDeclaration
+   16              | ParameterList COMMA ParameterDeclaration
+
+   17 ParameterDeclaration: TypeSpec IDENTIFIER
+   18                     | TypeSpec
+
+   19 Declaration: TypeSpec Declaration2 SEMI
+
+   20 Declaration2: Declarator
+   21             | Declaration2 COMMA Declarator
+
+   22 TypeSpec: CHAR
+   23         | INT
+   24         | VOID
+   25         | SHORT
+   26         | DOUBLE
+
+   27 Declarator: IDENTIFIER
+   28           | IDENTIFIER ASSIGN Expr
+
+   29 Statement: SEMI
+   30          | Expr SEMI
+   31          | Statement2 RBRACE
+   32          | IF LPAR Expr RPAR Statement
+   33          | IF LPAR Expr RPAR Statement ELSE Statement
+   34          | WHILE LPAR Expr RPAR Statement
+   35          | RETURN SEMI
+   36          | RETURN Expr SEMI
+
+   37 Statement2: LBRACE
+   38           | LBRACE Statement2 Statement
+
+   39 Expr: Expr ASSIGN Expr
+   40     | Expr COMMA Expr
+   41     | Expr PLUS Expr
+   42     | Expr MINUS Expr
+   43     | Expr MUL Expr
+   44     | Expr DIV Expr
+   45     | Expr MOD Expr
+   46     | Expr OR Expr
+   47     | Expr AND Expr
+   48     | Expr BITWISEAND Expr
+   49     | Expr BITWISEOR Expr
+   50     | Expr BITWISEXOR Expr
+   51     | Expr EQ Expr
+   52     | Expr NE Expr
+   53     | Expr LE Expr
+   54     | Expr GE Expr
+   55     | Expr LT Expr
+   56     | Expr GT Expr
+   57     | PLUS Expr
+   58     | MINUS Expr2
+   59     | NOT Expr
+   60     | IDENTIFIER LPAR RPAR
+   61     | IDENTIFIER LPAR Expr2 RPAR
+   62     | IDENTIFIER
+   63     | NATURAL
+   64     | CHRLIT
+   65     | DECIMAL
+   66     | LPAR Expr RPAR
+
+   67 Expr2: Expr
+   68      | Expr2 COMMA Expr
+>>>>>>> TiagoCardoso
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
+<<<<<<< HEAD
     PLUS (258) 42 58
     MINUS (259) 43 59
     MUL (260) 44
@@ -148,6 +246,46 @@ Terminals, with rules where they appear
     GE (293) 55
     MOD (294) 46
     NOT (295) 60
+=======
+    PLUS (258) 41 57
+    MINUS (259) 42 58
+    MUL (260) 43
+    DIV (261) 44
+    ASSIGN (262) 28 39
+    COMMA (263) 16 21 40 68
+    SEMI (264) 13 19 29 30 35 36
+    LPAR (265) 14 32 33 34 60 61 66
+    RPAR (266) 14 32 33 34 60 61 66
+    LBRACE (267) 7 37 38
+    RBRACE (268) 7 31
+    CHAR (269) 22
+    INT (270) 23
+    VOID (271) 24
+    SHORT (272) 25
+    DOUBLE (273) 26
+    IF (274) 32 33
+    ELSE (275) 33
+    WHILE (276) 34
+    RETURN (277) 35 36
+    RESERVED <v> (278)
+    IDENTIFIER <v> (279) 14 17 27 28 60 61 62
+    NATURAL <v> (280) 63
+    DECIMAL <v> (281) 65
+    CHRLIT <v> (282) 64
+    OR (283) 46
+    AND (284) 47
+    BITWISEOR (285) 49
+    BITWISEXOR (286) 50
+    BITWISEAND (287) 48
+    EQ (288) 51
+    NE (289) 52
+    LT (290) 55
+    GT (291) 56
+    LE (292) 53
+    GE (293) 54
+    MOD (294) 45
+    NOT (295) 59
+>>>>>>> TiagoCardoso
 
 
 Nonterminals, with rules where they appear
@@ -157,7 +295,11 @@ Nonterminals, with rules where they appear
     FunctionsAndDeclarations <no> (42)
         on left: 1 2
         on right: 0 2
+<<<<<<< HEAD
     FunctionOrDeclaration <no> (43)
+=======
+    FunctionAndDeclarations2 <no> (43)
+>>>>>>> TiagoCardoso
         on left: 3 4 5
         on right: 1 2
     FunctionDefinition <no> (44)
@@ -166,6 +308,7 @@ Nonterminals, with rules where they appear
     FunctionBody <no> (45)
         on left: 7
         on right: 6
+<<<<<<< HEAD
     OpcionalDeclarationAndStatements <no> (46)
         on left: 8 9
         on right: 7
@@ -208,6 +351,50 @@ Nonterminals, with rules where they appear
     ArgumentExpr <no> (59)
         on left: 68 69
         on right: 59 62 69
+=======
+    DeclarationAndStatement2 <no> (46)
+        on left: 8
+        on right: 7
+    DeclarationsAndStatement <no> (47)
+        on left: 9 10 11 12
+        on right: 8 9 10
+    FunctionDeclaration <no> (48)
+        on left: 13
+        on right: 4
+    FunctionDeclarator <no> (49)
+        on left: 14
+        on right: 6 13
+    ParameterList <no> (50)
+        on left: 15 16
+        on right: 14 16
+    ParameterDeclaration <no> (51)
+        on left: 17 18
+        on right: 15 16
+    Declaration <no> (52)
+        on left: 19
+        on right: 5 10 12
+    Declaration2 <no> (53)
+        on left: 20 21
+        on right: 19 21
+    TypeSpec <no> (54)
+        on left: 22 23 24 25 26
+        on right: 6 13 17 18 19
+    Declarator <no> (55)
+        on left: 27 28
+        on right: 20 21
+    Statement <no> (56)
+        on left: 29 30 31 32 33 34 35 36
+        on right: 9 11 32 33 34 38
+    Statement2 <no> (57)
+        on left: 37 38
+        on right: 31 38
+    Expr <no> (58)
+        on left: 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66
+        on right: 28 30 32 33 34 36 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 59 66 67 68
+    Expr2 <no> (59)
+        on left: 67 68
+        on right: 58 61 68
+>>>>>>> TiagoCardoso
 
 
 State 0
@@ -221,7 +408,11 @@ State 0
     DOUBLE  shift, and go to state 5
 
     FunctionsAndDeclarations  go to state 6
+<<<<<<< HEAD
     FunctionOrDeclaration     go to state 7
+=======
+    FunctionAndDeclarations2  go to state 7
+>>>>>>> TiagoCardoso
     FunctionDefinition        go to state 8
     FunctionDeclaration       go to state 9
     Declaration               go to state 10
@@ -230,43 +421,77 @@ State 0
 
 State 1
 
+<<<<<<< HEAD
    23 TypeSpec: CHAR •
 
     $default  reduce using rule 23 (TypeSpec)
+=======
+   22 TypeSpec: CHAR •
+
+    $default  reduce using rule 22 (TypeSpec)
+>>>>>>> TiagoCardoso
 
 
 State 2
 
+<<<<<<< HEAD
    24 TypeSpec: INT •
 
     $default  reduce using rule 24 (TypeSpec)
+=======
+   23 TypeSpec: INT •
+
+    $default  reduce using rule 23 (TypeSpec)
+>>>>>>> TiagoCardoso
 
 
 State 3
 
+<<<<<<< HEAD
    25 TypeSpec: VOID •
 
     $default  reduce using rule 25 (TypeSpec)
+=======
+   24 TypeSpec: VOID •
+
+    $default  reduce using rule 24 (TypeSpec)
+>>>>>>> TiagoCardoso
 
 
 State 4
 
+<<<<<<< HEAD
    26 TypeSpec: SHORT •
 
     $default  reduce using rule 26 (TypeSpec)
+=======
+   25 TypeSpec: SHORT •
+
+    $default  reduce using rule 25 (TypeSpec)
+>>>>>>> TiagoCardoso
 
 
 State 5
 
+<<<<<<< HEAD
    27 TypeSpec: DOUBLE •
 
     $default  reduce using rule 27 (TypeSpec)
+=======
+   26 TypeSpec: DOUBLE •
+
+    $default  reduce using rule 26 (TypeSpec)
+>>>>>>> TiagoCardoso
 
 
 State 6
 
     0 $accept: FunctionsAndDeclarations • $end
+<<<<<<< HEAD
     2 FunctionsAndDeclarations: FunctionsAndDeclarations • FunctionOrDeclaration
+=======
+    2 FunctionsAndDeclarations: FunctionsAndDeclarations • FunctionAndDeclarations2
+>>>>>>> TiagoCardoso
 
     $end    shift, and go to state 12
     CHAR    shift, and go to state 1
@@ -275,51 +500,90 @@ State 6
     SHORT   shift, and go to state 4
     DOUBLE  shift, and go to state 5
 
+<<<<<<< HEAD
     FunctionOrDeclaration  go to state 13
     FunctionDefinition     go to state 8
     FunctionDeclaration    go to state 9
     Declaration            go to state 10
     TypeSpec               go to state 11
+=======
+    FunctionAndDeclarations2  go to state 13
+    FunctionDefinition        go to state 8
+    FunctionDeclaration       go to state 9
+    Declaration               go to state 10
+    TypeSpec                  go to state 11
+>>>>>>> TiagoCardoso
 
 
 State 7
 
+<<<<<<< HEAD
     1 FunctionsAndDeclarations: FunctionOrDeclaration •
+=======
+    1 FunctionsAndDeclarations: FunctionAndDeclarations2 •
+>>>>>>> TiagoCardoso
 
     $default  reduce using rule 1 (FunctionsAndDeclarations)
 
 
 State 8
 
+<<<<<<< HEAD
     3 FunctionOrDeclaration: FunctionDefinition •
 
     $default  reduce using rule 3 (FunctionOrDeclaration)
+=======
+    3 FunctionAndDeclarations2: FunctionDefinition •
+
+    $default  reduce using rule 3 (FunctionAndDeclarations2)
+>>>>>>> TiagoCardoso
 
 
 State 9
 
+<<<<<<< HEAD
     4 FunctionOrDeclaration: FunctionDeclaration •
 
     $default  reduce using rule 4 (FunctionOrDeclaration)
+=======
+    4 FunctionAndDeclarations2: FunctionDeclaration •
+
+    $default  reduce using rule 4 (FunctionAndDeclarations2)
+>>>>>>> TiagoCardoso
 
 
 State 10
 
+<<<<<<< HEAD
     5 FunctionOrDeclaration: Declaration •
 
     $default  reduce using rule 5 (FunctionOrDeclaration)
+=======
+    5 FunctionAndDeclarations2: Declaration •
+
+    $default  reduce using rule 5 (FunctionAndDeclarations2)
+>>>>>>> TiagoCardoso
 
 
 State 11
 
     6 FunctionDefinition: TypeSpec • FunctionDeclarator FunctionBody
+<<<<<<< HEAD
    14 FunctionDeclaration: TypeSpec • FunctionDeclarator SEMI
    20 Declaration: TypeSpec • DeclaratorList SEMI
+=======
+   13 FunctionDeclaration: TypeSpec • FunctionDeclarator SEMI
+   19 Declaration: TypeSpec • Declaration2 SEMI
+>>>>>>> TiagoCardoso
 
     IDENTIFIER  shift, and go to state 14
 
     FunctionDeclarator  go to state 15
+<<<<<<< HEAD
     DeclaratorList      go to state 16
+=======
+    Declaration2        go to state 16
+>>>>>>> TiagoCardoso
     Declarator          go to state 17
 
 
@@ -332,27 +596,45 @@ State 12
 
 State 13
 
+<<<<<<< HEAD
     2 FunctionsAndDeclarations: FunctionsAndDeclarations FunctionOrDeclaration •
+=======
+    2 FunctionsAndDeclarations: FunctionsAndDeclarations FunctionAndDeclarations2 •
+>>>>>>> TiagoCardoso
 
     $default  reduce using rule 2 (FunctionsAndDeclarations)
 
 
 State 14
 
+<<<<<<< HEAD
    15 FunctionDeclarator: IDENTIFIER • LPAR ParameterList RPAR
    28 Declarator: IDENTIFIER •
    29           | IDENTIFIER • ASSIGN Expr
+=======
+   14 FunctionDeclarator: IDENTIFIER • LPAR ParameterList RPAR
+   27 Declarator: IDENTIFIER •
+   28           | IDENTIFIER • ASSIGN Expr
+>>>>>>> TiagoCardoso
 
     ASSIGN  shift, and go to state 18
     LPAR    shift, and go to state 19
 
+<<<<<<< HEAD
     $default  reduce using rule 28 (Declarator)
+=======
+    $default  reduce using rule 27 (Declarator)
+>>>>>>> TiagoCardoso
 
 
 State 15
 
     6 FunctionDefinition: TypeSpec FunctionDeclarator • FunctionBody
+<<<<<<< HEAD
    14 FunctionDeclaration: TypeSpec FunctionDeclarator • SEMI
+=======
+   13 FunctionDeclaration: TypeSpec FunctionDeclarator • SEMI
+>>>>>>> TiagoCardoso
 
     SEMI    shift, and go to state 20
     LBRACE  shift, and go to state 21
@@ -362,8 +644,13 @@ State 15
 
 State 16
 
+<<<<<<< HEAD
    20 Declaration: TypeSpec DeclaratorList • SEMI
    22 DeclaratorList: DeclaratorList • COMMA Declarator
+=======
+   19 Declaration: TypeSpec Declaration2 • SEMI
+   21 Declaration2: Declaration2 • COMMA Declarator
+>>>>>>> TiagoCardoso
 
     COMMA  shift, and go to state 23
     SEMI   shift, and go to state 24
@@ -371,14 +658,24 @@ State 16
 
 State 17
 
+<<<<<<< HEAD
    21 DeclaratorList: Declarator •
 
     $default  reduce using rule 21 (DeclaratorList)
+=======
+   20 Declaration2: Declarator •
+
+    $default  reduce using rule 20 (Declaration2)
+>>>>>>> TiagoCardoso
 
 
 State 18
 
+<<<<<<< HEAD
    29 Declarator: IDENTIFIER ASSIGN • Expr
+=======
+   28 Declarator: IDENTIFIER ASSIGN • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -394,7 +691,11 @@ State 18
 
 State 19
 
+<<<<<<< HEAD
    15 FunctionDeclarator: IDENTIFIER LPAR • ParameterList RPAR
+=======
+   14 FunctionDeclarator: IDENTIFIER LPAR • ParameterList RPAR
+>>>>>>> TiagoCardoso
 
     CHAR    shift, and go to state 1
     INT     shift, and go to state 2
@@ -409,14 +710,24 @@ State 19
 
 State 20
 
+<<<<<<< HEAD
    14 FunctionDeclaration: TypeSpec FunctionDeclarator SEMI •
 
     $default  reduce using rule 14 (FunctionDeclaration)
+=======
+   13 FunctionDeclaration: TypeSpec FunctionDeclarator SEMI •
+
+    $default  reduce using rule 13 (FunctionDeclaration)
+>>>>>>> TiagoCardoso
 
 
 State 21
 
+<<<<<<< HEAD
     7 FunctionBody: LBRACE • OpcionalDeclarationAndStatements RBRACE
+=======
+    7 FunctionBody: LBRACE • DeclarationAndStatement2 RBRACE
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -437,6 +748,7 @@ State 21
     CHRLIT      shift, and go to state 31
     NOT         shift, and go to state 32
 
+<<<<<<< HEAD
     $default  reduce using rule 8 (OpcionalDeclarationAndStatements)
 
     OpcionalDeclarationAndStatements  go to state 42
@@ -445,6 +757,15 @@ State 21
     TypeSpec                          go to state 45
     Statement                         go to state 46
     Expr                              go to state 47
+=======
+    DeclarationAndStatement2  go to state 42
+    DeclarationsAndStatement  go to state 43
+    Declaration               go to state 44
+    TypeSpec                  go to state 45
+    Statement                 go to state 46
+    Statement2                go to state 47
+    Expr                      go to state 48
+>>>>>>> TiagoCardoso
 
 
 State 22
@@ -456,23 +777,41 @@ State 22
 
 State 23
 
+<<<<<<< HEAD
    22 DeclaratorList: DeclaratorList COMMA • Declarator
 
     IDENTIFIER  shift, and go to state 48
 
     Declarator  go to state 49
+=======
+   21 Declaration2: Declaration2 COMMA • Declarator
+
+    IDENTIFIER  shift, and go to state 49
+
+    Declarator  go to state 50
+>>>>>>> TiagoCardoso
 
 
 State 24
 
+<<<<<<< HEAD
    20 Declaration: TypeSpec DeclaratorList SEMI •
 
     $default  reduce using rule 20 (Declaration)
+=======
+   19 Declaration: TypeSpec Declaration2 SEMI •
+
+    $default  reduce using rule 19 (Declaration)
+>>>>>>> TiagoCardoso
 
 
 State 25
 
+<<<<<<< HEAD
    58 Expr: PLUS • Expr
+=======
+   57 Expr: PLUS • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -483,12 +822,20 @@ State 25
     CHRLIT      shift, and go to state 31
     NOT         shift, and go to state 32
 
+<<<<<<< HEAD
     Expr  go to state 50
+=======
+    Expr  go to state 51
+>>>>>>> TiagoCardoso
 
 
 State 26
 
+<<<<<<< HEAD
    59 Expr: MINUS • ArgumentExpr
+=======
+   58 Expr: MINUS • Expr2
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -499,13 +846,22 @@ State 26
     CHRLIT      shift, and go to state 31
     NOT         shift, and go to state 32
 
+<<<<<<< HEAD
     Expr          go to state 51
     ArgumentExpr  go to state 52
+=======
+    Expr   go to state 52
+    Expr2  go to state 53
+>>>>>>> TiagoCardoso
 
 
 State 27
 
+<<<<<<< HEAD
    67 Expr: LPAR • Expr RPAR
+=======
+   66 Expr: LPAR • Expr RPAR
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -516,11 +872,16 @@ State 27
     CHRLIT      shift, and go to state 31
     NOT         shift, and go to state 32
 
+<<<<<<< HEAD
     Expr  go to state 53
+=======
+    Expr  go to state 54
+>>>>>>> TiagoCardoso
 
 
 State 28
 
+<<<<<<< HEAD
    61 Expr: IDENTIFIER • LPAR RPAR
    62     | IDENTIFIER • LPAR ArgumentExpr RPAR
    63     | IDENTIFIER •
@@ -528,17 +889,33 @@ State 28
     LPAR  shift, and go to state 54
 
     $default  reduce using rule 63 (Expr)
+=======
+   60 Expr: IDENTIFIER • LPAR RPAR
+   61     | IDENTIFIER • LPAR Expr2 RPAR
+   62     | IDENTIFIER •
+
+    LPAR  shift, and go to state 55
+
+    $default  reduce using rule 62 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 29
 
+<<<<<<< HEAD
    64 Expr: NATURAL •
 
     $default  reduce using rule 64 (Expr)
+=======
+   63 Expr: NATURAL •
+
+    $default  reduce using rule 63 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 30
 
+<<<<<<< HEAD
    66 Expr: DECIMAL •
 
     $default  reduce using rule 66 (Expr)
@@ -547,13 +924,29 @@ State 30
 State 31
 
    65 Expr: CHRLIT •
+=======
+   65 Expr: DECIMAL •
+>>>>>>> TiagoCardoso
 
     $default  reduce using rule 65 (Expr)
 
 
+<<<<<<< HEAD
 State 32
 
    60 Expr: NOT • Expr
+=======
+State 31
+
+   64 Expr: CHRLIT •
+
+    $default  reduce using rule 64 (Expr)
+
+
+State 32
+
+   59 Expr: NOT • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -564,11 +957,16 @@ State 32
     CHRLIT      shift, and go to state 31
     NOT         shift, and go to state 32
 
+<<<<<<< HEAD
     Expr  go to state 55
+=======
+    Expr  go to state 56
+>>>>>>> TiagoCardoso
 
 
 State 33
 
+<<<<<<< HEAD
    29 Declarator: IDENTIFIER ASSIGN Expr •
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
@@ -824,19 +1222,291 @@ State 48
    29           | IDENTIFIER • ASSIGN Expr
 
     ASSIGN  shift, and go to state 18
+=======
+   28 Declarator: IDENTIFIER ASSIGN Expr •
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    OR          shift, and go to state 63
+    AND         shift, and go to state 64
+    BITWISEOR   shift, and go to state 65
+    BITWISEXOR  shift, and go to state 66
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+>>>>>>> TiagoCardoso
 
     $default  reduce using rule 28 (Declarator)
 
 
+<<<<<<< HEAD
 State 49
 
    22 DeclaratorList: DeclaratorList COMMA Declarator •
 
     $default  reduce using rule 22 (DeclaratorList)
+=======
+State 34
+
+   14 FunctionDeclarator: IDENTIFIER LPAR ParameterList • RPAR
+   16 ParameterList: ParameterList • COMMA ParameterDeclaration
+
+    COMMA  shift, and go to state 75
+    RPAR   shift, and go to state 76
+
+
+State 35
+
+   15 ParameterList: ParameterDeclaration •
+
+    $default  reduce using rule 15 (ParameterList)
+
+
+State 36
+
+   17 ParameterDeclaration: TypeSpec • IDENTIFIER
+   18                     | TypeSpec •
+
+    IDENTIFIER  shift, and go to state 77
+
+    $default  reduce using rule 18 (ParameterDeclaration)
+
+
+State 37
+
+   29 Statement: SEMI •
+
+    $default  reduce using rule 29 (Statement)
+
+
+State 38
+
+   37 Statement2: LBRACE •
+   38           | LBRACE • Statement2 Statement
+
+    LBRACE  shift, and go to state 38
+
+    LBRACE    [reduce using rule 37 (Statement2)]
+    $default  reduce using rule 37 (Statement2)
+
+    Statement2  go to state 78
+
+
+State 39
+
+   32 Statement: IF • LPAR Expr RPAR Statement
+   33          | IF • LPAR Expr RPAR Statement ELSE Statement
+
+    LPAR  shift, and go to state 79
+
+
+State 40
+
+   34 Statement: WHILE • LPAR Expr RPAR Statement
+
+    LPAR  shift, and go to state 80
+
+
+State 41
+
+   35 Statement: RETURN • SEMI
+   36          | RETURN • Expr SEMI
+
+    PLUS        shift, and go to state 25
+    MINUS       shift, and go to state 26
+    SEMI        shift, and go to state 81
+    LPAR        shift, and go to state 27
+    IDENTIFIER  shift, and go to state 28
+    NATURAL     shift, and go to state 29
+    DECIMAL     shift, and go to state 30
+    CHRLIT      shift, and go to state 31
+    NOT         shift, and go to state 32
+
+    Expr  go to state 82
+
+
+State 42
+
+    7 FunctionBody: LBRACE DeclarationAndStatement2 • RBRACE
+
+    RBRACE  shift, and go to state 83
+
+
+State 43
+
+    8 DeclarationAndStatement2: DeclarationsAndStatement •
+
+    $default  reduce using rule 8 (DeclarationAndStatement2)
+
+
+State 44
+
+   10 DeclarationsAndStatement: Declaration • DeclarationsAndStatement
+   12                         | Declaration •
+
+    PLUS        shift, and go to state 25
+    MINUS       shift, and go to state 26
+    SEMI        shift, and go to state 37
+    LPAR        shift, and go to state 27
+    LBRACE      shift, and go to state 38
+    CHAR        shift, and go to state 1
+    INT         shift, and go to state 2
+    VOID        shift, and go to state 3
+    SHORT       shift, and go to state 4
+    DOUBLE      shift, and go to state 5
+    IF          shift, and go to state 39
+    WHILE       shift, and go to state 40
+    RETURN      shift, and go to state 41
+    IDENTIFIER  shift, and go to state 28
+    NATURAL     shift, and go to state 29
+    DECIMAL     shift, and go to state 30
+    CHRLIT      shift, and go to state 31
+    NOT         shift, and go to state 32
+
+    $default  reduce using rule 12 (DeclarationsAndStatement)
+
+    DeclarationsAndStatement  go to state 84
+    Declaration               go to state 44
+    TypeSpec                  go to state 45
+    Statement                 go to state 46
+    Statement2                go to state 47
+    Expr                      go to state 48
+
+
+State 45
+
+   19 Declaration: TypeSpec • Declaration2 SEMI
+
+    IDENTIFIER  shift, and go to state 49
+
+    Declaration2  go to state 16
+    Declarator    go to state 17
+
+
+State 46
+
+    9 DeclarationsAndStatement: Statement • DeclarationsAndStatement
+   11                         | Statement •
+
+    PLUS        shift, and go to state 25
+    MINUS       shift, and go to state 26
+    SEMI        shift, and go to state 37
+    LPAR        shift, and go to state 27
+    LBRACE      shift, and go to state 38
+    CHAR        shift, and go to state 1
+    INT         shift, and go to state 2
+    VOID        shift, and go to state 3
+    SHORT       shift, and go to state 4
+    DOUBLE      shift, and go to state 5
+    IF          shift, and go to state 39
+    WHILE       shift, and go to state 40
+    RETURN      shift, and go to state 41
+    IDENTIFIER  shift, and go to state 28
+    NATURAL     shift, and go to state 29
+    DECIMAL     shift, and go to state 30
+    CHRLIT      shift, and go to state 31
+    NOT         shift, and go to state 32
+
+    $default  reduce using rule 11 (DeclarationsAndStatement)
+
+    DeclarationsAndStatement  go to state 85
+    Declaration               go to state 44
+    TypeSpec                  go to state 45
+    Statement                 go to state 46
+    Statement2                go to state 47
+    Expr                      go to state 48
+
+
+State 47
+
+   31 Statement: Statement2 • RBRACE
+
+    RBRACE  shift, and go to state 86
+
+
+State 48
+
+   30 Statement: Expr • SEMI
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    COMMA       shift, and go to state 62
+    SEMI        shift, and go to state 87
+    OR          shift, and go to state 63
+    AND         shift, and go to state 64
+    BITWISEOR   shift, and go to state 65
+    BITWISEXOR  shift, and go to state 66
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+
+
+State 49
+
+   27 Declarator: IDENTIFIER •
+   28           | IDENTIFIER • ASSIGN Expr
+
+    ASSIGN  shift, and go to state 18
+
+    $default  reduce using rule 27 (Declarator)
+>>>>>>> TiagoCardoso
 
 
 State 50
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -863,10 +1533,16 @@ State 50
     MOD     shift, and go to state 73
 
     $default  reduce using rule 58 (Expr)
+=======
+   21 Declaration2: Declaration2 COMMA Declarator •
+
+    $default  reduce using rule 21 (Declaration2)
+>>>>>>> TiagoCardoso
 
 
 State 51
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -925,18 +1601,108 @@ State 51
     GE          [reduce using rule 68 (ArgumentExpr)]
     MOD         [reduce using rule 68 (ArgumentExpr)]
     $default    reduce using rule 68 (ArgumentExpr)
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+   57     | PLUS Expr •
+
+    MUL     shift, and go to state 59
+    DIV     shift, and go to state 60
+    ASSIGN  shift, and go to state 61
+    MOD     shift, and go to state 74
+
+    $default  reduce using rule 57 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 52
 
+<<<<<<< HEAD
    59 Expr: MINUS ArgumentExpr •
    69 ArgumentExpr: ArgumentExpr • COMMA Expr
 
     $default  reduce using rule 59 (Expr)
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+   67 Expr2: Expr •
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    COMMA       shift, and go to state 62
+    OR          shift, and go to state 63
+    AND         shift, and go to state 64
+    BITWISEOR   shift, and go to state 65
+    BITWISEXOR  shift, and go to state 66
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+
+    PLUS        [reduce using rule 67 (Expr2)]
+    MINUS       [reduce using rule 67 (Expr2)]
+    MUL         [reduce using rule 67 (Expr2)]
+    DIV         [reduce using rule 67 (Expr2)]
+    ASSIGN      [reduce using rule 67 (Expr2)]
+    COMMA       [reduce using rule 67 (Expr2)]
+    OR          [reduce using rule 67 (Expr2)]
+    AND         [reduce using rule 67 (Expr2)]
+    BITWISEOR   [reduce using rule 67 (Expr2)]
+    BITWISEXOR  [reduce using rule 67 (Expr2)]
+    BITWISEAND  [reduce using rule 67 (Expr2)]
+    EQ          [reduce using rule 67 (Expr2)]
+    NE          [reduce using rule 67 (Expr2)]
+    LT          [reduce using rule 67 (Expr2)]
+    GT          [reduce using rule 67 (Expr2)]
+    LE          [reduce using rule 67 (Expr2)]
+    GE          [reduce using rule 67 (Expr2)]
+    MOD         [reduce using rule 67 (Expr2)]
+    $default    reduce using rule 67 (Expr2)
+>>>>>>> TiagoCardoso
 
 
 State 53
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -976,10 +1742,17 @@ State 53
     LE          shift, and go to state 71
     GE          shift, and go to state 72
     MOD         shift, and go to state 73
+=======
+   58 Expr: MINUS Expr2 •
+   68 Expr2: Expr2 • COMMA Expr
+
+    $default  reduce using rule 58 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 54
 
+<<<<<<< HEAD
    61 Expr: IDENTIFIER LPAR • RPAR
    62     | IDENTIFIER LPAR • ArgumentExpr RPAR
 
@@ -995,10 +1768,52 @@ State 54
 
     Expr          go to state 51
     ArgumentExpr  go to state 89
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+   66     | LPAR Expr • RPAR
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    COMMA       shift, and go to state 62
+    RPAR        shift, and go to state 89
+    OR          shift, and go to state 63
+    AND         shift, and go to state 64
+    BITWISEOR   shift, and go to state 65
+    BITWISEXOR  shift, and go to state 66
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+>>>>>>> TiagoCardoso
 
 
 State 55
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -1022,10 +1837,28 @@ State 55
     ASSIGN  shift, and go to state 60
 
     $default  reduce using rule 60 (Expr)
+=======
+   60 Expr: IDENTIFIER LPAR • RPAR
+   61     | IDENTIFIER LPAR • Expr2 RPAR
+
+    PLUS        shift, and go to state 25
+    MINUS       shift, and go to state 26
+    LPAR        shift, and go to state 27
+    RPAR        shift, and go to state 90
+    IDENTIFIER  shift, and go to state 28
+    NATURAL     shift, and go to state 29
+    DECIMAL     shift, and go to state 30
+    CHRLIT      shift, and go to state 31
+    NOT         shift, and go to state 32
+
+    Expr   go to state 52
+    Expr2  go to state 91
+>>>>>>> TiagoCardoso
 
 
 State 56
 
+<<<<<<< HEAD
    42 Expr: Expr PLUS • Expr
 
     PLUS        shift, and go to state 25
@@ -1038,10 +1871,36 @@ State 56
     NOT         shift, and go to state 32
 
     Expr  go to state 90
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+   59     | NOT Expr •
+
+    ASSIGN  shift, and go to state 61
+
+    $default  reduce using rule 59 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 57
 
+<<<<<<< HEAD
    43 Expr: Expr MINUS • Expr
 
     PLUS        shift, and go to state 25
@@ -1059,6 +1918,9 @@ State 57
 State 58
 
    44 Expr: Expr MUL • Expr
+=======
+   41 Expr: Expr PLUS • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1072,9 +1934,15 @@ State 58
     Expr  go to state 92
 
 
+<<<<<<< HEAD
 State 59
 
    45 Expr: Expr DIV • Expr
+=======
+State 58
+
+   42 Expr: Expr MINUS • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1088,9 +1956,15 @@ State 59
     Expr  go to state 93
 
 
+<<<<<<< HEAD
 State 60
 
    40 Expr: Expr ASSIGN • Expr
+=======
+State 59
+
+   43 Expr: Expr MUL • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1104,9 +1978,15 @@ State 60
     Expr  go to state 94
 
 
+<<<<<<< HEAD
 State 61
 
    41 Expr: Expr COMMA • Expr
+=======
+State 60
+
+   44 Expr: Expr DIV • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1120,9 +2000,15 @@ State 61
     Expr  go to state 95
 
 
+<<<<<<< HEAD
 State 62
 
    47 Expr: Expr OR • Expr
+=======
+State 61
+
+   39 Expr: Expr ASSIGN • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1136,9 +2022,15 @@ State 62
     Expr  go to state 96
 
 
+<<<<<<< HEAD
 State 63
 
    48 Expr: Expr AND • Expr
+=======
+State 62
+
+   40 Expr: Expr COMMA • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1152,9 +2044,15 @@ State 63
     Expr  go to state 97
 
 
+<<<<<<< HEAD
 State 64
 
    50 Expr: Expr BITWISEOR • Expr
+=======
+State 63
+
+   46 Expr: Expr OR • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1168,9 +2066,15 @@ State 64
     Expr  go to state 98
 
 
+<<<<<<< HEAD
 State 65
 
    51 Expr: Expr BITWISEXOR • Expr
+=======
+State 64
+
+   47 Expr: Expr AND • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1184,9 +2088,15 @@ State 65
     Expr  go to state 99
 
 
+<<<<<<< HEAD
 State 66
 
    49 Expr: Expr BITWISEAND • Expr
+=======
+State 65
+
+   49 Expr: Expr BITWISEOR • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1200,9 +2110,15 @@ State 66
     Expr  go to state 100
 
 
+<<<<<<< HEAD
 State 67
 
    52 Expr: Expr EQ • Expr
+=======
+State 66
+
+   50 Expr: Expr BITWISEXOR • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1216,9 +2132,15 @@ State 67
     Expr  go to state 101
 
 
+<<<<<<< HEAD
 State 68
 
    53 Expr: Expr NE • Expr
+=======
+State 67
+
+   48 Expr: Expr BITWISEAND • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1232,9 +2154,15 @@ State 68
     Expr  go to state 102
 
 
+<<<<<<< HEAD
 State 69
 
    56 Expr: Expr LT • Expr
+=======
+State 68
+
+   51 Expr: Expr EQ • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1248,9 +2176,15 @@ State 69
     Expr  go to state 103
 
 
+<<<<<<< HEAD
 State 70
 
    57 Expr: Expr GT • Expr
+=======
+State 69
+
+   52 Expr: Expr NE • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1264,9 +2198,15 @@ State 70
     Expr  go to state 104
 
 
+<<<<<<< HEAD
 State 71
 
    54 Expr: Expr LE • Expr
+=======
+State 70
+
+   55 Expr: Expr LT • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1280,9 +2220,15 @@ State 71
     Expr  go to state 105
 
 
+<<<<<<< HEAD
 State 72
 
    55 Expr: Expr GE • Expr
+=======
+State 71
+
+   56 Expr: Expr GT • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1296,9 +2242,15 @@ State 72
     Expr  go to state 106
 
 
+<<<<<<< HEAD
 State 73
 
    46 Expr: Expr MOD • Expr
+=======
+State 72
+
+   53 Expr: Expr LE • Expr
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1312,9 +2264,47 @@ State 73
     Expr  go to state 107
 
 
+<<<<<<< HEAD
 State 74
 
    17 ParameterList: ParameterList COMMA • ParameterDeclaration
+=======
+State 73
+
+   54 Expr: Expr GE • Expr
+
+    PLUS        shift, and go to state 25
+    MINUS       shift, and go to state 26
+    LPAR        shift, and go to state 27
+    IDENTIFIER  shift, and go to state 28
+    NATURAL     shift, and go to state 29
+    DECIMAL     shift, and go to state 30
+    CHRLIT      shift, and go to state 31
+    NOT         shift, and go to state 32
+
+    Expr  go to state 108
+
+
+State 74
+
+   45 Expr: Expr MOD • Expr
+
+    PLUS        shift, and go to state 25
+    MINUS       shift, and go to state 26
+    LPAR        shift, and go to state 27
+    IDENTIFIER  shift, and go to state 28
+    NATURAL     shift, and go to state 29
+    DECIMAL     shift, and go to state 30
+    CHRLIT      shift, and go to state 31
+    NOT         shift, and go to state 32
+
+    Expr  go to state 109
+
+
+State 75
+
+   16 ParameterList: ParameterList COMMA • ParameterDeclaration
+>>>>>>> TiagoCardoso
 
     CHAR    shift, and go to state 1
     INT     shift, and go to state 2
@@ -1322,6 +2312,7 @@ State 74
     SHORT   shift, and go to state 4
     DOUBLE  shift, and go to state 5
 
+<<<<<<< HEAD
     ParameterDeclaration  go to state 108
     TypeSpec              go to state 36
 
@@ -1338,19 +2329,44 @@ State 76
    18 ParameterDeclaration: TypeSpec IDENTIFIER •
 
     $default  reduce using rule 18 (ParameterDeclaration)
+=======
+    ParameterDeclaration  go to state 110
+    TypeSpec              go to state 36
+
+
+State 76
+
+   14 FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR •
+
+    $default  reduce using rule 14 (FunctionDeclarator)
+>>>>>>> TiagoCardoso
 
 
 State 77
 
+<<<<<<< HEAD
    32 Statement: LBRACE Statements • RBRACE
    39 Statements: Statements • Statement
+=======
+   17 ParameterDeclaration: TypeSpec IDENTIFIER •
+
+    $default  reduce using rule 17 (ParameterDeclaration)
+
+
+State 78
+
+   38 Statement2: LBRACE Statement2 • Statement
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
     SEMI        shift, and go to state 37
     LPAR        shift, and go to state 27
     LBRACE      shift, and go to state 38
+<<<<<<< HEAD
     RBRACE      shift, and go to state 109
+=======
+>>>>>>> TiagoCardoso
     IF          shift, and go to state 39
     WHILE       shift, and go to state 40
     RETURN      shift, and go to state 41
@@ -1360,6 +2376,7 @@ State 77
     CHRLIT      shift, and go to state 31
     NOT         shift, and go to state 32
 
+<<<<<<< HEAD
     Statement  go to state 110
     Expr       go to state 47
 
@@ -1379,11 +2396,21 @@ State 78
     NOT         shift, and go to state 32
 
     Expr  go to state 111
+=======
+    Statement   go to state 111
+    Statement2  go to state 47
+    Expr        go to state 48
+>>>>>>> TiagoCardoso
 
 
 State 79
 
+<<<<<<< HEAD
    35 Statement: WHILE LPAR • Expr RPAR Statement
+=======
+   32 Statement: IF LPAR • Expr RPAR Statement
+   33          | IF LPAR • Expr RPAR Statement ELSE Statement
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1399,6 +2426,7 @@ State 79
 
 State 80
 
+<<<<<<< HEAD
    36 Statement: RETURN SEMI •
 
     $default  reduce using rule 36 (Statement)
@@ -1478,6 +2506,9 @@ State 85
 State 86
 
    69 ArgumentExpr: ArgumentExpr COMMA • Expr
+=======
+   34 Statement: WHILE LPAR • Expr RPAR Statement
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -1488,34 +2519,144 @@ State 86
     CHRLIT      shift, and go to state 31
     NOT         shift, and go to state 32
 
+<<<<<<< HEAD
     Expr  go to state 114
+=======
+    Expr  go to state 113
+
+
+State 81
+
+   35 Statement: RETURN SEMI •
+
+    $default  reduce using rule 35 (Statement)
+
+
+State 82
+
+   36 Statement: RETURN Expr • SEMI
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    COMMA       shift, and go to state 62
+    SEMI        shift, and go to state 114
+    OR          shift, and go to state 63
+    AND         shift, and go to state 64
+    BITWISEOR   shift, and go to state 65
+    BITWISEXOR  shift, and go to state 66
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+
+
+State 83
+
+    7 FunctionBody: LBRACE DeclarationAndStatement2 RBRACE •
+
+    $default  reduce using rule 7 (FunctionBody)
+
+
+State 84
+
+   10 DeclarationsAndStatement: Declaration DeclarationsAndStatement •
+
+    $default  reduce using rule 10 (DeclarationsAndStatement)
+
+
+State 85
+
+    9 DeclarationsAndStatement: Statement DeclarationsAndStatement •
+
+    $default  reduce using rule 9 (DeclarationsAndStatement)
+
+
+State 86
+
+   31 Statement: Statement2 RBRACE •
+
+    $default  reduce using rule 31 (Statement)
+>>>>>>> TiagoCardoso
 
 
 State 87
 
+<<<<<<< HEAD
    67 Expr: LPAR Expr RPAR •
 
     $default  reduce using rule 67 (Expr)
+=======
+   30 Statement: Expr SEMI •
+
+    $default  reduce using rule 30 (Statement)
+>>>>>>> TiagoCardoso
 
 
 State 88
 
+<<<<<<< HEAD
    61 Expr: IDENTIFIER LPAR RPAR •
 
     $default  reduce using rule 61 (Expr)
+=======
+   68 Expr2: Expr2 COMMA • Expr
+
+    PLUS        shift, and go to state 25
+    MINUS       shift, and go to state 26
+    LPAR        shift, and go to state 27
+    IDENTIFIER  shift, and go to state 28
+    NATURAL     shift, and go to state 29
+    DECIMAL     shift, and go to state 30
+    CHRLIT      shift, and go to state 31
+    NOT         shift, and go to state 32
+
+    Expr  go to state 115
+>>>>>>> TiagoCardoso
 
 
 State 89
 
+<<<<<<< HEAD
    62 Expr: IDENTIFIER LPAR ArgumentExpr • RPAR
    69 ArgumentExpr: ArgumentExpr • COMMA Expr
 
     COMMA  shift, and go to state 86
     RPAR   shift, and go to state 115
+=======
+   66 Expr: LPAR Expr RPAR •
+
+    $default  reduce using rule 66 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 90
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -1542,10 +2683,16 @@ State 90
     MOD     shift, and go to state 73
 
     $default  reduce using rule 42 (Expr)
+=======
+   60 Expr: IDENTIFIER LPAR RPAR •
+
+    $default  reduce using rule 60 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 91
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -1572,10 +2719,18 @@ State 91
     MOD     shift, and go to state 73
 
     $default  reduce using rule 43 (Expr)
+=======
+   61 Expr: IDENTIFIER LPAR Expr2 • RPAR
+   68 Expr2: Expr2 • COMMA Expr
+
+    COMMA  shift, and go to state 88
+    RPAR   shift, and go to state 116
+>>>>>>> TiagoCardoso
 
 
 State 92
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -1694,10 +2849,37 @@ State 95
     LE          shift, and go to state 71
     GE          shift, and go to state 72
     MOD         shift, and go to state 73
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   41     | Expr PLUS Expr •
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    MUL     shift, and go to state 59
+    DIV     shift, and go to state 60
+    ASSIGN  shift, and go to state 61
+    MOD     shift, and go to state 74
+>>>>>>> TiagoCardoso
 
     $default  reduce using rule 41 (Expr)
 
 
+<<<<<<< HEAD
 State 96
 
    40 Expr: Expr • ASSIGN Expr
@@ -1738,10 +2920,122 @@ State 96
     MOD         shift, and go to state 73
 
     $default  reduce using rule 47 (Expr)
+=======
+State 93
+
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   42     | Expr MINUS Expr •
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    MUL     shift, and go to state 59
+    DIV     shift, and go to state 60
+    ASSIGN  shift, and go to state 61
+    MOD     shift, and go to state 74
+
+    $default  reduce using rule 42 (Expr)
+
+
+State 94
+
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   43     | Expr MUL Expr •
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    ASSIGN  shift, and go to state 61
+
+    $default  reduce using rule 43 (Expr)
+
+
+State 95
+
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   44     | Expr DIV Expr •
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    ASSIGN  shift, and go to state 61
+
+    $default  reduce using rule 44 (Expr)
+
+
+State 96
+
+   39 Expr: Expr • ASSIGN Expr
+   39     | Expr ASSIGN Expr •
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    ASSIGN  shift, and go to state 61
+
+    $default  reduce using rule 39 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 97
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -1779,10 +3073,52 @@ State 97
     MOD         shift, and go to state 73
 
     $default  reduce using rule 48 (Expr)
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   40     | Expr COMMA Expr •
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    OR          shift, and go to state 63
+    AND         shift, and go to state 64
+    BITWISEOR   shift, and go to state 65
+    BITWISEXOR  shift, and go to state 66
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+
+    $default  reduce using rule 40 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 98
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -1819,10 +3155,51 @@ State 98
     MOD         shift, and go to state 73
 
     $default  reduce using rule 50 (Expr)
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   46     | Expr OR Expr •
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    AND         shift, and go to state 64
+    BITWISEOR   shift, and go to state 65
+    BITWISEXOR  shift, and go to state 66
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+
+    $default  reduce using rule 46 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 99
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -1858,10 +3235,50 @@ State 99
     MOD         shift, and go to state 73
 
     $default  reduce using rule 51 (Expr)
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   47     | Expr AND Expr •
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    BITWISEOR   shift, and go to state 65
+    BITWISEXOR  shift, and go to state 66
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+
+    $default  reduce using rule 47 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 100
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -1894,12 +3311,49 @@ State 100
     LE      shift, and go to state 71
     GE      shift, and go to state 72
     MOD     shift, and go to state 73
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   49     | Expr BITWISEOR Expr •
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    BITWISEXOR  shift, and go to state 66
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+>>>>>>> TiagoCardoso
 
     $default  reduce using rule 49 (Expr)
 
 
 State 101
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -1932,10 +3386,48 @@ State 101
     MOD     shift, and go to state 73
 
     $default  reduce using rule 52 (Expr)
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   50     | Expr BITWISEXOR Expr •
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+
+    $default  reduce using rule 50 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 102
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -1968,10 +3460,47 @@ State 102
     MOD     shift, and go to state 73
 
     $default  reduce using rule 53 (Expr)
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   48     | Expr BITWISEAND Expr •
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS    shift, and go to state 57
+    MINUS   shift, and go to state 58
+    MUL     shift, and go to state 59
+    DIV     shift, and go to state 60
+    ASSIGN  shift, and go to state 61
+    EQ      shift, and go to state 68
+    NE      shift, and go to state 69
+    LT      shift, and go to state 70
+    GT      shift, and go to state 71
+    LE      shift, and go to state 72
+    GE      shift, and go to state 73
+    MOD     shift, and go to state 74
+
+    $default  reduce using rule 48 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 103
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -2000,10 +3529,45 @@ State 103
     MOD     shift, and go to state 73
 
     $default  reduce using rule 56 (Expr)
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   51     | Expr EQ Expr •
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS    shift, and go to state 57
+    MINUS   shift, and go to state 58
+    MUL     shift, and go to state 59
+    DIV     shift, and go to state 60
+    ASSIGN  shift, and go to state 61
+    LT      shift, and go to state 70
+    GT      shift, and go to state 71
+    LE      shift, and go to state 72
+    GE      shift, and go to state 73
+    MOD     shift, and go to state 74
+
+    $default  reduce using rule 51 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 104
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -2032,10 +3596,45 @@ State 104
     MOD     shift, and go to state 73
 
     $default  reduce using rule 57 (Expr)
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   52     | Expr NE Expr •
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS    shift, and go to state 57
+    MINUS   shift, and go to state 58
+    MUL     shift, and go to state 59
+    DIV     shift, and go to state 60
+    ASSIGN  shift, and go to state 61
+    LT      shift, and go to state 70
+    GT      shift, and go to state 71
+    LE      shift, and go to state 72
+    GE      shift, and go to state 73
+    MOD     shift, and go to state 74
+
+    $default  reduce using rule 52 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 105
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -2094,10 +3693,39 @@ State 106
     DIV     shift, and go to state 59
     ASSIGN  shift, and go to state 60
     MOD     shift, and go to state 73
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   55     | Expr LT Expr •
+   56     | Expr • GT Expr
+
+    PLUS    shift, and go to state 57
+    MINUS   shift, and go to state 58
+    MUL     shift, and go to state 59
+    DIV     shift, and go to state 60
+    ASSIGN  shift, and go to state 61
+    MOD     shift, and go to state 74
+>>>>>>> TiagoCardoso
 
     $default  reduce using rule 55 (Expr)
 
 
+<<<<<<< HEAD
 State 107
 
    40 Expr: Expr • ASSIGN Expr
@@ -2123,31 +3751,159 @@ State 107
     ASSIGN  shift, and go to state 60
 
     $default  reduce using rule 46 (Expr)
+=======
+State 106
+
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+   56     | Expr GT Expr •
+
+    PLUS    shift, and go to state 57
+    MINUS   shift, and go to state 58
+    MUL     shift, and go to state 59
+    DIV     shift, and go to state 60
+    ASSIGN  shift, and go to state 61
+    MOD     shift, and go to state 74
+
+    $default  reduce using rule 56 (Expr)
+
+
+State 107
+
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   53     | Expr LE Expr •
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS    shift, and go to state 57
+    MINUS   shift, and go to state 58
+    MUL     shift, and go to state 59
+    DIV     shift, and go to state 60
+    ASSIGN  shift, and go to state 61
+    MOD     shift, and go to state 74
+
+    $default  reduce using rule 53 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 108
 
+<<<<<<< HEAD
    17 ParameterList: ParameterList COMMA ParameterDeclaration •
 
     $default  reduce using rule 17 (ParameterList)
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   54     | Expr GE Expr •
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS    shift, and go to state 57
+    MINUS   shift, and go to state 58
+    MUL     shift, and go to state 59
+    DIV     shift, and go to state 60
+    ASSIGN  shift, and go to state 61
+    MOD     shift, and go to state 74
+
+    $default  reduce using rule 54 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 109
 
+<<<<<<< HEAD
    32 Statement: LBRACE Statements RBRACE •
 
     $default  reduce using rule 32 (Statement)
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   45     | Expr MOD Expr •
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    ASSIGN  shift, and go to state 61
+
+    $default  reduce using rule 45 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 110
 
+<<<<<<< HEAD
    39 Statements: Statements Statement •
 
     $default  reduce using rule 39 (Statements)
+=======
+   16 ParameterList: ParameterList COMMA ParameterDeclaration •
+
+    $default  reduce using rule 16 (ParameterList)
+>>>>>>> TiagoCardoso
 
 
 State 111
 
+<<<<<<< HEAD
    33 Statement: IF LPAR Expr • RPAR Statement
    34          | IF LPAR Expr • RPAR Statement ELSE Statement
    40 Expr: Expr • ASSIGN Expr
@@ -2188,10 +3944,16 @@ State 111
     LE          shift, and go to state 71
     GE          shift, and go to state 72
     MOD         shift, and go to state 73
+=======
+   38 Statement2: LBRACE Statement2 Statement •
+
+    $default  reduce using rule 38 (Statement2)
+>>>>>>> TiagoCardoso
 
 
 State 112
 
+<<<<<<< HEAD
    35 Statement: WHILE LPAR Expr • RPAR Statement
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
@@ -2231,17 +3993,102 @@ State 112
     LE          shift, and go to state 71
     GE          shift, and go to state 72
     MOD         shift, and go to state 73
+=======
+   32 Statement: IF LPAR Expr • RPAR Statement
+   33          | IF LPAR Expr • RPAR Statement ELSE Statement
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    COMMA       shift, and go to state 62
+    RPAR        shift, and go to state 117
+    OR          shift, and go to state 63
+    AND         shift, and go to state 64
+    BITWISEOR   shift, and go to state 65
+    BITWISEXOR  shift, and go to state 66
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+>>>>>>> TiagoCardoso
 
 
 State 113
 
+<<<<<<< HEAD
    37 Statement: RETURN Expr SEMI •
 
     $default  reduce using rule 37 (Statement)
+=======
+   34 Statement: WHILE LPAR Expr • RPAR Statement
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    COMMA       shift, and go to state 62
+    RPAR        shift, and go to state 118
+    OR          shift, and go to state 63
+    AND         shift, and go to state 64
+    BITWISEOR   shift, and go to state 65
+    BITWISEXOR  shift, and go to state 66
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+>>>>>>> TiagoCardoso
 
 
 State 114
 
+<<<<<<< HEAD
    40 Expr: Expr • ASSIGN Expr
    41     | Expr • COMMA Expr
    42     | Expr • PLUS Expr
@@ -2281,17 +4128,65 @@ State 114
     MOD         shift, and go to state 73
 
     $default  reduce using rule 69 (ArgumentExpr)
+=======
+   36 Statement: RETURN Expr SEMI •
+
+    $default  reduce using rule 36 (Statement)
+>>>>>>> TiagoCardoso
 
 
 State 115
 
+<<<<<<< HEAD
    62 Expr: IDENTIFIER LPAR ArgumentExpr RPAR •
 
     $default  reduce using rule 62 (Expr)
+=======
+   39 Expr: Expr • ASSIGN Expr
+   40     | Expr • COMMA Expr
+   41     | Expr • PLUS Expr
+   42     | Expr • MINUS Expr
+   43     | Expr • MUL Expr
+   44     | Expr • DIV Expr
+   45     | Expr • MOD Expr
+   46     | Expr • OR Expr
+   47     | Expr • AND Expr
+   48     | Expr • BITWISEAND Expr
+   49     | Expr • BITWISEOR Expr
+   50     | Expr • BITWISEXOR Expr
+   51     | Expr • EQ Expr
+   52     | Expr • NE Expr
+   53     | Expr • LE Expr
+   54     | Expr • GE Expr
+   55     | Expr • LT Expr
+   56     | Expr • GT Expr
+   68 Expr2: Expr2 COMMA Expr •
+
+    PLUS        shift, and go to state 57
+    MINUS       shift, and go to state 58
+    MUL         shift, and go to state 59
+    DIV         shift, and go to state 60
+    ASSIGN      shift, and go to state 61
+    OR          shift, and go to state 63
+    AND         shift, and go to state 64
+    BITWISEOR   shift, and go to state 65
+    BITWISEXOR  shift, and go to state 66
+    BITWISEAND  shift, and go to state 67
+    EQ          shift, and go to state 68
+    NE          shift, and go to state 69
+    LT          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    GE          shift, and go to state 73
+    MOD         shift, and go to state 74
+
+    $default  reduce using rule 68 (Expr2)
+>>>>>>> TiagoCardoso
 
 
 State 116
 
+<<<<<<< HEAD
    33 Statement: IF LPAR Expr RPAR • Statement
    34          | IF LPAR Expr RPAR • Statement ELSE Statement
 
@@ -2311,11 +4206,21 @@ State 116
 
     Statement  go to state 118
     Expr       go to state 47
+=======
+   61 Expr: IDENTIFIER LPAR Expr2 RPAR •
+
+    $default  reduce using rule 61 (Expr)
+>>>>>>> TiagoCardoso
 
 
 State 117
 
+<<<<<<< HEAD
    35 Statement: WHILE LPAR Expr RPAR • Statement
+=======
+   32 Statement: IF LPAR Expr RPAR • Statement
+   33          | IF LPAR Expr RPAR • Statement ELSE Statement
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -2331,12 +4236,19 @@ State 117
     CHRLIT      shift, and go to state 31
     NOT         shift, and go to state 32
 
+<<<<<<< HEAD
     Statement  go to state 119
     Expr       go to state 47
+=======
+    Statement   go to state 119
+    Statement2  go to state 47
+    Expr        go to state 48
+>>>>>>> TiagoCardoso
 
 
 State 118
 
+<<<<<<< HEAD
    33 Statement: IF LPAR Expr RPAR Statement •
    34          | IF LPAR Expr RPAR Statement • ELSE Statement
 
@@ -2356,6 +4268,9 @@ State 119
 State 120
 
    34 Statement: IF LPAR Expr RPAR Statement ELSE • Statement
+=======
+   34 Statement: WHILE LPAR Expr RPAR • Statement
+>>>>>>> TiagoCardoso
 
     PLUS        shift, and go to state 25
     MINUS       shift, and go to state 26
@@ -2371,12 +4286,65 @@ State 120
     CHRLIT      shift, and go to state 31
     NOT         shift, and go to state 32
 
+<<<<<<< HEAD
     Statement  go to state 121
     Expr       go to state 47
+=======
+    Statement   go to state 120
+    Statement2  go to state 47
+    Expr        go to state 48
+
+
+State 119
+
+   32 Statement: IF LPAR Expr RPAR Statement •
+   33          | IF LPAR Expr RPAR Statement • ELSE Statement
+
+    ELSE  shift, and go to state 121
+
+    ELSE      [reduce using rule 32 (Statement)]
+    $default  reduce using rule 32 (Statement)
+
+
+State 120
+
+   34 Statement: WHILE LPAR Expr RPAR Statement •
+
+    $default  reduce using rule 34 (Statement)
+>>>>>>> TiagoCardoso
 
 
 State 121
 
+<<<<<<< HEAD
    34 Statement: IF LPAR Expr RPAR Statement ELSE Statement •
 
     $default  reduce using rule 34 (Statement)
+=======
+   33 Statement: IF LPAR Expr RPAR Statement ELSE • Statement
+
+    PLUS        shift, and go to state 25
+    MINUS       shift, and go to state 26
+    SEMI        shift, and go to state 37
+    LPAR        shift, and go to state 27
+    LBRACE      shift, and go to state 38
+    IF          shift, and go to state 39
+    WHILE       shift, and go to state 40
+    RETURN      shift, and go to state 41
+    IDENTIFIER  shift, and go to state 28
+    NATURAL     shift, and go to state 29
+    DECIMAL     shift, and go to state 30
+    CHRLIT      shift, and go to state 31
+    NOT         shift, and go to state 32
+
+    Statement   go to state 122
+    Statement2  go to state 47
+    Expr        go to state 48
+
+
+State 122
+
+   33 Statement: IF LPAR Expr RPAR Statement ELSE Statement •
+
+    $default  reduce using rule 33 (Statement)
+>>>>>>> TiagoCardoso
