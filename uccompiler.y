@@ -5,15 +5,45 @@ Tiago Rafael Cardoso Santos - 2021229679
 */
 
 #include <stdio.h>
+#include <stdbool.h>
+#include <ctype.h>
+#include <string.h>
 
-int yylex(void);
-void yyerror(const char* s);
+ typedef enum{
+        no_raiz,
+        no_declaracao,
+        no_metodos,
+        no_statements,
+        no_operadores,
+        no_terminais,
+        no_id
+    } tipo_no;
 
+    typedef struct no * node;
+    typedef struct no{
+        node pai;
+        node filho;
+        node irmao;
+        tipo_no no_tipo;
+        char *valor;           
+        char *tipo;            
+        int num_filhos;
+    } no;
+
+    int yylex(void);
+    void yyerror(const char *s);
 
 %}
 
-%token PLUS MINUS MUL DIV ASSIGN COMMA SEMI LPAR RPAR LBRACE RBRACE CHAR INT VOID SHORT DOUBLE IF ELSE WHILE RETURN
-%token <id> RESERVED IDENTIFIER NATURAL DECIMAL CHRLIT
+%union {
+    char *v;
+    struct no *no;
+}
+
+%token PLUS MINUS MUL DIV ASSIGN COMMA SEMI LPAR RPAR LBRACE RBRACE CHAR INT VOID SHORT DOUBLE IF ELSE WHILE RETURN RESERVED
+%token <v> IDENTIFIER NATURAL DECIMAL CHRLIT
+
+%type <no> FunctionsAndDeclarations FunctionOrDeclaration FunctionDefinition FunctionBody OpcionalDeclarationAndStatements DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterDeclarations Parameter Declaration DeclaratorList TypeSpecifier Declarator Statements Expr ArgumentExpr 
 
 %left   COMMA
 %left   OR
@@ -84,7 +114,7 @@ Declaration:
     TypeSpec DeclaratorList SEMI                            {}
     ;
 
-DeclaratorList:---
+DeclaratorList:
     Declarator                                              {}
     | DeclaratorList COMMA Declarator                       {}
     ;
@@ -158,15 +188,10 @@ ArgumentExpr:
     Expr                                                    {}
     | ArgumentExpr COMMA Expr                               {}
     ;
-
+    
 
 %%
 
 void yyerror(const char* message) {
     fprintf(stderr, "Syntax Error: %s\n", message);
-}
-
-int main() {
-    yyparse();
-    return 0;
 }

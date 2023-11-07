@@ -716,11 +716,14 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "uccompiler.l"
 #line 2 "uccompiler.l"
+
 /*
 Henrique José Correia Brás - 2021229812
 Tiago Rafael Cardoso Santos - 2021229679
-
 */
+
+#include "y.tab.h"
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <ctype.h>
@@ -730,15 +733,11 @@ int linha = 1;
 int coluna = 1;
 int linhareserved = 0;
 int colunareserved = 0;
-int l_flag = 0;
+int flag = 0;
 
-#line 736 "lex.yy.c"
-#line 21 "uccompiler.l"
-#include "y.tab.h"
-int yyparse(void);
-#line 740 "lex.yy.c"
+#line 739 "lex.yy.c"
 
-#line 742 "lex.yy.c"
+#line 741 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -957,10 +956,10 @@ YY_DECL
 		}
 
 	{
-#line 38 "uccompiler.l"
+#line 36 "uccompiler.l"
 
 
-#line 964 "lex.yy.c"
+#line 963 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1019,151 +1018,151 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 40 "uccompiler.l"
+#line 38 "uccompiler.l"
 {   coluna+=yyleng;
-                                if(strcmp(yytext,"char") == 0 && l_flag)          {printf("CHAR\n");
-                            } else if (strcmp(yytext,"else") == 0 && l_flag)      {printf("ELSE\n");
-                            } else if (strcmp(yytext,"while") == 0 && l_flag)     {printf("WHILE\n");
-                            } else if (strcmp(yytext,"if") == 0 && l_flag)        {printf("IF\n");
-                            } else if (strcmp(yytext,"int") == 0 && l_flag)       {printf("INT\n");
-                            } else if (strcmp(yytext,"short") == 0 && l_flag)     {printf("SHORT\n");
-                            } else if (strcmp(yytext,"double") == 0 && l_flag)    {printf("DOUBLE\n");
-                            } else if (strcmp(yytext,"return") == 0 && l_flag)    {printf("RETURN\n");
-                            } else if (strcmp(yytext,"void") == 0 && l_flag)      {printf("VOID\n");
-                            } else if (strcmp(yytext,"&") == 0 && l_flag)         {printf("BITWISEAND\n");
-                            } else if (strcmp(yytext,"|") == 0 && l_flag)         {printf("BITWISEOR\n");
-                            } else if (strcmp(yytext,"^") == 0 && l_flag)         {printf("BITWISEXOR\n");
-                            } else if (strcmp(yytext,"&&") == 0 && l_flag)        {printf("AND\n");
-                            } else if (strcmp(yytext,"=") == 0 && l_flag)         {printf("ASSIGN\n");
-                            } else if (strcmp(yytext,"*") == 0 && l_flag)         {printf("MUL\n");
-                            } else if (strcmp(yytext,",") == 0 && l_flag)         {printf("COMMA\n");
-                            } else if (strcmp(yytext,"/") == 0 && l_flag)         {printf("DIV\n");
-                            } else if (strcmp(yytext,"==") == 0 && l_flag)        {printf("EQ\n");
-                            } else if (strcmp(yytext,">=") == 0 && l_flag)        {printf("GE\n");
-                            } else if (strcmp(yytext,">") == 0 && l_flag)         {printf("GT\n");
-                            } else if (strcmp(yytext,"{") == 0 && l_flag)         {printf("LBRACE\n");
-                            } else if (strcmp(yytext,"<=") == 0 && l_flag)        {printf("LE\n");
-                            } else if (strcmp(yytext,"(") == 0 && l_flag)         {printf("LPAR\n");
-                            } else if (strcmp(yytext,"<") == 0 && l_flag)         {printf("LT\n");
-                            } else if (strcmp(yytext,"-") == 0 && l_flag)         {printf("MINUS\n");
-                            } else if (strcmp(yytext,"%") == 0 && l_flag)         {printf("MOD\n");
-                            } else if (strcmp(yytext,"!=") == 0 && l_flag)        {printf("NE\n");
-                            } else if (strcmp(yytext,"!") == 0 && l_flag)         {printf("NOT\n");
-                            } else if (strcmp(yytext,"||") == 0 && l_flag)        {printf("OR\n");
-                            } else if (strcmp(yytext,"+") == 0 && l_flag)         {printf("PLUS\n");
-                            } else if (strcmp(yytext,"}") == 0 && l_flag)         {printf("RBRACE\n");
-                            } else if (strcmp(yytext,")") == 0 && l_flag)         {printf("RPAR\n");
-                            } else if (strcmp(yytext,";") == 0 && l_flag)         {printf("SEMI\n");
-                            } else if (strcmp(yytext,"[") == 0 && l_flag)        {printf("RESERVED([)\n");
-                            } else if (strcmp(yytext,"]") == 0 && l_flag)         {printf("RESERVED(])\n");
-                            } else if (strcmp(yytext,"--") == 0 && l_flag)        {printf("RESERVED(--)\n");
-                            } else if (strcmp(yytext,"++") == 0 && l_flag)        {printf("RESERVED(++)\n");
-                            } else if (strcmp(yytext,"auto") == 0 && l_flag)      {printf("RESERVED(auto)\n");
-                            } else if (strcmp(yytext,"break") == 0 && l_flag)     {printf("RESERVED(break)\n");
-                            } else if (strcmp(yytext,"case") == 0 && l_flag)      {printf("RESERVED(case)\n");
-                            } else if (strcmp(yytext,"const") == 0 && l_flag)     {printf("RESERVED(const)\n");
-                            } else if (strcmp(yytext,"continue") == 0 && l_flag)  {printf("RESERVED(continue)\n");
-                            } else if (strcmp(yytext,"default") == 0 && l_flag)   {printf("RESERVED(default)\n");
-                            } else if (strcmp(yytext,"do") == 0 && l_flag)        {printf("RESERVED(do)\n");
-                            } else if (strcmp(yytext,"long") == 0 && l_flag)      {printf("RESERVED(long)\n");
-                            } else if (strcmp(yytext,"register") == 0 && l_flag)  {printf("RESERVED(register)\n");
-                            } else if (strcmp(yytext,"signed") == 0 && l_flag)    {printf("RESERVED(signed)\n");
-                            } else if (strcmp(yytext,"sizeof") == 0 && l_flag)    {printf("RESERVED(sizeof)\n");
-                            } else if (strcmp(yytext,"static") == 0 && l_flag)    {printf("RESERVED(static)\n");
-                            } else if (strcmp(yytext,"struct") == 0 && l_flag)    {printf("RESERVED(struct)\n");
-                            } else if (strcmp(yytext,"switch") == 0 && l_flag)    {printf("RESERVED(switch)\n");
-                            } else if (strcmp(yytext,"typedef") == 0 && l_flag)   {printf("RESERVED(typedef)\n");
-                            } else if (strcmp(yytext,"union") == 0 && l_flag)     {printf("RESERVED(union)\n");
-                            } else if (strcmp(yytext,"unsigned") == 0 && l_flag)  {printf("RESERVED(unsigned)\n");
-                            } else if (strcmp(yytext,"volatile") == 0 && l_flag)  {printf("RESERVED(volatile)\n");
-                            } else if (strcmp(yytext,"enum") == 0 && l_flag)      {printf("RESERVED(enum)\n");
-                            } else if (strcmp(yytext,"extern") == 0 && l_flag)    {printf("RESERVED(extern)\n");
-                            } else if (strcmp(yytext,"float") == 0 && l_flag)     {printf("RESERVED(float)\n");
-                            } else if (strcmp(yytext,"for") == 0 && l_flag)       {printf("RESERVED(for)\n");
-                            } else if (strcmp(yytext,"goto") == 0 && l_flag)      {printf("RESERVED(goto)\n");
-                            } else if (strcmp(yytext,"inline") == 0 && l_flag)    {printf("RESERVED(inline)\n");
-                            } else if (strcmp(yytext,"restrict") == 0 && l_flag)  {printf("RESERVED(restrict)\n");
-                            } else if (strcmp(yytext,"_Bool") == 0 && l_flag)     {printf("RESERVED(_Bool)\n");
-                            } else if (strcmp(yytext,"_Complex") == 0 && l_flag)  {printf("RESERVED(_Complex)\n");
-                            } else if (strcmp(yytext,"_Imaginary") == 0 && l_flag){printf("RESERVED(_Imaginary)\n");
+                                if(strcmp(yytext,"char") == 0 && flag == 1)          {printf("CHAR\n");return CHAR;
+                            } else if (strcmp(yytext,"else") == 0 && flag == 1)      {printf("ELSE\n");return ELSE;
+                            } else if (strcmp(yytext,"while") == 0 && flag == 1)     {printf("WHILE\n");return WHILE;
+                            } else if (strcmp(yytext,"if") == 0 && flag == 1)        {printf("IF\n"); return IF;
+                            } else if (strcmp(yytext,"int") == 0 && flag == 1)       {printf("INT\n");return INT;
+                            } else if (strcmp(yytext,"short") == 0 && flag == 1)     {printf("SHORT\n");return SHORT;
+                            } else if (strcmp(yytext,"double") == 0 && flag == 1)    {printf("DOUBLE\n");return DOUBLE;
+                            } else if (strcmp(yytext,"return") == 0 && flag == 1)    {printf("RETURN\n");return RETURN;
+                            } else if (strcmp(yytext,"void") == 0 && flag == 1)      {printf("VOID\n");return VOID;
+                            } else if (strcmp(yytext,"&") == 0 && flag == 1)         {printf("BITWISEAND\n");return BITWISEAND;
+                            } else if (strcmp(yytext,"|") == 0 && flag == 1)         {printf("BITWISEOR\n");return BITWISEOR;
+                            } else if (strcmp(yytext,"^") == 0 && flag == 1)         {printf("BITWISEXOR\n");return BITWISEXOR;
+                            } else if (strcmp(yytext,"&&") == 0 && flag == 1)        {printf("AND\n");return AND;
+                            } else if (strcmp(yytext,"=") == 0 && flag == 1)         {printf("ASSIGN\n");return ASSIGN;
+                            } else if (strcmp(yytext,"*") == 0 && flag == 1)         {printf("MUL\n");return MUL;
+                            } else if (strcmp(yytext,",") == 0 && flag == 1)         {printf("COMMA\n");return COMMA;
+                            } else if (strcmp(yytext,"/") == 0 && flag == 1)         {printf("DIV\n");return DIV;
+                            } else if (strcmp(yytext,"==") == 0 && flag == 1)        {printf("EQ\n");return EQ;
+                            } else if (strcmp(yytext,">=") == 0 && flag == 1)        {printf("GE\n");return GE;
+                            } else if (strcmp(yytext,">") == 0 && flag == 1)         {printf("GT\n");return GT;
+                            } else if (strcmp(yytext,"{") == 0 && flag == 1)         {printf("LBRACE\n");return LBRACE;
+                            } else if (strcmp(yytext,"<=") == 0 && flag == 1)        {printf("LE\n");return LE;
+                            } else if (strcmp(yytext,"(") == 0 && flag == 1)         {printf("LPAR\n");return LPAR;
+                            } else if (strcmp(yytext,"<") == 0 && flag == 1)         {printf("LT\n");return LT;
+                            } else if (strcmp(yytext,"-") == 0 && flag == 1)         {printf("MINUS\n");return MINUS;
+                            } else if (strcmp(yytext,"%") == 0 && flag == 1)         {printf("MOD\n");return MOD;
+                            } else if (strcmp(yytext,"!=") == 0 && flag == 1)        {printf("NE\n");return NE;
+                            } else if (strcmp(yytext,"!") == 0 && flag == 1)         {printf("NOT\n");return NOT;
+                            } else if (strcmp(yytext,"||") == 0 && flag == 1)        {printf("OR\n");return OR;
+                            } else if (strcmp(yytext,"+") == 0 && flag == 1)         {printf("PLUS\n");return PLUS;
+                            } else if (strcmp(yytext,"}") == 0 && flag == 1)         {printf("RBRACE\n");return RBRACE;
+                            } else if (strcmp(yytext,")") == 0 && flag == 1)         {printf("RPAR\n");return RPAR;
+                            } else if (strcmp(yytext,";") == 0 && flag == 1)         {printf("SEMI\n");return SEMI;
+                            } else if (strcmp(yytext,"[") == 0 && flag == 1)         {printf("RESERVED([)\n");return RESERVED;
+                            } else if (strcmp(yytext,"]") == 0 && flag == 1)         {printf("RESERVED(])\n");return RESERVED;
+                            } else if (strcmp(yytext,"--") == 0 && flag == 1)        {printf("RESERVED(--)\n");return RESERVED;
+                            } else if (strcmp(yytext,"++") == 0 && flag == 1)        {printf("RESERVED(++)\n");return RESERVED;
+                            } else if (strcmp(yytext,"auto") == 0 && flag == 1)      {printf("RESERVED(auto)\n");return RESERVED;
+                            } else if (strcmp(yytext,"break") == 0 && flag == 1)     {printf("RESERVED(break)\n");return RESERVED;
+                            } else if (strcmp(yytext,"case") == 0 && flag == 1)      {printf("RESERVED(case)\n");return RESERVED;
+                            } else if (strcmp(yytext,"const") == 0 && flag == 1)     {printf("RESERVED(const)\n");return RESERVED;
+                            } else if (strcmp(yytext,"continue") == 0 && flag == 1)  {printf("RESERVED(continue)\n");return RESERVED;
+                            } else if (strcmp(yytext,"default") == 0 && flag == 1)   {printf("RESERVED(default)\n");return RESERVED;
+                            } else if (strcmp(yytext,"do") == 0 && flag == 1)        {printf("RESERVED(do)\n");return RESERVED;
+                            } else if (strcmp(yytext,"long") == 0 && flag == 1)      {printf("RESERVED(long)\n");return RESERVED;
+                            } else if (strcmp(yytext,"register") == 0 && flag == 1)  {printf("RESERVED(register)\n");return RESERVED;
+                            } else if (strcmp(yytext,"signed") == 0 && flag == 1)    {printf("RESERVED(signed)\n");return RESERVED;
+                            } else if (strcmp(yytext,"sizeof") == 0 && flag == 1)    {printf("RESERVED(sizeof)\n");return RESERVED;
+                            } else if (strcmp(yytext,"static") == 0 && flag == 1)    {printf("RESERVED(static)\n");return RESERVED;
+                            } else if (strcmp(yytext,"struct") == 0 && flag == 1)    {printf("RESERVED(struct)\n");return RESERVED;
+                            } else if (strcmp(yytext,"switch") == 0 && flag == 1)    {printf("RESERVED(switch)\n");return RESERVED;
+                            } else if (strcmp(yytext,"typedef") == 0 && flag == 1)   {printf("RESERVED(typedef)\n");return RESERVED;
+                            } else if (strcmp(yytext,"union") == 0 && flag == 1)     {printf("RESERVED(union)\n");return RESERVED;
+                            } else if (strcmp(yytext,"unsigned") == 0 && flag == 1)  {printf("RESERVED(unsigned)\n");return RESERVED;
+                            } else if (strcmp(yytext,"volatile") == 0 && flag == 1)  {printf("RESERVED(volatile)\n");return RESERVED;
+                            } else if (strcmp(yytext,"enum") == 0 && flag == 1)      {printf("RESERVED(enum)\n");return RESERVED;
+                            } else if (strcmp(yytext,"extern") == 0 && flag == 1)    {printf("RESERVED(extern)\n");return RESERVED;
+                            } else if (strcmp(yytext,"float") == 0 && flag == 1)     {printf("RESERVED(float)\n");return RESERVED;
+                            } else if (strcmp(yytext,"for") == 0 && flag == 1)       {printf("RESERVED(for)\n");return RESERVED;
+                            } else if (strcmp(yytext,"goto") == 0 && flag == 1)      {printf("RESERVED(goto)\n");return RESERVED;
+                            } else if (strcmp(yytext,"inline") == 0 && flag == 1)    {printf("RESERVED(inline)\n");return RESERVED;
+                            } else if (strcmp(yytext,"restrict") == 0 && flag == 1)  {printf("RESERVED(restrict)\n");return RESERVED;
+                            } else if (strcmp(yytext,"_Bool") == 0 && flag == 1)     {printf("RESERVED(_Bool)\n");return RESERVED;
+                            } else if (strcmp(yytext,"_Complex") == 0 && flag == 1)  {printf("RESERVED(_Complex)\n");return RESERVED;
+                            } else if (strcmp(yytext,"_Imaginary") == 0 && flag == 1){printf("RESERVED(_Imaginary)\n");return RESERVED;
                             }
                         }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 109 "uccompiler.l"
-{   if(l_flag)printf("IDENTIFIER(%s)\n",yytext); coluna+=yyleng;}
+#line 107 "uccompiler.l"
+{   if(flag == 1)printf("IDENTIFIER(%s)\n",yytext); coluna+=yyleng;return IDENTIFIER; } 
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 111 "uccompiler.l"
-{   if(l_flag)printf("NATURAL(%s)\n",yytext);coluna+=yyleng;}
+#line 109 "uccompiler.l"
+{   if(flag == 1)printf("NATURAL(%s)\n",yytext);coluna+=yyleng;return NATURAL; } 
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 113 "uccompiler.l"
-{   if(l_flag)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
+#line 111 "uccompiler.l"
+{   if(flag == 1)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;return DECIMAL;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 115 "uccompiler.l"
-{   if(l_flag)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
+#line 113 "uccompiler.l"
+{   if(flag == 1)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;return DECIMAL;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 117 "uccompiler.l"
-{   if(l_flag)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;}
+#line 115 "uccompiler.l"
+{   if(flag == 1)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;return DECIMAL;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 119 "uccompiler.l"
-{   if(l_flag)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng; }
+#line 117 "uccompiler.l"
+{   if(flag == 1)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;return DECIMAL; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 121 "uccompiler.l"
-{   if(l_flag)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng; }
+#line 119 "uccompiler.l"
+{   if(flag == 1)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;return DECIMAL;}
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 123 "uccompiler.l"
+#line 121 "uccompiler.l"
 {   linha++;coluna = 1;}
 	YY_BREAK
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 125 "uccompiler.l"
+#line 123 "uccompiler.l"
 {   coluna+=yyleng;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 127 "uccompiler.l"
+#line 125 "uccompiler.l"
 {   BEGIN(COMMENT); colunareserved = coluna; linhareserved = linha; coluna+=yyleng;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 128 "uccompiler.l"
+#line 126 "uccompiler.l"
 {   BEGIN(COMMENT2); colunareserved = coluna; linhareserved = linha; coluna+=yyleng;}
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 130 "uccompiler.l"
+#line 128 "uccompiler.l"
 {   coluna = 1; linha++;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 132 "uccompiler.l"
+#line 130 "uccompiler.l"
 {   BEGIN(INITIAL); coluna+=yyleng;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 134 "uccompiler.l"
+#line 132 "uccompiler.l"
 {   coluna+= yyleng; }
 	YY_BREAK
 case YY_STATE_EOF(COMMENT):
-#line 136 "uccompiler.l"
+#line 134 "uccompiler.l"
 {   
                             printf("Line %d, column %d: unterminated comment\n",linhareserved,colunareserved);
                             yyterminate();
@@ -1171,33 +1170,33 @@ case YY_STATE_EOF(COMMENT):
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 141 "uccompiler.l"
+#line 139 "uccompiler.l"
 {   coluna+=yyleng;}
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 142 "uccompiler.l"
+#line 140 "uccompiler.l"
 {   BEGIN(INITIAL); coluna = 1; linha++;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 144 "uccompiler.l"
-{if(l_flag) printf("CHRLIT(%s)\n", yytext); coluna += yyleng;}
+#line 142 "uccompiler.l"
+{if(flag == 1) printf("CHRLIT(%s)\n", yytext); coluna += yyleng;return CHRLIT;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 145 "uccompiler.l"
+#line 143 "uccompiler.l"
 {printf("Line %d, column %d: unterminated char constant\n", linha, coluna); coluna += yyleng; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 146 "uccompiler.l"
+#line 144 "uccompiler.l"
 {printf("Line %d, column %d: invalid char constant (%s)\n", linha, coluna, yytext); coluna += yyleng; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 147 "uccompiler.l"
+#line 145 "uccompiler.l"
 { 
                                         printf("Line %d, column %d: unrecognized character (%s)\n",linha,coluna,yytext);
                                         coluna+=yyleng;  
@@ -1205,10 +1204,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 152 "uccompiler.l"
+#line 150 "uccompiler.l"
 ECHO;
 	YY_BREAK
-#line 1212 "lex.yy.c"
+#line 1211 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT2):
 	yyterminate();
@@ -2214,15 +2213,17 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 152 "uccompiler.l"
+#line 150 "uccompiler.l"
 
 
 extern int yylex();
 int main(int argc, char* argv[]) {
     for(int i=1; i<argc; i++){
         if(strcmp(argv[i], "-l") == 0){
-            l_flag = 1;
-        }else{
+            flag = 1;
+        }else if (strcmp(argv[i], "-t") == 0){
+            flag = 2;
+        } else{
             printf("Invalid argument: %s\n", argv[i]);
         }
     }
@@ -2232,4 +2233,3 @@ int main(int argc, char* argv[]) {
 int yywrap() {  /* called on EOF, return 1 to terminate */
     return 1;
 }
-

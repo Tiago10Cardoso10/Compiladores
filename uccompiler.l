@@ -1,8 +1,12 @@
 %{
+
 /*
 Henrique José Correia Brás - 2021229812
 Tiago Rafael Cardoso Santos - 2021229679
 */
+
+#include "y.tab.h"
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <ctype.h>
@@ -135,7 +139,7 @@ enter       (\n|\r|\n\r)
 <COMMENT2>.             {   coluna+=yyleng;}
 <COMMENT2>\n|\r|(\n\r)  {   BEGIN(INITIAL); coluna = 1; linha++;}
 
-\'{chrlit}\'                        {if(flag == 1) printf("CHRLIT(%s)\n", yytext); coluna += yyleng;return CHRLIT}
+\'{chrlit}\'                        {if(flag == 1) printf("CHRLIT(%s)\n", yytext); coluna += yyleng;return CHRLIT;}
 '(({chrlit})*|([^\n\r'])*)          {printf("Line %d, column %d: unterminated char constant\n", linha, coluna); coluna += yyleng; }
 '({chrlit}|\\[^\n'])*'              {printf("Line %d, column %d: invalid char constant (%s)\n", linha, coluna, yytext); coluna += yyleng; }
 .                                   { 

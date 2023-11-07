@@ -69,12 +69,42 @@
 /* First part of user prologue.  */
 #line 1 "uccompiler.y"
 
-#include <stdio.h>
-extern int yylex(void);
-void yyerror(char *);
-extern char *yytext;
+/*
+Henrique José Correia Brás - 2021229812
+Tiago Rafael Cardoso Santos - 2021229679
+*/
 
-#line 78 "y.tab.c"
+#include <stdio.h>
+#include <stdbool.h>
+#include <ctype.h>
+#include <string.h>
+
+ typedef enum{
+        no_raiz,
+        no_declaracao,
+        no_metodos,
+        no_statements,
+        no_operadores,
+        no_terminais,
+        no_id
+    } tipo_no;
+
+    typedef struct no * node;
+    typedef struct no{
+        node pai;
+        node filho;
+        node irmao;
+        tipo_no no_tipo;
+        char *valor;           
+        char *tipo;            
+        int num_filhos;
+    } no;
+
+    int yylex(void);
+    void yyerror(const char *s);
+
+
+#line 108 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -118,46 +148,44 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    CHAR = 258,                    /* CHAR  */
-    INT = 259,                     /* INT  */
-    VOID = 260,                    /* VOID  */
-    SHORT = 261,                   /* SHORT  */
-    DOUBLE = 262,                  /* DOUBLE  */
-    IDENTIFIER = 263,              /* IDENTIFIER  */
-    NATURAL = 264,                 /* NATURAL  */
-    CHRLIT = 265,                  /* CHRLIT  */
-    DECIMAL = 266,                 /* DECIMAL  */
-    LPAR = 267,                    /* LPAR  */
-    RPAR = 268,                    /* RPAR  */
-    LBRACE = 269,                  /* LBRACE  */
-    RBRACE = 270,                  /* RBRACE  */
-    LBRACKET = 271,                /* LBRACKET  */
-    RBRACKET = 272,                /* RBRACKET  */
-    SEMI = 273,                    /* SEMI  */
-    COMMA = 274,                   /* COMMA  */
-    ASSIGN = 275,                  /* ASSIGN  */
-    PLUS = 276,                    /* PLUS  */
-    MINUS = 277,                   /* MINUS  */
-    MUL = 278,                     /* MUL  */
-    DIV = 279,                     /* DIV  */
-    MOD = 280,                     /* MOD  */
-    OR = 281,                      /* OR  */
-    AND = 282,                     /* AND  */
-    BITWISEAND = 283,              /* BITWISEAND  */
-    BITWISEOR = 284,               /* BITWISEOR  */
-    BITWISEXOR = 285,              /* BITWISEXOR  */
-    EQ = 286,                      /* EQ  */
-    NE = 287,                      /* NE  */
-    LE = 288,                      /* LE  */
-    GE = 289,                      /* GE  */
+    PLUS = 258,                    /* PLUS  */
+    MINUS = 259,                   /* MINUS  */
+    MUL = 260,                     /* MUL  */
+    DIV = 261,                     /* DIV  */
+    ASSIGN = 262,                  /* ASSIGN  */
+    COMMA = 263,                   /* COMMA  */
+    SEMI = 264,                    /* SEMI  */
+    LPAR = 265,                    /* LPAR  */
+    RPAR = 266,                    /* RPAR  */
+    LBRACE = 267,                  /* LBRACE  */
+    RBRACE = 268,                  /* RBRACE  */
+    CHAR = 269,                    /* CHAR  */
+    INT = 270,                     /* INT  */
+    VOID = 271,                    /* VOID  */
+    SHORT = 272,                   /* SHORT  */
+    DOUBLE = 273,                  /* DOUBLE  */
+    IF = 274,                      /* IF  */
+    ELSE = 275,                    /* ELSE  */
+    WHILE = 276,                   /* WHILE  */
+    RETURN = 277,                  /* RETURN  */
+    RESERVED = 278,                /* RESERVED  */
+    IDENTIFIER = 279,              /* IDENTIFIER  */
+    NATURAL = 280,                 /* NATURAL  */
+    DECIMAL = 281,                 /* DECIMAL  */
+    CHRLIT = 282,                  /* CHRLIT  */
+    OR = 283,                      /* OR  */
+    AND = 284,                     /* AND  */
+    BITWISEOR = 285,               /* BITWISEOR  */
+    BITWISEXOR = 286,              /* BITWISEXOR  */
+    BITWISEAND = 287,              /* BITWISEAND  */
+    EQ = 288,                      /* EQ  */
+    NE = 289,                      /* NE  */
     LT = 290,                      /* LT  */
     GT = 291,                      /* GT  */
-    NOT = 292,                     /* NOT  */
-    IF = 293,                      /* IF  */
-    ELSE = 294,                    /* ELSE  */
-    WHILE = 295,                   /* WHILE  */
-    RETURN = 296,                  /* RETURN  */
-    LOWER_THAN_ELSE = 297          /* LOWER_THAN_ELSE  */
+    LE = 292,                      /* LE  */
+    GE = 293,                      /* GE  */
+    MOD = 294,                     /* MOD  */
+    NOT = 295                      /* NOT  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -166,50 +194,58 @@ extern int yydebug;
 #define YYEOF 0
 #define YYerror 256
 #define YYUNDEF 257
-#define CHAR 258
-#define INT 259
-#define VOID 260
-#define SHORT 261
-#define DOUBLE 262
-#define IDENTIFIER 263
-#define NATURAL 264
-#define CHRLIT 265
-#define DECIMAL 266
-#define LPAR 267
-#define RPAR 268
-#define LBRACE 269
-#define RBRACE 270
-#define LBRACKET 271
-#define RBRACKET 272
-#define SEMI 273
-#define COMMA 274
-#define ASSIGN 275
-#define PLUS 276
-#define MINUS 277
-#define MUL 278
-#define DIV 279
-#define MOD 280
-#define OR 281
-#define AND 282
-#define BITWISEAND 283
-#define BITWISEOR 284
-#define BITWISEXOR 285
-#define EQ 286
-#define NE 287
-#define LE 288
-#define GE 289
+#define PLUS 258
+#define MINUS 259
+#define MUL 260
+#define DIV 261
+#define ASSIGN 262
+#define COMMA 263
+#define SEMI 264
+#define LPAR 265
+#define RPAR 266
+#define LBRACE 267
+#define RBRACE 268
+#define CHAR 269
+#define INT 270
+#define VOID 271
+#define SHORT 272
+#define DOUBLE 273
+#define IF 274
+#define ELSE 275
+#define WHILE 276
+#define RETURN 277
+#define RESERVED 278
+#define IDENTIFIER 279
+#define NATURAL 280
+#define DECIMAL 281
+#define CHRLIT 282
+#define OR 283
+#define AND 284
+#define BITWISEOR 285
+#define BITWISEXOR 286
+#define BITWISEAND 287
+#define EQ 288
+#define NE 289
 #define LT 290
 #define GT 291
-#define NOT 292
-#define IF 293
-#define ELSE 294
-#define WHILE 295
-#define RETURN 296
-#define LOWER_THAN_ELSE 297
+#define LE 292
+#define GE 293
+#define MOD 294
+#define NOT 295
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 38 "uccompiler.y"
+
+    char *v;
+    struct no *no;
+
+#line 246 "y.tab.c"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -229,65 +265,63 @@ enum yysymbol_kind_t
   YYSYMBOL_YYEOF = 0,                      /* "end of file"  */
   YYSYMBOL_YYerror = 1,                    /* error  */
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
-  YYSYMBOL_CHAR = 3,                       /* CHAR  */
-  YYSYMBOL_INT = 4,                        /* INT  */
-  YYSYMBOL_VOID = 5,                       /* VOID  */
-  YYSYMBOL_SHORT = 6,                      /* SHORT  */
-  YYSYMBOL_DOUBLE = 7,                     /* DOUBLE  */
-  YYSYMBOL_IDENTIFIER = 8,                 /* IDENTIFIER  */
-  YYSYMBOL_NATURAL = 9,                    /* NATURAL  */
-  YYSYMBOL_CHRLIT = 10,                    /* CHRLIT  */
-  YYSYMBOL_DECIMAL = 11,                   /* DECIMAL  */
-  YYSYMBOL_LPAR = 12,                      /* LPAR  */
-  YYSYMBOL_RPAR = 13,                      /* RPAR  */
-  YYSYMBOL_LBRACE = 14,                    /* LBRACE  */
-  YYSYMBOL_RBRACE = 15,                    /* RBRACE  */
-  YYSYMBOL_LBRACKET = 16,                  /* LBRACKET  */
-  YYSYMBOL_RBRACKET = 17,                  /* RBRACKET  */
-  YYSYMBOL_SEMI = 18,                      /* SEMI  */
-  YYSYMBOL_COMMA = 19,                     /* COMMA  */
-  YYSYMBOL_ASSIGN = 20,                    /* ASSIGN  */
-  YYSYMBOL_PLUS = 21,                      /* PLUS  */
-  YYSYMBOL_MINUS = 22,                     /* MINUS  */
-  YYSYMBOL_MUL = 23,                       /* MUL  */
-  YYSYMBOL_DIV = 24,                       /* DIV  */
-  YYSYMBOL_MOD = 25,                       /* MOD  */
-  YYSYMBOL_OR = 26,                        /* OR  */
-  YYSYMBOL_AND = 27,                       /* AND  */
-  YYSYMBOL_BITWISEAND = 28,                /* BITWISEAND  */
-  YYSYMBOL_BITWISEOR = 29,                 /* BITWISEOR  */
-  YYSYMBOL_BITWISEXOR = 30,                /* BITWISEXOR  */
-  YYSYMBOL_EQ = 31,                        /* EQ  */
-  YYSYMBOL_NE = 32,                        /* NE  */
-  YYSYMBOL_LE = 33,                        /* LE  */
-  YYSYMBOL_GE = 34,                        /* GE  */
+  YYSYMBOL_PLUS = 3,                       /* PLUS  */
+  YYSYMBOL_MINUS = 4,                      /* MINUS  */
+  YYSYMBOL_MUL = 5,                        /* MUL  */
+  YYSYMBOL_DIV = 6,                        /* DIV  */
+  YYSYMBOL_ASSIGN = 7,                     /* ASSIGN  */
+  YYSYMBOL_COMMA = 8,                      /* COMMA  */
+  YYSYMBOL_SEMI = 9,                       /* SEMI  */
+  YYSYMBOL_LPAR = 10,                      /* LPAR  */
+  YYSYMBOL_RPAR = 11,                      /* RPAR  */
+  YYSYMBOL_LBRACE = 12,                    /* LBRACE  */
+  YYSYMBOL_RBRACE = 13,                    /* RBRACE  */
+  YYSYMBOL_CHAR = 14,                      /* CHAR  */
+  YYSYMBOL_INT = 15,                       /* INT  */
+  YYSYMBOL_VOID = 16,                      /* VOID  */
+  YYSYMBOL_SHORT = 17,                     /* SHORT  */
+  YYSYMBOL_DOUBLE = 18,                    /* DOUBLE  */
+  YYSYMBOL_IF = 19,                        /* IF  */
+  YYSYMBOL_ELSE = 20,                      /* ELSE  */
+  YYSYMBOL_WHILE = 21,                     /* WHILE  */
+  YYSYMBOL_RETURN = 22,                    /* RETURN  */
+  YYSYMBOL_RESERVED = 23,                  /* RESERVED  */
+  YYSYMBOL_IDENTIFIER = 24,                /* IDENTIFIER  */
+  YYSYMBOL_NATURAL = 25,                   /* NATURAL  */
+  YYSYMBOL_DECIMAL = 26,                   /* DECIMAL  */
+  YYSYMBOL_CHRLIT = 27,                    /* CHRLIT  */
+  YYSYMBOL_OR = 28,                        /* OR  */
+  YYSYMBOL_AND = 29,                       /* AND  */
+  YYSYMBOL_BITWISEOR = 30,                 /* BITWISEOR  */
+  YYSYMBOL_BITWISEXOR = 31,                /* BITWISEXOR  */
+  YYSYMBOL_BITWISEAND = 32,                /* BITWISEAND  */
+  YYSYMBOL_EQ = 33,                        /* EQ  */
+  YYSYMBOL_NE = 34,                        /* NE  */
   YYSYMBOL_LT = 35,                        /* LT  */
   YYSYMBOL_GT = 36,                        /* GT  */
-  YYSYMBOL_NOT = 37,                       /* NOT  */
-  YYSYMBOL_IF = 38,                        /* IF  */
-  YYSYMBOL_ELSE = 39,                      /* ELSE  */
-  YYSYMBOL_WHILE = 40,                     /* WHILE  */
-  YYSYMBOL_RETURN = 41,                    /* RETURN  */
-  YYSYMBOL_LOWER_THAN_ELSE = 42,           /* LOWER_THAN_ELSE  */
-  YYSYMBOL_43_ = 43,                       /* '+'  */
-  YYSYMBOL_44_ = 44,                       /* '-'  */
-  YYSYMBOL_YYACCEPT = 45,                  /* $accept  */
-  YYSYMBOL_FunctionsAndDeclarations = 46,  /* FunctionsAndDeclarations  */
-  YYSYMBOL_FunctionDefinition = 47,        /* FunctionDefinition  */
-  YYSYMBOL_FunctionBody = 48,              /* FunctionBody  */
-  YYSYMBOL_DeclarationsAndStatements = 49, /* DeclarationsAndStatements  */
-  YYSYMBOL_FunctionDeclaration = 50,       /* FunctionDeclaration  */
-  YYSYMBOL_FunctionDeclarator = 51,        /* FunctionDeclarator  */
-  YYSYMBOL_ParameterList = 52,             /* ParameterList  */
-  YYSYMBOL_ParameterDeclaration = 53,      /* ParameterDeclaration  */
-  YYSYMBOL_Declaration = 54,               /* Declaration  */
-  YYSYMBOL_TypeSpec = 55,                  /* TypeSpec  */
-  YYSYMBOL_DeclaratorList = 56,            /* DeclaratorList  */
-  YYSYMBOL_Declarator = 57,                /* Declarator  */
-  YYSYMBOL_Statement = 58,                 /* Statement  */
-  YYSYMBOL_Statements = 59,                /* Statements  */
-  YYSYMBOL_Expr = 60,                      /* Expr  */
-  YYSYMBOL_ExprList = 61                   /* ExprList  */
+  YYSYMBOL_LE = 37,                        /* LE  */
+  YYSYMBOL_GE = 38,                        /* GE  */
+  YYSYMBOL_MOD = 39,                       /* MOD  */
+  YYSYMBOL_NOT = 40,                       /* NOT  */
+  YYSYMBOL_YYACCEPT = 41,                  /* $accept  */
+  YYSYMBOL_FunctionsAndDeclarations = 42,  /* FunctionsAndDeclarations  */
+  YYSYMBOL_FunctionOrDeclaration = 43,     /* FunctionOrDeclaration  */
+  YYSYMBOL_FunctionDefinition = 44,        /* FunctionDefinition  */
+  YYSYMBOL_FunctionBody = 45,              /* FunctionBody  */
+  YYSYMBOL_OpcionalDeclarationAndStatements = 46, /* OpcionalDeclarationAndStatements  */
+  YYSYMBOL_DeclarationsAndStatements = 47, /* DeclarationsAndStatements  */
+  YYSYMBOL_FunctionDeclaration = 48,       /* FunctionDeclaration  */
+  YYSYMBOL_FunctionDeclarator = 49,        /* FunctionDeclarator  */
+  YYSYMBOL_ParameterList = 50,             /* ParameterList  */
+  YYSYMBOL_ParameterDeclaration = 51,      /* ParameterDeclaration  */
+  YYSYMBOL_Declaration = 52,               /* Declaration  */
+  YYSYMBOL_DeclaratorList = 53,            /* DeclaratorList  */
+  YYSYMBOL_TypeSpec = 54,                  /* TypeSpec  */
+  YYSYMBOL_Declarator = 55,                /* Declarator  */
+  YYSYMBOL_Statement = 56,                 /* Statement  */
+  YYSYMBOL_Statements = 57,                /* Statements  */
+  YYSYMBOL_Expr = 58,                      /* Expr  */
+  YYSYMBOL_ArgumentExpr = 59               /* ArgumentExpr  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -613,21 +647,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  11
+#define YYFINAL  12
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   297
+#define YYLAST   465
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  45
+#define YYNTOKENS  41
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  17
+#define YYNNTS  19
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  67
+#define YYNRULES  70
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  123
+#define YYNSTATES  122
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   297
+#define YYMAXUTOK   295
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -645,7 +679,7 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    43,     2,    44,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -670,20 +704,21 @@ static const yytype_int8 yytranslate[] =
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42
+      35,    36,    37,    38,    39,    40
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int8 yyrline[] =
+static const yytype_uint8 yyrline[] =
 {
-       0,    18,    18,    19,    20,    21,    22,    23,    25,    27,
-      29,    30,    31,    32,    34,    36,    38,    39,    41,    42,
-      44,    46,    47,    48,    49,    50,    52,    53,    55,    56,
-      58,    59,    60,    61,    62,    63,    64,    66,    67,    69,
-      70,    71,    72,    73,    74,    75,    76,    77,    78,    79,
-      80,    81,    82,    83,    84,    85,    86,    87,    88,    89,
-      90,    91,    92,    93,    94,    95,    97,    98
+       0,    66,    66,    67,    71,    72,    73,    77,    81,    84,
+      85,    89,    90,    91,    92,    96,   100,   104,   105,   109,
+     110,   114,   118,   119,   123,   124,   125,   126,   127,   131,
+     132,   136,   137,   138,   139,   140,   141,   142,   143,   146,
+     147,   151,   152,   154,   155,   156,   157,   158,   160,   161,
+     162,   163,   164,   166,   167,   168,   169,   170,   171,   173,
+     174,   175,   177,   178,   180,   181,   182,   183,   184,   188,
+     189
 };
 #endif
 
@@ -699,17 +734,17 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "\"end of file\"", "error", "\"invalid token\"", "CHAR", "INT", "VOID",
-  "SHORT", "DOUBLE", "IDENTIFIER", "NATURAL", "CHRLIT", "DECIMAL", "LPAR",
-  "RPAR", "LBRACE", "RBRACE", "LBRACKET", "RBRACKET", "SEMI", "COMMA",
-  "ASSIGN", "PLUS", "MINUS", "MUL", "DIV", "MOD", "OR", "AND",
-  "BITWISEAND", "BITWISEOR", "BITWISEXOR", "EQ", "NE", "LE", "GE", "LT",
-  "GT", "NOT", "IF", "ELSE", "WHILE", "RETURN", "LOWER_THAN_ELSE", "'+'",
-  "'-'", "$accept", "FunctionsAndDeclarations", "FunctionDefinition",
-  "FunctionBody", "DeclarationsAndStatements", "FunctionDeclaration",
-  "FunctionDeclarator", "ParameterList", "ParameterDeclaration",
-  "Declaration", "TypeSpec", "DeclaratorList", "Declarator", "Statement",
-  "Statements", "Expr", "ExprList", YY_NULLPTR
+  "\"end of file\"", "error", "\"invalid token\"", "PLUS", "MINUS", "MUL",
+  "DIV", "ASSIGN", "COMMA", "SEMI", "LPAR", "RPAR", "LBRACE", "RBRACE",
+  "CHAR", "INT", "VOID", "SHORT", "DOUBLE", "IF", "ELSE", "WHILE",
+  "RETURN", "RESERVED", "IDENTIFIER", "NATURAL", "DECIMAL", "CHRLIT", "OR",
+  "AND", "BITWISEOR", "BITWISEXOR", "BITWISEAND", "EQ", "NE", "LT", "GT",
+  "LE", "GE", "MOD", "NOT", "$accept", "FunctionsAndDeclarations",
+  "FunctionOrDeclaration", "FunctionDefinition", "FunctionBody",
+  "OpcionalDeclarationAndStatements", "DeclarationsAndStatements",
+  "FunctionDeclaration", "FunctionDeclarator", "ParameterList",
+  "ParameterDeclaration", "Declaration", "DeclaratorList", "TypeSpec",
+  "Declarator", "Statement", "Statements", "Expr", "ArgumentExpr", YY_NULLPTR
 };
 
 static const char *
@@ -719,7 +754,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-36)
+#define YYPACT_NINF (-58)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -733,19 +768,19 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-      56,   -36,   -36,   -36,   -36,   -36,    22,   -36,   -36,   -36,
-      -5,   -36,   -36,   -36,   -36,   -11,    -8,    -6,    -2,    56,
-     120,    62,   -36,   -36,   -36,    15,    17,    12,    25,    23,
-     -36,   -36,   -36,   120,   120,   120,   120,   243,    96,    24,
-      52,   103,    19,    62,    15,    62,   206,    55,   -36,   -36,
-      56,   -36,   120,   139,   243,   243,   243,   120,   120,   120,
-     120,   120,   120,   120,   120,   120,   120,   120,   120,   120,
-     120,   120,   120,   120,   120,    96,    63,   120,   120,   -36,
-     225,   -36,   -36,   -36,   -36,   -36,   261,    64,   -36,   243,
-     243,   243,   243,   243,   243,   243,   243,   243,   243,   243,
-     243,   243,   243,   243,   243,   243,   243,   -36,   -36,   163,
-     187,   -36,   120,   -36,    96,    96,   261,   -36,   -35,   -36,
-      96,   -36,   -36
+     143,   -58,   -58,   -58,   -58,   -58,    11,   -58,   -58,   -58,
+     -58,   -19,   -58,   -58,    28,     5,    14,   -58,   146,   143,
+     -58,    61,   -58,   -12,   -58,   146,   146,   146,     6,   -58,
+     -58,   -58,   146,   319,    10,   -58,    33,   -58,   -58,    48,
+      57,   115,    55,   -58,    61,   -12,    61,   171,    65,   -58,
+      -3,   282,   -58,   184,   142,    85,   146,   146,   146,   146,
+     146,   146,   146,   146,   146,   146,   146,   146,   146,   146,
+     146,   146,   146,   146,   143,   -58,   -58,    86,   146,   146,
+     -58,   221,   -58,   -58,   -58,   -58,   146,   -58,   -58,    73,
+      -3,    -3,    85,    85,    85,   319,   330,   367,   376,   384,
+     421,   426,   426,    27,    27,    27,    27,    85,   -58,   -58,
+     -58,   233,   270,   -58,   319,   -58,   111,   111,    74,   -58,
+     111,   -58
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -753,33 +788,33 @@ static const yytype_int16 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,    21,    22,    23,    24,    25,     0,     2,     3,     4,
-       0,     1,     5,     6,     7,    28,     0,     0,    26,     0,
-       0,     0,    14,     8,    20,     0,     0,    16,    19,    61,
-      62,    63,    64,     0,     0,     0,     0,    29,     0,     0,
-       0,     0,     0,    13,     0,    12,     0,    28,    27,    15,
-       0,    18,     0,     0,    57,    58,    59,     0,     0,     0,
+       0,    24,    25,    26,    27,    28,     0,     2,     4,     5,
+       6,     0,     1,     3,    29,     0,     0,    22,     0,     0,
+      15,     9,     7,     0,    21,     0,     0,     0,    64,    65,
+      67,    66,     0,    30,     0,    17,    20,    31,    39,     0,
+       0,     0,     0,    10,    14,     0,    13,     0,    29,    23,
+      59,    69,    60,     0,     0,    61,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,    37,     0,     0,     0,    35,
-       0,     9,    11,    10,    30,    17,    66,     0,    65,    40,
-      39,    41,    42,    43,    44,    45,    46,    47,    48,    49,
-      50,    51,    52,    53,    54,    55,    56,    38,    31,     0,
-       0,    36,     0,    60,     0,     0,    40,    67,     0,    34,
-       0,    32,    33
+       0,     0,     0,     0,     0,    16,    19,     0,     0,     0,
+      37,     0,     8,    12,    11,    32,     0,    68,    62,     0,
+      43,    44,    45,    46,    41,    42,    48,    49,    51,    52,
+      50,    53,    54,    57,    58,    55,    56,    47,    18,    33,
+      40,     0,     0,    38,    70,    63,     0,     0,    34,    36,
+       0,    35
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -36,   -36,    73,   -36,   -25,    74,   -36,    31,   -36,     2,
-       5,    57,   -36,   -19,    10,   -20,   -26
+     -58,   -58,    91,   -58,   -58,   -58,    47,   -58,   -58,   -58,
+      26,     7,   -58,     0,    79,   -57,   -58,   -17,    49
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     6,     7,    23,    42,     8,    16,    26,    27,    43,
-      44,    17,    18,    45,    76,    46,    87
+       0,     6,     7,     8,    22,    42,    43,     9,    15,    34,
+      35,    44,    16,    45,    17,    46,    77,    47,    52
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -787,113 +822,149 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      37,    19,     9,    15,   120,    10,    21,   121,    14,    20,
-      22,    10,    24,    53,    54,    55,    56,    25,    82,    75,
-      83,    80,    11,    47,    28,     1,     2,     3,     4,     5,
-      49,    50,    86,    51,    81,    52,    77,    89,    90,    91,
-      92,    93,    94,    95,    96,    97,    98,    99,   100,   101,
-     102,   103,   104,   105,   106,    28,    75,   109,   110,     1,
-       2,     3,     4,     5,    78,     1,     2,     3,     4,     5,
-      29,    30,    31,    32,    33,    20,    38,   113,   108,    12,
-      13,    85,    48,    34,    35,   107,   117,     0,     0,     0,
-       0,     0,   116,     0,     0,   118,   119,     0,     0,    36,
-      39,   122,    40,    41,    29,    30,    31,    32,    33,     0,
-      38,    29,    30,    31,    32,    33,     0,    34,    35,     0,
-       0,    79,     0,     0,    34,    35,     0,     0,    29,    30,
-      31,    32,    33,    36,    39,     0,    40,    41,     0,     0,
-      36,    34,    35,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,    88,     0,     0,     0,     0,    36,    57,    58,
-      59,    60,    61,    62,    63,    64,    65,    66,    67,    68,
-      69,    70,    71,    72,    73,    74,   114,     0,     0,     0,
-       0,     0,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,    67,    68,    69,    70,    71,    72,    73,    74,
-     115,     0,     0,     0,     0,     0,    57,    58,    59,    60,
-      61,    62,    63,    64,    65,    66,    67,    68,    69,    70,
-      71,    72,    73,    74,    84,    57,    58,    59,    60,    61,
-      62,    63,    64,    65,    66,    67,    68,    69,    70,    71,
-      72,    73,    74,   111,    57,    58,    59,    60,    61,    62,
+      11,    33,    58,    59,    60,    14,    11,    10,    50,    51,
+      53,    12,    48,    10,    20,    55,    54,    21,    74,    36,
+     110,    75,    23,    24,    81,     1,     2,     3,     4,     5,
+      56,    57,    58,    59,    60,    18,    73,    51,    19,    90,
+      91,    92,    93,    94,    95,    96,    97,    98,    99,   100,
+     101,   102,   103,   104,   105,   106,   107,    76,    78,   118,
+     119,   111,   112,   121,    25,    26,    73,    79,    82,   114,
+      37,    27,    18,    38,    36,     1,     2,     3,     4,     5,
+      39,    86,    40,    41,   115,    28,    29,    30,    31,    25,
+      26,    83,    60,    84,   120,    37,    27,    13,    38,   109,
+     108,    32,    49,    89,     0,    39,     0,    40,    41,     0,
+      28,    29,    30,    31,    25,    26,     0,     0,    25,    26,
+      37,    27,     0,    38,    80,    27,    32,     0,     0,     0,
+      39,     0,    40,    41,     0,    28,    29,    30,    31,    28,
+      29,    30,    31,     0,     0,    25,    26,     0,     0,    25,
+      26,    32,    27,    88,     0,    32,    27,     1,     2,     3,
+       4,     5,     0,     0,     0,     0,    28,    29,    30,    31,
+      28,    29,    30,    31,    56,    57,    58,    59,    60,    61,
+      85,     0,    32,     0,     0,     0,    32,    56,    57,    58,
+      59,    60,    61,     0,     0,    87,     0,     0,     0,    62,
       63,    64,    65,    66,    67,    68,    69,    70,    71,    72,
-      73,    74,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,    67,    68,    69,    70,    71,    72,    73,    74,
-     112,    58,    59,    60,    61,    62,    63,    64,    65,    66,
-      67,    68,    69,    70,    71,    72,    73,    74
+      73,     0,    62,    63,    64,    65,    66,    67,    68,    69,
+      70,    71,    72,    73,    56,    57,    58,    59,    60,    61,
+     113,     0,     0,     0,     0,     0,    56,    57,    58,    59,
+      60,    61,     0,     0,   116,     0,     0,     0,     0,    62,
+      63,    64,    65,    66,    67,    68,    69,    70,    71,    72,
+      73,    62,    63,    64,    65,    66,    67,    68,    69,    70,
+      71,    72,    73,    56,    57,    58,    59,    60,    61,     0,
+       0,   117,     0,     0,     0,    56,    57,    58,    59,    60,
+      61,     0,     0,     0,     0,     0,     0,     0,    62,    63,
+      64,    65,    66,    67,    68,    69,    70,    71,    72,    73,
+      62,    63,    64,    65,    66,    67,    68,    69,    70,    71,
+      72,    73,    56,    57,    58,    59,    60,     0,     0,     0,
+       0,     0,     0,    56,    57,    58,    59,    60,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,    62,    63,    64,
+      65,    66,    67,    68,    69,    70,    71,    72,    73,    63,
+      64,    65,    66,    67,    68,    69,    70,    71,    72,    73,
+      56,    57,    58,    59,    60,     0,     0,     0,     0,    56,
+      57,    58,    59,    60,     0,     0,     0,    56,    57,    58,
+      59,    60,     0,     0,     0,     0,     0,    64,    65,    66,
+      67,    68,    69,    70,    71,    72,    73,    65,    66,    67,
+      68,    69,    70,    71,    72,    73,    66,    67,    68,    69,
+      70,    71,    72,    73,    56,    57,    58,    59,    60,    56,
+      57,    58,    59,    60,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,    67,    68,    69,    70,    71,    72,
+      73,    69,    70,    71,    72,    73
 };
 
 static const yytype_int8 yycheck[] =
 {
-      20,    12,     0,     8,    39,     0,    14,    42,     6,    20,
-      18,     6,    18,    33,    34,    35,    36,    19,    43,    38,
-      45,    41,     0,     8,    19,     3,     4,     5,     6,     7,
-      13,    19,    52,     8,    15,    12,    12,    57,    58,    59,
-      60,    61,    62,    63,    64,    65,    66,    67,    68,    69,
-      70,    71,    72,    73,    74,    50,    75,    77,    78,     3,
-       4,     5,     6,     7,    12,     3,     4,     5,     6,     7,
-       8,     9,    10,    11,    12,    20,    14,    13,    15,     6,
-       6,    50,    25,    21,    22,    75,   112,    -1,    -1,    -1,
-      -1,    -1,   112,    -1,    -1,   114,   115,    -1,    -1,    37,
-      38,   120,    40,    41,     8,     9,    10,    11,    12,    -1,
-      14,     8,     9,    10,    11,    12,    -1,    21,    22,    -1,
-      -1,    18,    -1,    -1,    21,    22,    -1,    -1,     8,     9,
-      10,    11,    12,    37,    38,    -1,    40,    41,    -1,    -1,
-      37,    21,    22,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    13,    -1,    -1,    -1,    -1,    37,    19,    20,
-      21,    22,    23,    24,    25,    26,    27,    28,    29,    30,
-      31,    32,    33,    34,    35,    36,    13,    -1,    -1,    -1,
-      -1,    -1,    19,    20,    21,    22,    23,    24,    25,    26,
-      27,    28,    29,    30,    31,    32,    33,    34,    35,    36,
-      13,    -1,    -1,    -1,    -1,    -1,    19,    20,    21,    22,
-      23,    24,    25,    26,    27,    28,    29,    30,    31,    32,
-      33,    34,    35,    36,    18,    19,    20,    21,    22,    23,
-      24,    25,    26,    27,    28,    29,    30,    31,    32,    33,
-      34,    35,    36,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    19,    20,    21,    22,    23,    24,    25,    26,
-      27,    28,    29,    30,    31,    32,    33,    34,    35,    36,
-      19,    20,    21,    22,    23,    24,    25,    26,    27,    28,
-      29,    30,    31,    32,    33,    34,    35,    36
+       0,    18,     5,     6,     7,    24,     6,     0,    25,    26,
+      27,     0,    24,     6,     9,    32,    10,    12,     8,    19,
+      77,    11,     8,     9,    41,    14,    15,    16,    17,    18,
+       3,     4,     5,     6,     7,     7,    39,    54,    10,    56,
+      57,    58,    59,    60,    61,    62,    63,    64,    65,    66,
+      67,    68,    69,    70,    71,    72,    73,    24,    10,   116,
+     117,    78,    79,   120,     3,     4,    39,    10,    13,    86,
+       9,    10,     7,    12,    74,    14,    15,    16,    17,    18,
+      19,     8,    21,    22,    11,    24,    25,    26,    27,     3,
+       4,    44,     7,    46,    20,     9,    10,     6,    12,    13,
+      74,    40,    23,    54,    -1,    19,    -1,    21,    22,    -1,
+      24,    25,    26,    27,     3,     4,    -1,    -1,     3,     4,
+       9,    10,    -1,    12,     9,    10,    40,    -1,    -1,    -1,
+      19,    -1,    21,    22,    -1,    24,    25,    26,    27,    24,
+      25,    26,    27,    -1,    -1,     3,     4,    -1,    -1,     3,
+       4,    40,    10,    11,    -1,    40,    10,    14,    15,    16,
+      17,    18,    -1,    -1,    -1,    -1,    24,    25,    26,    27,
+      24,    25,    26,    27,     3,     4,     5,     6,     7,     8,
+       9,    -1,    40,    -1,    -1,    -1,    40,     3,     4,     5,
+       6,     7,     8,    -1,    -1,    11,    -1,    -1,    -1,    28,
+      29,    30,    31,    32,    33,    34,    35,    36,    37,    38,
+      39,    -1,    28,    29,    30,    31,    32,    33,    34,    35,
+      36,    37,    38,    39,     3,     4,     5,     6,     7,     8,
+       9,    -1,    -1,    -1,    -1,    -1,     3,     4,     5,     6,
+       7,     8,    -1,    -1,    11,    -1,    -1,    -1,    -1,    28,
+      29,    30,    31,    32,    33,    34,    35,    36,    37,    38,
+      39,    28,    29,    30,    31,    32,    33,    34,    35,    36,
+      37,    38,    39,     3,     4,     5,     6,     7,     8,    -1,
+      -1,    11,    -1,    -1,    -1,     3,     4,     5,     6,     7,
+       8,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    28,    29,
+      30,    31,    32,    33,    34,    35,    36,    37,    38,    39,
+      28,    29,    30,    31,    32,    33,    34,    35,    36,    37,
+      38,    39,     3,     4,     5,     6,     7,    -1,    -1,    -1,
+      -1,    -1,    -1,     3,     4,     5,     6,     7,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    28,    29,    30,
+      31,    32,    33,    34,    35,    36,    37,    38,    39,    29,
+      30,    31,    32,    33,    34,    35,    36,    37,    38,    39,
+       3,     4,     5,     6,     7,    -1,    -1,    -1,    -1,     3,
+       4,     5,     6,     7,    -1,    -1,    -1,     3,     4,     5,
+       6,     7,    -1,    -1,    -1,    -1,    -1,    30,    31,    32,
+      33,    34,    35,    36,    37,    38,    39,    31,    32,    33,
+      34,    35,    36,    37,    38,    39,    32,    33,    34,    35,
+      36,    37,    38,    39,     3,     4,     5,     6,     7,     3,
+       4,     5,     6,     7,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    33,    34,    35,    36,    37,    38,
+      39,    35,    36,    37,    38,    39
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     4,     5,     6,     7,    46,    47,    50,    54,
-      55,     0,    47,    50,    54,     8,    51,    56,    57,    12,
-      20,    14,    18,    48,    18,    19,    52,    53,    55,     8,
-       9,    10,    11,    12,    21,    22,    37,    60,    14,    38,
-      40,    41,    49,    54,    55,    58,    60,     8,    56,    13,
-      19,     8,    12,    60,    60,    60,    60,    19,    20,    21,
-      22,    23,    24,    25,    26,    27,    28,    29,    30,    31,
-      32,    33,    34,    35,    36,    58,    59,    12,    12,    18,
-      60,    15,    49,    49,    18,    52,    60,    61,    13,    60,
-      60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
-      60,    60,    60,    60,    60,    60,    60,    59,    15,    60,
-      60,    18,    19,    13,    13,    13,    60,    61,    58,    58,
-      39,    42,    58
+       0,    14,    15,    16,    17,    18,    42,    43,    44,    48,
+      52,    54,     0,    43,    24,    49,    53,    55,     7,    10,
+       9,    12,    45,     8,     9,     3,     4,    10,    24,    25,
+      26,    27,    40,    58,    50,    51,    54,     9,    12,    19,
+      21,    22,    46,    47,    52,    54,    56,    58,    24,    55,
+      58,    58,    59,    58,    10,    58,     3,     4,     5,     6,
+       7,     8,    28,    29,    30,    31,    32,    33,    34,    35,
+      36,    37,    38,    39,     8,    11,    24,    57,    10,    10,
+       9,    58,    13,    47,    47,     9,     8,    11,    11,    59,
+      58,    58,    58,    58,    58,    58,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    58,    58,    58,    51,    13,
+      56,    58,    58,     9,    58,    11,    11,    11,    56,    56,
+      20,    56
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    45,    46,    46,    46,    46,    46,    46,    47,    48,
-      49,    49,    49,    49,    50,    51,    52,    52,    53,    53,
-      54,    55,    55,    55,    55,    55,    56,    56,    57,    57,
-      58,    58,    58,    58,    58,    58,    58,    59,    59,    60,
-      60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
-      60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
-      60,    60,    60,    60,    60,    60,    61,    61
+       0,    41,    42,    42,    43,    43,    43,    44,    45,    46,
+      46,    47,    47,    47,    47,    48,    49,    50,    50,    51,
+      51,    52,    53,    53,    54,    54,    54,    54,    54,    55,
+      55,    56,    56,    56,    56,    56,    56,    56,    56,    57,
+      57,    58,    58,    58,    58,    58,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    58,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    58,    58,    58,    58,    59,
+      59
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     1,     1,     2,     2,     2,     3,     3,
-       2,     2,     1,     1,     3,     4,     1,     3,     2,     1,
-       3,     1,     1,     1,     1,     1,     1,     3,     1,     3,
-       2,     3,     6,     7,     5,     2,     3,     1,     2,     3,
-       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
-       3,     3,     3,     3,     3,     3,     3,     2,     2,     2,
-       4,     1,     1,     1,     1,     3,     1,     3
+       0,     2,     1,     2,     1,     1,     1,     3,     3,     0,
+       1,     2,     2,     1,     1,     3,     4,     1,     3,     2,
+       1,     3,     1,     3,     1,     1,     1,     1,     1,     1,
+       3,     1,     2,     3,     5,     7,     5,     2,     3,     0,
+       2,     3,     3,     3,     3,     3,     3,     3,     3,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,     3,     2,
+       2,     2,     3,     4,     1,     1,     1,     1,     3,     1,
+       3
 };
 
 
@@ -1356,8 +1427,410 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
+  case 2: /* FunctionsAndDeclarations: FunctionOrDeclaration  */
+#line 66 "uccompiler.y"
+                                                            {}
+#line 1434 "y.tab.c"
+    break;
 
-#line 1361 "y.tab.c"
+  case 3: /* FunctionsAndDeclarations: FunctionsAndDeclarations FunctionOrDeclaration  */
+#line 67 "uccompiler.y"
+                                                            {}
+#line 1440 "y.tab.c"
+    break;
+
+  case 4: /* FunctionOrDeclaration: FunctionDefinition  */
+#line 71 "uccompiler.y"
+                                                            {}
+#line 1446 "y.tab.c"
+    break;
+
+  case 5: /* FunctionOrDeclaration: FunctionDeclaration  */
+#line 72 "uccompiler.y"
+                                                            {}
+#line 1452 "y.tab.c"
+    break;
+
+  case 6: /* FunctionOrDeclaration: Declaration  */
+#line 73 "uccompiler.y"
+                                                            {}
+#line 1458 "y.tab.c"
+    break;
+
+  case 7: /* FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody  */
+#line 77 "uccompiler.y"
+                                                            {}
+#line 1464 "y.tab.c"
+    break;
+
+  case 8: /* FunctionBody: LBRACE OpcionalDeclarationAndStatements RBRACE  */
+#line 81 "uccompiler.y"
+                                                            {}
+#line 1470 "y.tab.c"
+    break;
+
+  case 10: /* OpcionalDeclarationAndStatements: DeclarationsAndStatements  */
+#line 85 "uccompiler.y"
+                                                            {}
+#line 1476 "y.tab.c"
+    break;
+
+  case 11: /* DeclarationsAndStatements: Statement DeclarationsAndStatements  */
+#line 89 "uccompiler.y"
+                                                            {}
+#line 1482 "y.tab.c"
+    break;
+
+  case 12: /* DeclarationsAndStatements: Declaration DeclarationsAndStatements  */
+#line 90 "uccompiler.y"
+                                                            {}
+#line 1488 "y.tab.c"
+    break;
+
+  case 13: /* DeclarationsAndStatements: Statement  */
+#line 91 "uccompiler.y"
+                                                            {}
+#line 1494 "y.tab.c"
+    break;
+
+  case 14: /* DeclarationsAndStatements: Declaration  */
+#line 92 "uccompiler.y"
+                                                            {}
+#line 1500 "y.tab.c"
+    break;
+
+  case 15: /* FunctionDeclaration: TypeSpec FunctionDeclarator SEMI  */
+#line 96 "uccompiler.y"
+                                                           {}
+#line 1506 "y.tab.c"
+    break;
+
+  case 16: /* FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR  */
+#line 100 "uccompiler.y"
+                                                            {}
+#line 1512 "y.tab.c"
+    break;
+
+  case 17: /* ParameterList: ParameterDeclaration  */
+#line 104 "uccompiler.y"
+                                                            {}
+#line 1518 "y.tab.c"
+    break;
+
+  case 18: /* ParameterList: ParameterList COMMA ParameterDeclaration  */
+#line 105 "uccompiler.y"
+                                                            {}
+#line 1524 "y.tab.c"
+    break;
+
+  case 19: /* ParameterDeclaration: TypeSpec IDENTIFIER  */
+#line 109 "uccompiler.y"
+                                                            {}
+#line 1530 "y.tab.c"
+    break;
+
+  case 20: /* ParameterDeclaration: TypeSpec  */
+#line 110 "uccompiler.y"
+                                                            {}
+#line 1536 "y.tab.c"
+    break;
+
+  case 21: /* Declaration: TypeSpec DeclaratorList SEMI  */
+#line 114 "uccompiler.y"
+                                                            {}
+#line 1542 "y.tab.c"
+    break;
+
+  case 22: /* DeclaratorList: Declarator  */
+#line 118 "uccompiler.y"
+                                                            {}
+#line 1548 "y.tab.c"
+    break;
+
+  case 23: /* DeclaratorList: DeclaratorList COMMA Declarator  */
+#line 119 "uccompiler.y"
+                                                            {}
+#line 1554 "y.tab.c"
+    break;
+
+  case 24: /* TypeSpec: CHAR  */
+#line 123 "uccompiler.y"
+                                                            {}
+#line 1560 "y.tab.c"
+    break;
+
+  case 25: /* TypeSpec: INT  */
+#line 124 "uccompiler.y"
+                                                            {}
+#line 1566 "y.tab.c"
+    break;
+
+  case 26: /* TypeSpec: VOID  */
+#line 125 "uccompiler.y"
+                                                            {}
+#line 1572 "y.tab.c"
+    break;
+
+  case 27: /* TypeSpec: SHORT  */
+#line 126 "uccompiler.y"
+                                                            {}
+#line 1578 "y.tab.c"
+    break;
+
+  case 28: /* TypeSpec: DOUBLE  */
+#line 127 "uccompiler.y"
+                                                            {}
+#line 1584 "y.tab.c"
+    break;
+
+  case 29: /* Declarator: IDENTIFIER  */
+#line 131 "uccompiler.y"
+                                                            {}
+#line 1590 "y.tab.c"
+    break;
+
+  case 30: /* Declarator: IDENTIFIER ASSIGN Expr  */
+#line 132 "uccompiler.y"
+                                                            {}
+#line 1596 "y.tab.c"
+    break;
+
+  case 31: /* Statement: SEMI  */
+#line 136 "uccompiler.y"
+                                                            {}
+#line 1602 "y.tab.c"
+    break;
+
+  case 32: /* Statement: Expr SEMI  */
+#line 137 "uccompiler.y"
+                                                            {}
+#line 1608 "y.tab.c"
+    break;
+
+  case 33: /* Statement: LBRACE Statements RBRACE  */
+#line 138 "uccompiler.y"
+                                                            {}
+#line 1614 "y.tab.c"
+    break;
+
+  case 34: /* Statement: IF LPAR Expr RPAR Statement  */
+#line 139 "uccompiler.y"
+                                                            {}
+#line 1620 "y.tab.c"
+    break;
+
+  case 35: /* Statement: IF LPAR Expr RPAR Statement ELSE Statement  */
+#line 140 "uccompiler.y"
+                                                            {}
+#line 1626 "y.tab.c"
+    break;
+
+  case 36: /* Statement: WHILE LPAR Expr RPAR Statement  */
+#line 141 "uccompiler.y"
+                                                            {}
+#line 1632 "y.tab.c"
+    break;
+
+  case 37: /* Statement: RETURN SEMI  */
+#line 142 "uccompiler.y"
+                                                            {}
+#line 1638 "y.tab.c"
+    break;
+
+  case 38: /* Statement: RETURN Expr SEMI  */
+#line 143 "uccompiler.y"
+                                                            {}
+#line 1644 "y.tab.c"
+    break;
+
+  case 40: /* Statements: Statements Statement  */
+#line 147 "uccompiler.y"
+                                                            {}
+#line 1650 "y.tab.c"
+    break;
+
+  case 41: /* Expr: Expr ASSIGN Expr  */
+#line 151 "uccompiler.y"
+                                                            {}
+#line 1656 "y.tab.c"
+    break;
+
+  case 42: /* Expr: Expr COMMA Expr  */
+#line 152 "uccompiler.y"
+                                                            {}
+#line 1662 "y.tab.c"
+    break;
+
+  case 43: /* Expr: Expr PLUS Expr  */
+#line 154 "uccompiler.y"
+                                                            {}
+#line 1668 "y.tab.c"
+    break;
+
+  case 44: /* Expr: Expr MINUS Expr  */
+#line 155 "uccompiler.y"
+                                                            {}
+#line 1674 "y.tab.c"
+    break;
+
+  case 45: /* Expr: Expr MUL Expr  */
+#line 156 "uccompiler.y"
+                                                            {}
+#line 1680 "y.tab.c"
+    break;
+
+  case 46: /* Expr: Expr DIV Expr  */
+#line 157 "uccompiler.y"
+                                                            {}
+#line 1686 "y.tab.c"
+    break;
+
+  case 47: /* Expr: Expr MOD Expr  */
+#line 158 "uccompiler.y"
+                                                            {}
+#line 1692 "y.tab.c"
+    break;
+
+  case 48: /* Expr: Expr OR Expr  */
+#line 160 "uccompiler.y"
+                                                            {}
+#line 1698 "y.tab.c"
+    break;
+
+  case 49: /* Expr: Expr AND Expr  */
+#line 161 "uccompiler.y"
+                                                            {}
+#line 1704 "y.tab.c"
+    break;
+
+  case 50: /* Expr: Expr BITWISEAND Expr  */
+#line 162 "uccompiler.y"
+                                                            {}
+#line 1710 "y.tab.c"
+    break;
+
+  case 51: /* Expr: Expr BITWISEOR Expr  */
+#line 163 "uccompiler.y"
+                                                            {}
+#line 1716 "y.tab.c"
+    break;
+
+  case 52: /* Expr: Expr BITWISEXOR Expr  */
+#line 164 "uccompiler.y"
+                                                            {}
+#line 1722 "y.tab.c"
+    break;
+
+  case 53: /* Expr: Expr EQ Expr  */
+#line 166 "uccompiler.y"
+                                                            {}
+#line 1728 "y.tab.c"
+    break;
+
+  case 54: /* Expr: Expr NE Expr  */
+#line 167 "uccompiler.y"
+                                                            {}
+#line 1734 "y.tab.c"
+    break;
+
+  case 55: /* Expr: Expr LE Expr  */
+#line 168 "uccompiler.y"
+                                                            {}
+#line 1740 "y.tab.c"
+    break;
+
+  case 56: /* Expr: Expr GE Expr  */
+#line 169 "uccompiler.y"
+                                                            {}
+#line 1746 "y.tab.c"
+    break;
+
+  case 57: /* Expr: Expr LT Expr  */
+#line 170 "uccompiler.y"
+                                                            {}
+#line 1752 "y.tab.c"
+    break;
+
+  case 58: /* Expr: Expr GT Expr  */
+#line 171 "uccompiler.y"
+                                                            {}
+#line 1758 "y.tab.c"
+    break;
+
+  case 59: /* Expr: PLUS Expr  */
+#line 173 "uccompiler.y"
+                                                            {}
+#line 1764 "y.tab.c"
+    break;
+
+  case 60: /* Expr: MINUS ArgumentExpr  */
+#line 174 "uccompiler.y"
+                                                            {}
+#line 1770 "y.tab.c"
+    break;
+
+  case 61: /* Expr: NOT Expr  */
+#line 175 "uccompiler.y"
+                                                            {}
+#line 1776 "y.tab.c"
+    break;
+
+  case 62: /* Expr: IDENTIFIER LPAR RPAR  */
+#line 177 "uccompiler.y"
+                                                            {}
+#line 1782 "y.tab.c"
+    break;
+
+  case 63: /* Expr: IDENTIFIER LPAR ArgumentExpr RPAR  */
+#line 178 "uccompiler.y"
+                                                            {}
+#line 1788 "y.tab.c"
+    break;
+
+  case 64: /* Expr: IDENTIFIER  */
+#line 180 "uccompiler.y"
+                                                            {}
+#line 1794 "y.tab.c"
+    break;
+
+  case 65: /* Expr: NATURAL  */
+#line 181 "uccompiler.y"
+                                                            {}
+#line 1800 "y.tab.c"
+    break;
+
+  case 66: /* Expr: CHRLIT  */
+#line 182 "uccompiler.y"
+                                                            {}
+#line 1806 "y.tab.c"
+    break;
+
+  case 67: /* Expr: DECIMAL  */
+#line 183 "uccompiler.y"
+                                                            {}
+#line 1812 "y.tab.c"
+    break;
+
+  case 68: /* Expr: LPAR Expr RPAR  */
+#line 184 "uccompiler.y"
+                                                            {}
+#line 1818 "y.tab.c"
+    break;
+
+  case 69: /* ArgumentExpr: Expr  */
+#line 188 "uccompiler.y"
+                                                            {}
+#line 1824 "y.tab.c"
+    break;
+
+  case 70: /* ArgumentExpr: ArgumentExpr COMMA Expr  */
+#line 189 "uccompiler.y"
+                                                            {}
+#line 1830 "y.tab.c"
+    break;
+
+
+#line 1834 "y.tab.c"
 
       default: break;
     }
@@ -1550,9 +2023,9 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 100 "uccompiler.y"
+#line 193 "uccompiler.y"
 
 
-void yyerror(char *error) {
-    printf("%s '%s'\n", error, yytext);
+void yyerror(const char* message) {
+    fprintf(stderr, "Syntax Error: %s\n", message);
 }
