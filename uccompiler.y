@@ -3,17 +3,16 @@
 Henrique José Correia Brás - 2021229812
 Tiago Rafael Cardoso Santos - 2021229679
 */
+    #include "tree.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdarg.h>
+    int yylex(void);
+    void yyerror(const char* s);
 
-
-int yylex(void);
-void yyerror(const char* s);
-
-
+    extern int opcao;
+        int pontos = 0;
+        int erro = 0;
+        no1 raiz;
+        no1 novo;
 
 
 %}
