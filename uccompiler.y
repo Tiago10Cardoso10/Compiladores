@@ -13,27 +13,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 int yylex(void);
 void yyerror(const char* s);
 
-typedef enum{
-        // Falta descobrir para que é isto
-        no_raiz,
-        no_declaracao,
-        no_metodos,
-        no_Statement2,
-        no_operadores,
-        no_terminais,
-        no_id
-    } tipo_no;
 
-typedef struct no * node;
-    typedef struct no{
-        node pai;
-        node filho;
-        node irmao;
-        tipo_no no_tipo;
-        char *valor;           
-        char *tipo;            
-        int num_filhos;
-    } no;
 
 
 %}
