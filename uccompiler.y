@@ -4,10 +4,10 @@ Henrique José Correia Brás - 2021229812
 Tiago Rafael Cardoso Santos - 2021229679
 */
 
-    #include <stdio.h>
-    #include <string.h>
-    #include <stdlib.h>
-    #include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdarg.h>
 
 
 int yylex(void);

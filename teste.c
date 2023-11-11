@@ -1,72 +1,45 @@
 int main(void){
-	
-	double x=1.5;
-	
-	int a=1,b=2,c=3;
-	
-	short d=4;
-	
-	char c = 'a';
-	
-	a=(-1*3+2/4);
-		
-}
+	func1(1,2,3);
 
-Expr:    
-    Expr Expr2 Expr                                         {}
-    | Expr Expr3 Expr                                       {}
-    | Expr Expr4 Expr                                       {}
-    | Expr Expr5 Expr                                       {}
-    | Expr6 Expr                                            {}
-    | IDENTIFIER LPAR RPAR                                  {}    
-    | IDENTIFIER LPAR Expr7 RPAR                            {}
-    | IDENTIFIER                                            {}
-    | NATURAL                                               {}
-    | CHRLIT                                                {}
-    | DECIMAL                                               {}
-    | LPAR Expr RPAR                                        {}
-    ;
+	func2((1,2), 3);
 
-Expr2:
-    ASSIGN                                                  {}
-    | COMMA                                                 {}
-    ;
+	if (a){
+		statement1 = 1;
+	}else {
+		statement2 = 2;
+	}
 
-Expr3:
-    PLUS                                                    {}
-    | MINUS                                                 {}
-    | MUL                                                   {}
-    | DIV                                                   {}
-    | MOD                                                   {}
-    ;
+	if (a){
+		statement1 = 1;
+	}
 
-Expr4:
-    OR                                                      {}
-    | AND                                                   {}
-    | BITWISEAND                                            {}
-    | BITWISEOR                                             {}
-    | BITWISEXOR                                            {}
-    ;
+	if (a); else {
+		statement2 = 2;
+	}
 
-Expr5:
-    EQ                                                      {}
-    | NE                                                    {}
-    | LE                                                    {}
-    | GE                                                    {}
-    | LT                                                    {}
-    | GT                                                    {}
-    ;
+	if (a);else;
 
-Expr6:
-    PLUS                                                    {}
-    | MINUS                                                 {}
-    | NOT                                                   {}
-    ;
+	while(a){
+		statement2 = 2;
+	}
 
-Expr7:
-    Expr Expr8                                              {}
-    ;
+	while(a);
 
-Expr8:/* empty */                                           {}
-    | COMMA Expr                                            {}
-    ;
+	while(a){
+
+	}
+
+	while(a){
+		statement1 = 1;
+		statement2 = 2;
+		statement3 = 3;
+	}
+	{;}
+
+	{statement1 = 1;}
+
+	{statement1 = 1; statement2 = 2;}
+
+	return 0;
+	return ;
+}	
