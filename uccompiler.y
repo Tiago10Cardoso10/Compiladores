@@ -3,37 +3,16 @@
 Henrique José Correia Brás - 2021229812
 Tiago Rafael Cardoso Santos - 2021229679
 */
+    #include "tree.h"
 
-    #include <stdio.h>
-    #include <string.h>
-    #include <stdlib.h>
-    #include <stdarg.h>
+    int yylex(void);
+    void yyerror(const char* s);
 
-
-int yylex(void);
-void yyerror(const char* s);
-
-typedef enum{
-        // Falta descobrir para que é isto
-        no_raiz,
-        no_declaracao,
-        no_metodos,
-        no_Statement2,
-        no_operadores,
-        no_terminais,
-        no_id
-    } tipo_no;
-
-typedef struct no * node;
-    typedef struct no{
-        node pai;
-        node filho;
-        node irmao;
-        tipo_no no_tipo;
-        char *valor;           
-        char *tipo;            
-        int num_filhos;
-    } no;
+    extern int opcao;
+        int pontos = 0;
+        int erro = 0;
+        no1 raiz;
+        no1 novo;
 
 
 %}
@@ -46,8 +25,9 @@ typedef struct no * node;
 %token PLUS MINUS MUL DIV ASSIGN COMMA SEMI LPAR RPAR LBRACE RBRACE CHAR INT VOID SHORT DOUBLE IF ELSE WHILE RETURN
 %token <v> RESERVED IDENTIFIER NATURAL DECIMAL CHRLIT
 
-%type <no> FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator Statement Statement2 Expr Expr2 Expr3 
+%type <no> FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator Statement Statement2 Expr Expr2  
 
+%left  UNARY
 
 %left   COMMA
 %left   OR
@@ -63,7 +43,7 @@ typedef struct no * node;
 %right  NOT
 %right  ASSIGN
 
-%right  UNARY
+%right ELSE
 
 
 
@@ -144,15 +124,17 @@ Statement:
     SEMI                                                    {}
     | Expr SEMI                                             {}
     | LBRACE Statement2 RBRACE                              {}
-    | IF LPAR Expr RPAR Statement                           {}
     | IF LPAR Expr RPAR Statement ELSE Statement            {}
+    | IF LPAR Expr RPAR Statement %prec ELSE                {}
+    
     | WHILE LPAR Expr RPAR Statement                        {}
     | RETURN Expr SEMI                                      {} 
 
     | LBRACE error RBRACE                                   {}
     ;
 
-Statement2: /* empty */                                     {}
+Statement2: 
+    /* empty */                                             {}
     | Statement Statement2                                  {}
     ;
 
@@ -178,26 +160,24 @@ Expr:
     | Expr LT Expr {}
     | Expr GT Expr {}
 
-    | PLUS Expr %prec UNARY {}
-    | MINUS Expr %prec UNARY {}
-    | NOT Expr %prec UNARY {}
+    | PLUS Expr {}
+    | MINUS Expr {}
+    | NOT Expr  {}
 
+    
     | IDENTIFIER LPAR RPAR {}
-    | IDENTIFIER LPAR Expr2 RPAR {}
-
-    | IDENTIFIER {}
+    | IDENTIFIER LPAR Expr Expr2 RPAR {}
+    | IDENTIFIER %prec UNARY{}
+    
     | NATURAL {}
     | CHRLIT {}
     | DECIMAL {}
-    | LPAR Expr RPAR
+    | LPAR Expr RPAR {}
     ;
-
+    
 Expr2:
-    Expr {}
-    | Expr Expr3 {}
+    /* empty */ {}
+    | COMMA Expr2 {}
     ;
-
-Expr3: {}
-    | COMMA Expr {}
 
 %%
