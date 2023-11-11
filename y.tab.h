@@ -79,20 +79,20 @@ extern int yydebug;
     NATURAL = 280,                 /* NATURAL  */
     DECIMAL = 281,                 /* DECIMAL  */
     CHRLIT = 282,                  /* CHRLIT  */
-    OR = 283,                      /* OR  */
-    AND = 284,                     /* AND  */
-    BITWISEOR = 285,               /* BITWISEOR  */
-    BITWISEXOR = 286,              /* BITWISEXOR  */
-    BITWISEAND = 287,              /* BITWISEAND  */
-    EQ = 288,                      /* EQ  */
-    NE = 289,                      /* NE  */
-    LT = 290,                      /* LT  */
-    GT = 291,                      /* GT  */
-    LE = 292,                      /* LE  */
-    GE = 293,                      /* GE  */
-    MOD = 294,                     /* MOD  */
-    NOT = 295,                     /* NOT  */
-    UNARY = 296                    /* UNARY  */
+    UNARY = 283,                   /* UNARY  */
+    OR = 284,                      /* OR  */
+    AND = 285,                     /* AND  */
+    BITWISEOR = 286,               /* BITWISEOR  */
+    BITWISEXOR = 287,              /* BITWISEXOR  */
+    BITWISEAND = 288,              /* BITWISEAND  */
+    EQ = 289,                      /* EQ  */
+    NE = 290,                      /* NE  */
+    LT = 291,                      /* LT  */
+    GT = 292,                      /* GT  */
+    LE = 293,                      /* LE  */
+    GE = 294,                      /* GE  */
+    MOD = 295,                     /* MOD  */
+    NOT = 296                      /* NOT  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -126,20 +126,20 @@ extern int yydebug;
 #define NATURAL 280
 #define DECIMAL 281
 #define CHRLIT 282
-#define OR 283
-#define AND 284
-#define BITWISEOR 285
-#define BITWISEXOR 286
-#define BITWISEAND 287
-#define EQ 288
-#define NE 289
-#define LT 290
-#define GT 291
-#define LE 292
-#define GE 293
-#define MOD 294
-#define NOT 295
-#define UNARY 296
+#define UNARY 283
+#define OR 284
+#define AND 285
+#define BITWISEOR 286
+#define BITWISEXOR 287
+#define BITWISEAND 288
+#define EQ 289
+#define NE 290
+#define LT 291
+#define GT 292
+#define LE 293
+#define GE 294
+#define MOD 295
+#define NOT 296
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
