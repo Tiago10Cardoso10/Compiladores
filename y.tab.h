@@ -91,7 +91,8 @@ extern int yydebug;
     LE = 292,                      /* LE  */
     GE = 293,                      /* GE  */
     MOD = 294,                     /* MOD  */
-    NOT = 295                      /* NOT  */
+    NOT = 295,                     /* NOT  */
+    UNARY = 296                    /* UNARY  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -138,21 +139,18 @@ extern int yydebug;
 #define GE 293
 #define MOD 294
 #define NOT 295
+#define UNARY 296
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-<<<<<<< HEAD
-#line 38 "uccompiler.y"
-=======
-#line 40 "uccompiler.y"
->>>>>>> TiagoCardoso
+#line 41 "uccompiler.y"
 
     char *v;
     struct no *no;
 
-#line 152 "y.tab.h"
+#line 154 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

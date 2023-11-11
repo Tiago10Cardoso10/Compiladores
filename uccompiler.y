@@ -4,18 +4,6 @@ Henrique José Correia Brás - 2021229812
 Tiago Rafael Cardoso Santos - 2021229679
 */
 
-<<<<<<< HEAD
-#include <stdio.h>
-#include <stdbool.h>
-#include <ctype.h>
-#include <string.h>
-
- typedef enum{
-        no_raiz,
-        no_declaracao,
-        no_metodos,
-        no_statements,
-=======
     #include <stdio.h>
     #include <string.h>
     #include <stdlib.h>
@@ -31,17 +19,12 @@ typedef enum{
         no_declaracao,
         no_metodos,
         no_Statement2,
->>>>>>> TiagoCardoso
         no_operadores,
         no_terminais,
         no_id
     } tipo_no;
 
-<<<<<<< HEAD
-    typedef struct no * node;
-=======
 typedef struct no * node;
->>>>>>> TiagoCardoso
     typedef struct no{
         node pai;
         node filho;
@@ -52,11 +35,6 @@ typedef struct no * node;
         int num_filhos;
     } no;
 
-<<<<<<< HEAD
-    int yylex(void);
-    void yyerror(const char *s);
-=======
->>>>>>> TiagoCardoso
 
 %}
 
@@ -65,17 +43,11 @@ typedef struct no * node;
     struct no *no;
 }
 
-<<<<<<< HEAD
-%token PLUS MINUS MUL DIV ASSIGN COMMA SEMI LPAR RPAR LBRACE RBRACE CHAR INT VOID SHORT DOUBLE IF ELSE WHILE RETURN RESERVED
-%token <v> IDENTIFIER NATURAL DECIMAL CHRLIT
-
-%type <no> FunctionsAndDeclarations FunctionOrDeclaration FunctionDefinition FunctionBody OpcionalDeclarationAndStatements DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterDeclarations Parameter Declaration DeclaratorList TypeSpecifier Declarator Statements Expr ArgumentExpr 
-=======
 %token PLUS MINUS MUL DIV ASSIGN COMMA SEMI LPAR RPAR LBRACE RBRACE CHAR INT VOID SHORT DOUBLE IF ELSE WHILE RETURN
 %token <v> RESERVED IDENTIFIER NATURAL DECIMAL CHRLIT
 
-%type <no> FunctionsAndDeclarations FunctionAndDeclarations2 FunctionDefinition FunctionBody DeclarationAndStatement2 DeclarationsAndStatement FunctionDeclaration FunctionDeclarator ParameterList ParameterDeclaration Declaration Declaration2 TypeSpec Declarator Statement Statement2 Expr Expr2
->>>>>>> TiagoCardoso
+%type <no> FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator Statement Statement2 Expr Expr2 Expr3 
+
 
 %left   COMMA
 %left   OR
@@ -91,66 +63,41 @@ typedef struct no * node;
 %right  NOT
 %right  ASSIGN
 
+%right  UNARY
+
+
 
 %%
-
-FunctionsAndDeclarations:
-<<<<<<< HEAD
-    FunctionOrDeclaration                                   {}
-    | FunctionsAndDeclarations FunctionOrDeclaration        {}
+FunctionsAndDeclarations: 
+    FunctionDefinition FunctionsAndDeclarations2            {}
+    | FunctionDeclaration FunctionsAndDeclarations2         {}
+    | Declaration  FunctionsAndDeclarations2                {}
     ;
 
-FunctionOrDeclaration:
-=======
-    FunctionAndDeclarations2                                {}
-    | FunctionsAndDeclarations FunctionAndDeclarations2     {}
-    ;
-
-FunctionAndDeclarations2:
->>>>>>> TiagoCardoso
-    FunctionDefinition                                      {}
-    | FunctionDeclaration                                   {}
-    | Declaration                                           {}
+FunctionsAndDeclarations2: /* empty*/                       {}
+    | FunctionDefinition FunctionsAndDeclarations2          {}
+    | FunctionDeclaration FunctionsAndDeclarations2         {}
+    | Declaration  FunctionsAndDeclarations2                {}
     ;
 
 FunctionDefinition:
     TypeSpec FunctionDeclarator FunctionBody                {}
     ;
 
-FunctionBody:
-<<<<<<< HEAD
-    LBRACE OpcionalDeclarationAndStatements RBRACE          {}
-    ;
-
-OpcionalDeclarationAndStatements:
-    | DeclarationsAndStatements                             {}
+FunctionBody: 
+    LBRACE RBRACE                                           {}
+    | LBRACE DeclarationsAndStatements RBRACE               {}
     ;
 
 DeclarationsAndStatements:
     Statement DeclarationsAndStatements                     {}
     | Declaration DeclarationsAndStatements                 {}
-=======
-    LBRACE DeclarationAndStatement2 RBRACE                  {}
-    ;
-
-DeclarationAndStatement2:
-    DeclarationsAndStatement                                {}
-    ;
-
-DeclarationsAndStatement:
-    Statement DeclarationsAndStatement                      {}
-    | Declaration DeclarationsAndStatement                  {}
->>>>>>> TiagoCardoso
     | Statement                                             {}
-    | Declaration                                           {}
+    | Declaration                                           {}  
     ;
 
 FunctionDeclaration:
-<<<<<<< HEAD
-    TypeSpec FunctionDeclarator SEMI                       {}
-=======
     TypeSpec FunctionDeclarator SEMI                        {}
->>>>>>> TiagoCardoso
     ;
 
 FunctionDeclarator:
@@ -158,34 +105,29 @@ FunctionDeclarator:
     ;
 
 ParameterList:
-    ParameterDeclaration                                    {}
-    | ParameterList COMMA ParameterDeclaration              {}
+    ParameterDeclaration ParameterList2                     {}
+    ;
+
+ParameterList2: /* empty */                                 {}
+    | COMMA ParameterDeclaration ParameterList2             {}
     ;
 
 ParameterDeclaration: 
-    TypeSpec IDENTIFIER                                     {}
-    | TypeSpec                                              {}
+    TypeSpec                                                {}
+    | TypeSpec IDENTIFIER                                   {}
     ;
 
 Declaration:
-<<<<<<< HEAD
-    TypeSpec DeclaratorList SEMI                            {}
+    TypeSpec Declarator Declaration2 SEMI                   {}
+    
+    | error SEMI                                            {}
     ;
 
-DeclaratorList:
-    Declarator                                              {}
-    | DeclaratorList COMMA Declarator                       {}
-=======
-    TypeSpec Declaration2 SEMI                              {}
+Declaration2:   /* empty */                                 {}
+    | COMMA Declarator Declaration2                         {}
     ;
 
-Declaration2:
-    Declarator                                              {}
-    | Declaration2 COMMA Declarator                         {}
->>>>>>> TiagoCardoso
-    ;
-
-TypeSpec:
+TypeSpec: 
     CHAR                                                    {}
     | INT                                                   {}
     | VOID                                                  {}
@@ -201,90 +143,61 @@ Declarator:
 Statement:
     SEMI                                                    {}
     | Expr SEMI                                             {}
-<<<<<<< HEAD
-    | LBRACE Statements RBRACE                              {}
-=======
-    | Statement2 RBRACE                                     {}
->>>>>>> TiagoCardoso
+    | LBRACE Statement2 RBRACE                              {}
     | IF LPAR Expr RPAR Statement                           {}
     | IF LPAR Expr RPAR Statement ELSE Statement            {}
     | WHILE LPAR Expr RPAR Statement                        {}
-    | RETURN SEMI                                           {}
-    | RETURN Expr SEMI                                      {}
+    | RETURN Expr SEMI                                      {} 
+
+    | LBRACE error RBRACE                                   {}
     ;
 
-<<<<<<< HEAD
-Statements:
-    | Statements Statement                                  {}
-=======
-Statement2:
-    LBRACE
-    | LBRACE Statement2 Statement                           {}
->>>>>>> TiagoCardoso
+Statement2: /* empty */                                     {}
+    | Statement Statement2                                  {}
     ;
 
 Expr:
-    Expr ASSIGN Expr                                        {}                       
-    | Expr COMMA Expr                                       {}                                                            
+    Expr ASSIGN Expr                                        {}
+    | Expr COMMA Expr                                        {}
+    | Expr PLUS Expr {}
+    | Expr MINUS Expr {}
+    | Expr MUL Expr {}
+    | Expr DIV Expr {}
+    | Expr MOD Expr {}
 
-    | Expr PLUS Expr                                        {}                       
-    | Expr MINUS Expr                                       {}                       
-    | Expr MUL Expr                                         {} 
-    | Expr DIV Expr                                         {} 
-    | Expr MOD Expr                                         {}
+    | Expr OR Expr {}
+    | Expr AND Expr {}
+    | Expr BITWISEAND Expr {}
+    | Expr BITWISEOR Expr{}
+    | Expr BITWISEXOR Expr {}
 
-    | Expr OR Expr                                          {}  
-    | Expr AND Expr                                         {}    
-    | Expr BITWISEAND Expr                                  {}    
-    | Expr BITWISEOR Expr                                   {}   
-    | Expr BITWISEXOR Expr                                  {}
+    | Expr EQ Expr {}
+    | Expr NE Expr {}
+    | Expr LE Expr {}
+    | Expr GE Expr {}
+    | Expr LT Expr {}
+    | Expr GT Expr {}
 
-    | Expr EQ Expr                                          {}  
-    | Expr NE Expr                                          {}   
-    | Expr LE Expr                                          {}   
-    | Expr GE Expr                                          {}   
-    | Expr LT Expr                                          {}   
-    | Expr GT Expr                                          {}    
+    | PLUS Expr %prec UNARY {}
+    | MINUS Expr %prec UNARY {}
+    | NOT Expr %prec UNARY {}
 
-    | PLUS Expr                                             {}
-<<<<<<< HEAD
-    | MINUS ArgumentExpr                                    {}
-    | NOT Expr                                              {}
+    | IDENTIFIER LPAR RPAR {}
+    | IDENTIFIER LPAR Expr2 RPAR {}
 
-    | IDENTIFIER LPAR RPAR                                  {}               
-    | IDENTIFIER LPAR ArgumentExpr RPAR                     {}
-=======
-    | MINUS Expr2                                           {}
-    | NOT Expr                                              {}
-
-    | IDENTIFIER LPAR RPAR                                  {}               
-    | IDENTIFIER LPAR Expr2 RPAR                            {}
->>>>>>> TiagoCardoso
-
-    | IDENTIFIER                                            {}                               
-    | NATURAL                                               {}                         
-    | CHRLIT                                                {}                           
-    | DECIMAL                                               {}                                     
-    | LPAR Expr RPAR                                        {}               
+    | IDENTIFIER {}
+    | NATURAL {}
+    | CHRLIT {}
+    | DECIMAL {}
+    | LPAR Expr RPAR
     ;
 
-<<<<<<< HEAD
-ArgumentExpr:
-    Expr                                                    {}
-    | ArgumentExpr COMMA Expr                               {}
-    ;
-    
-
-%%
-
-void yyerror(const char* message) {
-    fprintf(stderr, "Syntax Error: %s\n", message);
-}
-=======
 Expr2:
-    Expr                                                    {}
-    | Expr2 COMMA Expr                                      {}
+    Expr {}
+    | Expr Expr3 {}
     ;
 
+Expr3: {}
+    | COMMA Expr {}
+
 %%
->>>>>>> TiagoCardoso

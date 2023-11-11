@@ -13,7 +13,7 @@ $(OUTPUT): lex.yy.c
 	$(CC) lex.yy.c y.tab.c -o $(OUTPUT) -ll
 
 y.tab.c:$(YACC_FILE)
-	$(YACC) -dv (YACC_FILE)
+	$(YACC) -dv $(YACC_FILE)
 
 lex.yy.c: $(LEX_FILE)
 	$(LEX) $(LEX_FILE)

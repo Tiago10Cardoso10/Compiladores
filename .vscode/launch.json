@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/hjcbr/OneDrive/Documents/GitHub/Compiladores",
-      "program": "c:/Users/hjcbr/OneDrive/Documents/GitHub/Compiladores/build/Debug/outDebug",
+      "cwd": "c:/Users/tiago/Documents/GitHub/Compiladores",
+      "program": "c:/Users/tiago/Documents/GitHub/Compiladores/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
