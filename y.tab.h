@@ -80,18 +80,18 @@ extern int yydebug;
     DECIMAL = 281,                 /* DECIMAL  */
     CHRLIT = 282,                  /* CHRLIT  */
     UNARY = 283,                   /* UNARY  */
-    OR = 284,                      /* OR  */
-    AND = 285,                     /* AND  */
+    MOD = 284,                     /* MOD  */
+    BITWISEAND = 285,              /* BITWISEAND  */
     BITWISEOR = 286,               /* BITWISEOR  */
     BITWISEXOR = 287,              /* BITWISEXOR  */
-    BITWISEAND = 288,              /* BITWISEAND  */
-    EQ = 289,                      /* EQ  */
-    NE = 290,                      /* NE  */
-    LT = 291,                      /* LT  */
-    GT = 292,                      /* GT  */
-    LE = 293,                      /* LE  */
-    GE = 294,                      /* GE  */
-    MOD = 295,                     /* MOD  */
+    EQ = 288,                      /* EQ  */
+    NE = 289,                      /* NE  */
+    LT = 290,                      /* LT  */
+    GT = 291,                      /* GT  */
+    LE = 292,                      /* LE  */
+    GE = 293,                      /* GE  */
+    AND = 294,                     /* AND  */
+    OR = 295,                      /* OR  */
     NOT = 296                      /* NOT  */
   };
   typedef enum yytokentype yytoken_kind_t;
@@ -127,25 +127,25 @@ extern int yydebug;
 #define DECIMAL 281
 #define CHRLIT 282
 #define UNARY 283
-#define OR 284
-#define AND 285
+#define MOD 284
+#define BITWISEAND 285
 #define BITWISEOR 286
 #define BITWISEXOR 287
-#define BITWISEAND 288
-#define EQ 289
-#define NE 290
-#define LT 291
-#define GT 292
-#define LE 293
-#define GE 294
-#define MOD 295
+#define EQ 288
+#define NE 289
+#define LT 290
+#define GT 291
+#define LE 292
+#define GE 293
+#define AND 294
+#define OR 295
 #define NOT 296
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 21 "uccompiler.y"
+#line 20 "uccompiler.y"
 
     char *v;
     struct no *no;

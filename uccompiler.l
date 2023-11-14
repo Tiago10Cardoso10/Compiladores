@@ -77,13 +77,13 @@ achrlit     \'{chrlit}\'
                             } else if (strcmp(yytext,";") == 0 && flag == 1)         {printf("SEMI\n");if(flag == 2){return SEMI;}}
                             }
 
-{reserved}                                      {if (flag == 1){printf("RESERVED(%s)\n",yytext);if(flag == 2){yylval.v = strdup(yytext);return RESERVED;}}}
+{reserved}                                      {   if (flag == 1){printf("RESERVED(%s)\n",yytext);if(flag == 2){yylval.v = strdup(yytext);return RESERVED;}}}
 
-{identifier}                                    {   if(flag == 1)printf("IDENTIFIER(%s)\n",yytext); coluna+=yyleng;if(flag == 2){yylval.v = strdup(yytext);return IDENTIFIER;}} 
+{identifier}                                    {   if(flag == 1)printf("IDENTIFIER(%s)\n",yytext); coluna+=yyleng; if(flag == 2){yylval.v = strdup(yytext);return IDENTIFIER;}} 
 
-{natural}                                       {   if(flag == 1)printf("NATURAL(%s)\n",yytext);coluna+=yyleng;if(flag == 2){yylval.v = strdup(yytext);return NATURAL;}} 
+{natural}                                       {   if(flag == 1)printf("NATURAL(%s)\n",yytext); coluna+=yyleng; if(flag == 2){yylval.v = strdup(yytext);return NATURAL;}} 
 
-{decimal}                                       {   if(flag == 1)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;if(flag == 2){yylval.v = strdup(yytext);return DECIMAL;}}
+{decimal}                                       {   if(flag == 1)printf("DECIMAL(%s)\n", yytext); coluna+=yyleng; if(flag == 2){yylval.v = strdup(yytext);return DECIMAL;}}
 
 {enter}                 {   linha++;coluna = 1;}
 
@@ -117,8 +117,7 @@ achrlit     \'{chrlit}\'
 %%
 
 void yyerror(const char *s) { 
-    printf ( "Line %d ,column %d: %s: %s\n " ,linha,(int)(coluna-strlen(yytext)), s , yytext );
-
+    printf ("Line %d, column %d: %s: %s\n" ,linha,(int)(coluna-strlen(yytext)),s,yytext);
 }
 
 int yywrap() {  /* called on EOF, return 1 to terminate */
@@ -133,12 +132,14 @@ int main(int argc, char* argv[]) {
             yylex();  /* run the lexical analysis automaton */
         }else if (strcmp(argv[i], "-t") == 0){
             flag = 2;
-            yyparse();   
+
+            yyparse();  
+            
         } 
     }
     if(argc == 1){
-            yyparse();
             yylex();
+            yyparse();
     }
     
     return 0;
