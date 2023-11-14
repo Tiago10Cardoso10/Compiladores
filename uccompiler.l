@@ -11,15 +11,11 @@ Tiago Rafael Cardoso Santos - 2021229679
 #include <stdarg.h>
 #include "y.tab.h"
 
-
-
 int linha = 1;
 int coluna = 1;
 int linhareserved = 0;
 int colunareserved = 0;
 int flag = 0;
-
-extern FILE *yyin;
 
 %}
 
@@ -194,7 +190,7 @@ semi ";"
 extern int yylex();
 
 void yyerror(const char *s) {
-    printf("Line %d ,column %d: %s: %s\n" ,linha,(int)(coluna-strlen(yytext)), s , yytext); 
+    printf("Line %d, column %d: %s: %s\n" ,linha,(int)(coluna-strlen(yytext)), s , yytext); 
 }
 
 int yywrap() {  /* called on EOF, return 1 to terminate */

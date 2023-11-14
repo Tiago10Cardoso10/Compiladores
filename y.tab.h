@@ -54,45 +54,45 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    PLUS = 258,                    /* PLUS  */
-    MINUS = 259,                   /* MINUS  */
-    MUL = 260,                     /* MUL  */
-    DIV = 261,                     /* DIV  */
-    ASSIGN = 262,                  /* ASSIGN  */
-    COMMA = 263,                   /* COMMA  */
-    SEMI = 264,                    /* SEMI  */
-    LPAR = 265,                    /* LPAR  */
-    RPAR = 266,                    /* RPAR  */
-    LBRACE = 267,                  /* LBRACE  */
-    RBRACE = 268,                  /* RBRACE  */
-    CHAR = 269,                    /* CHAR  */
-    INT = 270,                     /* INT  */
-    VOID = 271,                    /* VOID  */
-    SHORT = 272,                   /* SHORT  */
-    DOUBLE = 273,                  /* DOUBLE  */
-    IF = 274,                      /* IF  */
-    ELSE = 275,                    /* ELSE  */
-    WHILE = 276,                   /* WHILE  */
-    RETURN = 277,                  /* RETURN  */
-    RESERVED = 278,                /* RESERVED  */
-    IDENTIFIER = 279,              /* IDENTIFIER  */
-    NATURAL = 280,                 /* NATURAL  */
-    DECIMAL = 281,                 /* DECIMAL  */
-    CHRLIT = 282,                  /* CHRLIT  */
-    UNARY = 283,                   /* UNARY  */
-    MOD = 284,                     /* MOD  */
-    BITWISEAND = 285,              /* BITWISEAND  */
-    BITWISEOR = 286,               /* BITWISEOR  */
-    BITWISEXOR = 287,              /* BITWISEXOR  */
-    EQ = 288,                      /* EQ  */
-    NE = 289,                      /* NE  */
-    LT = 290,                      /* LT  */
-    GT = 291,                      /* GT  */
-    LE = 292,                      /* LE  */
-    GE = 293,                      /* GE  */
-    AND = 294,                     /* AND  */
-    OR = 295,                      /* OR  */
-    NOT = 296                      /* NOT  */
+    CHAR = 258,                    /* CHAR  */
+    ELSE = 259,                    /* ELSE  */
+    WHILE = 260,                   /* WHILE  */
+    IF = 261,                      /* IF  */
+    INT = 262,                     /* INT  */
+    SHORT = 263,                   /* SHORT  */
+    DOUBLE = 264,                  /* DOUBLE  */
+    RETURN = 265,                  /* RETURN  */
+    VOID = 266,                    /* VOID  */
+    BITWISEAND = 267,              /* BITWISEAND  */
+    BITWISEOR = 268,               /* BITWISEOR  */
+    BITWISEXOR = 269,              /* BITWISEXOR  */
+    AND = 270,                     /* AND  */
+    ASSIGN = 271,                  /* ASSIGN  */
+    MUL = 272,                     /* MUL  */
+    COMMA = 273,                   /* COMMA  */
+    DIV = 274,                     /* DIV  */
+    EQ = 275,                      /* EQ  */
+    GE = 276,                      /* GE  */
+    GT = 277,                      /* GT  */
+    LBRACE = 278,                  /* LBRACE  */
+    LE = 279,                      /* LE  */
+    LPAR = 280,                    /* LPAR  */
+    LT = 281,                      /* LT  */
+    MINUS = 282,                   /* MINUS  */
+    MOD = 283,                     /* MOD  */
+    NE = 284,                      /* NE  */
+    NOT = 285,                     /* NOT  */
+    OR = 286,                      /* OR  */
+    PLUS = 287,                    /* PLUS  */
+    RBRACE = 288,                  /* RBRACE  */
+    RPAR = 289,                    /* RPAR  */
+    SEMI = 290,                    /* SEMI  */
+    RESERVED = 291,                /* RESERVED  */
+    IDENTIFIER = 292,              /* IDENTIFIER  */
+    NATURAL = 293,                 /* NATURAL  */
+    DECIMAL = 294,                 /* DECIMAL  */
+    CHRLIT = 295,                  /* CHRLIT  */
+    UNARY = 296                    /* UNARY  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -101,45 +101,45 @@ extern int yydebug;
 #define YYEOF 0
 #define YYerror 256
 #define YYUNDEF 257
-#define PLUS 258
-#define MINUS 259
-#define MUL 260
-#define DIV 261
-#define ASSIGN 262
-#define COMMA 263
-#define SEMI 264
-#define LPAR 265
-#define RPAR 266
-#define LBRACE 267
-#define RBRACE 268
-#define CHAR 269
-#define INT 270
-#define VOID 271
-#define SHORT 272
-#define DOUBLE 273
-#define IF 274
-#define ELSE 275
-#define WHILE 276
-#define RETURN 277
-#define RESERVED 278
-#define IDENTIFIER 279
-#define NATURAL 280
-#define DECIMAL 281
-#define CHRLIT 282
-#define UNARY 283
-#define MOD 284
-#define BITWISEAND 285
-#define BITWISEOR 286
-#define BITWISEXOR 287
-#define EQ 288
-#define NE 289
-#define LT 290
-#define GT 291
-#define LE 292
-#define GE 293
-#define AND 294
-#define OR 295
-#define NOT 296
+#define CHAR 258
+#define ELSE 259
+#define WHILE 260
+#define IF 261
+#define INT 262
+#define SHORT 263
+#define DOUBLE 264
+#define RETURN 265
+#define VOID 266
+#define BITWISEAND 267
+#define BITWISEOR 268
+#define BITWISEXOR 269
+#define AND 270
+#define ASSIGN 271
+#define MUL 272
+#define COMMA 273
+#define DIV 274
+#define EQ 275
+#define GE 276
+#define GT 277
+#define LBRACE 278
+#define LE 279
+#define LPAR 280
+#define LT 281
+#define MINUS 282
+#define MOD 283
+#define NE 284
+#define NOT 285
+#define OR 286
+#define PLUS 287
+#define RBRACE 288
+#define RPAR 289
+#define SEMI 290
+#define RESERVED 291
+#define IDENTIFIER 292
+#define NATURAL 293
+#define DECIMAL 294
+#define CHRLIT 295
+#define UNARY 296
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

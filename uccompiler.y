@@ -21,6 +21,7 @@ Tiago Rafael Cardoso Santos - 2021229679
     char *v;
     struct no *no;
 }
+
 %token CHAR
 %token ELSE
 %token WHILE
@@ -61,8 +62,8 @@ Tiago Rafael Cardoso Santos - 2021229679
 %token<v> DECIMAL
 %token<v> CHRLIT
 
-%type <no> Program /* FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator Statement Statement2 Expr Expr2  
-*/
+%type <no> FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator Statement Statement2 Expr Expr2  
+
 %left  UNARY
 
 %left   COMMA
@@ -82,15 +83,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 %nonassoc IF
 %nonassoc ELSE
 
-%start Program
-
 %%
-Program:
-    PLUS {printf("asdasd\n");}
-    | {}
-    ;
-
-/*
 FunctionsAndDeclarations: 
     FunctionDefinition FunctionsAndDeclarations2            {}
     | FunctionDeclaration FunctionsAndDeclarations2         {}
@@ -224,5 +217,5 @@ Expr2:
     {}
     | COMMA Expr2 {}
     ;
-*/
+
 %%
