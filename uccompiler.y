@@ -21,7 +21,6 @@ Tiago Rafael Cardoso Santos - 2021229679
     char *v;
     struct no *no;
 }
-
 %token CHAR
 %token ELSE
 %token WHILE
@@ -62,8 +61,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 %token<v> DECIMAL
 %token<v> CHRLIT
 
-%type <no> FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator Statement Statement2 Expr Expr2  
-
+%type <no> FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr Expr2  
 %left  UNARY
 
 %left   COMMA
@@ -83,7 +81,10 @@ Tiago Rafael Cardoso Santos - 2021229679
 %nonassoc IF
 %nonassoc ELSE
 
+
+
 %%
+
 FunctionsAndDeclarations: 
     FunctionDefinition FunctionsAndDeclarations2            {}
     | FunctionDeclaration FunctionsAndDeclarations2         {}
@@ -106,9 +107,9 @@ FunctionBody:
     ;
 
 DeclarationsAndStatements:
-    Statement DeclarationsAndStatements                     {}
+    StatementsERROR DeclarationsAndStatements                     {}
     | Declaration DeclarationsAndStatements                 {}
-    | Statement                                             {}
+    | StatementsERROR                                             {}
     | Declaration                                           {}  
     ;
 
@@ -156,22 +157,35 @@ Declarator:
     | IDENTIFIER ASSIGN Expr                                {  }
     ;
 
-Statement:
+StatementsERROR:
     SEMI                                                    {  }
     | Expr SEMI                                             {  }
     | LBRACE Statement2 RBRACE                              {  }
-    | IF LPAR Expr RPAR Statement ELSE Statement            {  }
-    | IF LPAR Expr RPAR Statement                {  }
+    | IF LPAR Expr RPAR StatementERROR ELSE StatementERROR            {  }
+    | IF LPAR Expr RPAR StatementERROR                {  }
     
-    | WHILE LPAR Expr RPAR Statement                        {  }
+    | WHILE LPAR Expr RPAR StatementERROR                        {  }
     | RETURN Expr SEMI                                      {  } 
 
     | LBRACE error RBRACE                                   {  }
+    ;
+
+StatementERROR:
+    SEMI                                                    {  }
+    | Expr SEMI                                             {  }
+    | LBRACE Statement2 RBRACE                              {  }
+    | IF LPAR Expr RPAR StatementERROR ELSE StatementERROR            {  }
+    | IF LPAR Expr RPAR StatementERROR                {  }
     
+    | WHILE LPAR Expr RPAR StatementERROR                        {  }
+    | RETURN Expr SEMI                                      {  } 
+
+    | LBRACE error RBRACE                                   {  }
+    | error SEMI {}
     ;
 
 Statement2:        {  }
-    | Statement Statement2                                  {  }
+    | StatementERROR Statement2                                  {  }
     ;
 
 Expr:

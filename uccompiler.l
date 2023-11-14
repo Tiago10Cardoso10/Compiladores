@@ -27,7 +27,6 @@ expoente    ("e"|"E")
 notaccepted [^\'\\\n]
 
 chrlit      {notaccepted}|"\\n"|"\\t"|"\\\\"|"\\\'"|"\\\""|"\\"[0-7]{1,3}|\t
-especial    ("char"|"else"|"while"|"if"|"int"|"short"|"double"|"return"|"void"|"&"|"|"|"^"|"&&"|"="|"*"|","|"/"|"=="|">="|">"|"{"|"<="|"("|")"|"<"|"-"|"%"|"!="|"!"|"||"|"+"|"}"|";")
 reserved    "["|"]"|"++"|"--"|"auto"|"break"|"case"|"const"|"continue"|"default"|"do"|"long"|"register"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"volatile"|"enum"|"extern"|"float"|"for"|"goto"|"inline"|"restrict"|"_Bool"|"_Complex"|"_Imaginary"
 enter       (\n|\r|\n\r)
 
@@ -69,10 +68,6 @@ plus "+"
 rbrace "}"
 rpar ")"
 semi ";"
-
-
-
-
 
 %X COMMENT
 %X COMMENT2
@@ -149,7 +144,7 @@ semi ";"
                                                         printf("DECIMAL(%s)\n", yytext);
                                                     }
                                                     coluna+=yyleng;
-                                                    if(flag == 2){ 
+                                                    if(flag != 1){ 
                                                         yylval.v = strdup(yytext);
                                                         return DECIMAL;
                                                     }
@@ -170,7 +165,7 @@ semi ";"
 
 <COMMENT><<EOF>>        {   
                             printf("Line %d, column %d: unterminated comment\n",linhareserved,colunareserved);
-                            yyterminate();
+                            return 0;
                         }
 
 <COMMENT2>.             {   coluna+=yyleng;}
@@ -186,7 +181,6 @@ semi ";"
                                     }
 
 %%
-
 extern int yylex();
 
 void yyerror(const char *s) {
@@ -208,7 +202,6 @@ int main(int argc, char* argv[]) {
             while (yyparse() != 0){
                 yyparse();
             }
-            
         }
             
     }
@@ -218,5 +211,5 @@ int main(int argc, char* argv[]) {
         yylex();
     }
     
-    
+    return 0;
 }
