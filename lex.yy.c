@@ -1058,22 +1058,22 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 80 "uccompiler.l"
-{if (flag == 1){printf("RESERVED(%s)\n",yytext);if(flag == 2){yylval.v = strdup(yytext);return RESERVED;}}}
+{   if (flag == 1){printf("RESERVED(%s)\n",yytext);if(flag == 2){yylval.v = strdup(yytext);return RESERVED;}}}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 82 "uccompiler.l"
-{   if(flag == 1)printf("IDENTIFIER(%s)\n",yytext); coluna+=yyleng;if(flag == 2){yylval.v = strdup(yytext);return IDENTIFIER;}} 
+{   if(flag == 1)printf("IDENTIFIER(%s)\n",yytext); coluna+=yyleng; if(flag == 2){yylval.v = strdup(yytext);return IDENTIFIER;}} 
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 84 "uccompiler.l"
-{   if(flag == 1)printf("NATURAL(%s)\n",yytext);coluna+=yyleng;if(flag == 2){yylval.v = strdup(yytext);return NATURAL;}} 
+{   if(flag == 1)printf("NATURAL(%s)\n",yytext); coluna+=yyleng; if(flag == 2){yylval.v = strdup(yytext);return NATURAL;}} 
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 86 "uccompiler.l"
-{   if(flag == 1)printf("DECIMAL(%s)\n", yytext);coluna+=yyleng;if(flag == 2){yylval.v = strdup(yytext);return DECIMAL;}}
+{   if(flag == 1)printf("DECIMAL(%s)\n", yytext); coluna+=yyleng; if(flag == 2){yylval.v = strdup(yytext);return DECIMAL;}}
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
@@ -2169,8 +2169,7 @@ void yyfree (void * ptr )
 
 
 void yyerror(const char *s) { 
-    printf ( "Line %d ,column %d: %s: %s\n " ,linha,(int)(coluna-strlen(yytext)), s , yytext );
-
+    printf ("Line %d, column %d: %s: %s\n" ,linha,(int)(coluna-strlen(yytext)),s,yytext);
 }
 
 int yywrap() {  /* called on EOF, return 1 to terminate */
@@ -2185,12 +2184,14 @@ int main(int argc, char* argv[]) {
             yylex();  /* run the lexical analysis automaton */
         }else if (strcmp(argv[i], "-t") == 0){
             flag = 2;
-            yyparse();   
+
+            yyparse();  
+            
         } 
     }
     if(argc == 1){
-            yyparse();
             yylex();
+            yyparse();
     }
     
     return 0;
