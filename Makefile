@@ -1,26 +1,15 @@
-# Definições
-CC = cc
-LEX = lex
-YACC = yacc
-OUTPUT = uccompiler
-LEX_FILE = uccompiler.l
-YACC_FILE = uccompiler.y
+all: uccompiler
 
-# Regra padrão
-all: $(OUTPUT)
+uccompiler: lex.yy.c y.tab.c
+	cc lex.yy.c y.tab.c -o uccompiler -ll
 
-$(OUTPUT): lex.yy.c
-	$(CC) lex.yy.c y.tab.c -o $(OUTPUT) -ll
+lex.yy.c: uccompiler.l
+	lex uccompiler.l
 
-y.tab.c:$(YACC_FILE)
-	$(YACC) -dv $(YACC_FILE)
-
-lex.yy.c: $(LEX_FILE)
-	$(LEX) $(LEX_FILE)
-
-run: $(OUTPUT)
-	./$(OUTPUT)
+y.tab.c: uccompiler.y
+	yacc -dv uccompiler.y
 
 clean:
-	rm -f lex.yy.c $(OUTPUT)
+	rm -f lex.yy.c y.tab.c y.tab.h uccompiler y.output
 
+.PHONY: clean
