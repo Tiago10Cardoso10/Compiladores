@@ -4,22 +4,21 @@
 Henrique José Correia Brás - 2021229812
 Tiago Rafael Cardoso Santos - 2021229679
 */
-    #include <stdio.h>
-    #include <stdbool.h>
-    #include <ctype.h>
-    #include <string.h>
-    #include <stdlib.h>
-    #include <stdarg.h>
+    
     
 
     int yylex(void);
-    void yyerror(const char *s);
-    
+    extern void yyerror(const char *s);
+
+    #include "tree.h"
+    int nr_erro = 0;
+    struct node *raiz;
+    struct node *novo;
 %}
 
 %union {
     char *v;
-    struct no *no;
+    struct node *no;
 }
 %token CHAR
 %token ELSE
@@ -61,7 +60,8 @@ Tiago Rafael Cardoso Santos - 2021229679
 %token<v> DECIMAL
 %token<v> CHRLIT
 
-%type <no> FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr  
+%type <no> FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr
+
 %left  UNARY
 
 %left   COMMA
@@ -84,147 +84,315 @@ Tiago Rafael Cardoso Santos - 2021229679
 
 
 %%
-
 FunctionsAndDeclarations: 
-    FunctionDefinition FunctionsAndDeclarations2            {}
-    | FunctionDeclaration FunctionsAndDeclarations2         {}
-    | Declaration  FunctionsAndDeclarations2                {}
+    FunctionDefinition FunctionsAndDeclarations2            {   
+                                                                $$ = raiz = criar_no(no_raiz,"Program",NULL);
+                                                                novo = criar_no(no_funcoes,"FunctionDefinition",NULL);
+                                                                adicionar_filho(raiz,novo);
+                                                                adicionar_filho(raiz,$2);
+                                                            }
+    | FunctionDeclaration FunctionsAndDeclarations2         {   
+                                                                $$ = raiz = criar_no(no_raiz,"Program",NULL);
+                                                                novo = criar_no(no_funcoes,"FunctionDeclaration",NULL);
+                                                                adicionar_filho(raiz,novo);
+                                                                adicionar_filho(raiz,$2);
+                                                            }
+    | Declaration  FunctionsAndDeclarations2                {   
+                                                                $$ = raiz = criar_no(no_raiz,"Program",NULL);
+                                                                novo = criar_no(no_declaracao,"Declaration",NULL);
+                                                                adicionar_filho(raiz,novo);
+                                                                adicionar_filho(raiz,$2);
+                                                                
+                                                            }
     ;
 
-FunctionsAndDeclarations2:                       {}
-    | FunctionDefinition FunctionsAndDeclarations2          {}
-    | FunctionDeclaration FunctionsAndDeclarations2         {}
-    | Declaration  FunctionsAndDeclarations2                {}
+FunctionsAndDeclarations2:  /* empty */                     {   $$ = NULL;}
+    | FunctionDefinition FunctionsAndDeclarations2          {   
+                                                                /* $$ corresponde a FunctionsAndDeclarations2 e onde é chamado
+                                                                    substitui pelo que aqui está
+                                                                */
+                                                                $$ = novo = criar_no(no_declaracao,"Declaration",NULL);
+                                                                
+                                                            }
+    | FunctionDeclaration FunctionsAndDeclarations2         {
+                                                                $$ = novo = criar_no(no_declaracao,"Declaration",NULL);
+                                                                
+                                                            }
+    | Declaration  FunctionsAndDeclarations2                {
+                                                                $$ = novo = criar_no(no_declaracao,"Declaration",NULL);
+                                                                
+                                                            }
     ;
 
 FunctionDefinition:
-    TypeSpec FunctionDeclarator FunctionBody                {}
+    TypeSpec FunctionDeclarator FunctionBody                {   
+                                                                ;
+                                                            }
     ;
 
 FunctionBody: 
-    LBRACE RBRACE                                           {}
-    | LBRACE DeclarationsAndStatements RBRACE               {}
+    LBRACE RBRACE                                           {
+                                                                ;
+                                                            }
+    | LBRACE DeclarationsAndStatements RBRACE               {
+                                                                ;
+                                                            }
     ;
 
 DeclarationsAndStatements:
-    StatementsERROR DeclarationsAndStatements                     {}
-    | Declaration DeclarationsAndStatements                 {}
-    | StatementsERROR                                             {}
-    | Declaration                                           {}  
+    StatementsERROR DeclarationsAndStatements               { 
+                                                                ;
+                                                            }
+    | Declaration DeclarationsAndStatements                 {
+                                                                ;
+                                                            }
+    | StatementsERROR                                       {
+                                                                ;
+                                                            }
+    | Declaration                                           {
+                                                                ;
+                                                            }  
     ;
 
 FunctionDeclaration:
-    TypeSpec FunctionDeclarator SEMI                        {}
+    TypeSpec FunctionDeclarator SEMI                        {
+                                                                ;
+                                                            }
     ;
 
 FunctionDeclarator:
-    IDENTIFIER LPAR ParameterList RPAR                      {}
+    IDENTIFIER LPAR ParameterList RPAR                      {
+                                                                ;
+                                                            }
     ;
 
 ParameterList:
-    ParameterDeclaration ParameterList2                     {}
+    ParameterDeclaration ParameterList2                     {
+                                                                ;
+                                                            }      
     ;
 
-ParameterList2:                                  {  }
-    | COMMA ParameterDeclaration ParameterList2             {  }
+ParameterList2: /* empty */                                 {   ; }
+    | COMMA ParameterDeclaration ParameterList2             {
+                                                                ;
+                                                            }
     ;
 
 ParameterDeclaration: 
-    TypeSpec                                                {  }
-    | TypeSpec IDENTIFIER                                   {  }
+    TypeSpec                                                {
+                                                                ;
+                                                            }
+    | TypeSpec IDENTIFIER                                   {
+                                                                ;
+                                                            }
     ;
 
 Declaration:
-    TypeSpec Declarator Declaration2 SEMI                   {  }
+    TypeSpec Declarator Declaration2 SEMI                   {
+                                                                ;
+                                                            }
     
-    | error SEMI                                            {  }
+    | error SEMI                                            {  ;}
     ;
 
-Declaration2:                                    {  }
-    | COMMA Declarator Declaration2                         {  }
+Declaration2: /* empty */                                   {  ; }
+    | COMMA Declarator Declaration2                         {
+                                                                ;
+                                                            }
     ;
 
 TypeSpec: 
-    CHAR                                                    {  }
-    | INT                                                   {  }
-    | VOID                                                  {  }
-    | SHORT                                                 {  }
-    | DOUBLE                                                {  }
+    CHAR                                                    {
+                                                                ;
+                                                            }
+    | INT                                                   {
+                                                                ;
+                                                            }
+    | VOID                                                  {
+                                                                ;
+                                                            }
+    | SHORT                                                 {
+                                                                ;
+                                                            }
+    | DOUBLE                                                {
+                                                                ;
+                                                            }
     ;
 
 Declarator:
-    IDENTIFIER                                              {  }
-    | IDENTIFIER ASSIGN Expr                                {  }
+    IDENTIFIER                                              {
+                                                                ;
+                                                            }
+    | IDENTIFIER ASSIGN Expr                                {
+                                                                ;
+                                                            }
     ;
 
 StatementsERROR:
-    SEMI                                                    {  }
-    | Expr SEMI                                             {  }
-    | LBRACE Statement2 RBRACE                              {  }
-    | IF LPAR Expr RPAR StatementERROR ELSE StatementERROR            {  }
-    | IF LPAR Expr RPAR StatementERROR                {  }
-    
-    | WHILE LPAR Expr RPAR StatementERROR                        {  }
-    | RETURN Expr SEMI                                      {  } 
+    SEMI                                                    {
+                                                                ;
+                                                            }
+    | Expr SEMI                                             {
+                                                                ;
+                                                            }
 
-    | LBRACE error RBRACE                                   {  }
+    | LBRACE Statement2 RBRACE                              {
+                                                                ;
+                                                            }
+
+    | IF LPAR Expr RPAR StatementERROR ELSE StatementERROR  {
+                                                                ;
+                                                            }
+    | IF LPAR Expr RPAR StatementERROR                      {
+                                                                ;
+                                                            }
+
+    | WHILE LPAR Expr RPAR StatementERROR                   {
+                                                                ;
+                                                            }
+
+    | RETURN Expr SEMI                                      {
+                                                                ;
+                                                            }
+    | RETURN SEMI                                           {
+                                                                ;
+                                                            }
+
+    | LBRACE error RBRACE                                   {   ;}
     ;
 
 StatementERROR:
-    SEMI                                                    {  }
-    | Expr SEMI                                             {  }
-    | LBRACE Statement2 RBRACE                              {  }
-    | IF LPAR Expr RPAR StatementERROR ELSE StatementERROR            {  }
-    | IF LPAR Expr RPAR StatementERROR                {  }
+    SEMI                                                    {
+                                                                ;
+                                                            }
+    | Expr SEMI                                             {
+                                                                ;
+                                                            }
+    | LBRACE Statement2 RBRACE                              {
+                                                                ;
+                                                            }
+    | IF LPAR Expr RPAR StatementERROR ELSE StatementERROR  {
+                                                                ;
+                                                            }
+    | IF LPAR Expr RPAR StatementERROR                      {
+                                                                ;
+                                                            }
     
-    | WHILE LPAR Expr RPAR StatementERROR                        {  }
-    | RETURN Expr SEMI                                      {  } 
+    | WHILE LPAR Expr RPAR StatementERROR                   {
+                                                                ;
+                                                            }
+    | RETURN Expr SEMI                                      {
+                                                                ;
+                                                            }
+    | RETURN SEMI                                           {
+                                                                ;
+                                                            }
+    
 
-    | LBRACE error RBRACE                                   {  }
-    | error SEMI {}
+    | LBRACE error RBRACE                                   {  ;}
+    | error SEMI                                            {   }
     ;
 
-Statement2:        {  }
-    | StatementERROR Statement2                                  {  }
+Statement2: /* empty */                                     {   ; }
+    | StatementERROR Statement2                             {
+                                                                ;
+                                                            }
     ;
 
 Expr:
-    Expr ASSIGN Expr                                        { }
-    | Expr COMMA Expr                                       { }
-    | Expr PLUS Expr                                        { }
-    | Expr MINUS Expr                                       { }
-    | Expr MUL Expr                                         { }
-    | Expr DIV Expr                                         { }
-    | Expr MOD Expr                                         { }
+    Expr ASSIGN Expr                                        {
+                                                                ;
+                                                            }
+    | Expr COMMA Expr                                       {
+                                                                ;
+                                                            }
+    | Expr PLUS Expr                                        {
+                                                                ;
+                                                            }
+    | Expr MINUS Expr                                       {   
+                                                                ;
+                                                            }
+    | Expr MUL Expr                                         {
+                                                                ;
+                                                            }
+    | Expr DIV Expr                                         {   
+                                                                ;
+                                                            }
+    | Expr MOD Expr                                         {   
+                                                                ;
+                                                            }
 
-    | Expr OR Expr                                          { }
-    | Expr AND Expr                                         { }
-    | Expr BITWISEAND Expr                                  { }
-    | Expr BITWISEOR Expr                                   { }
-    | Expr BITWISEXOR Expr                                  { }
+    | Expr OR Expr                                          {
+                                                                ;
+                                                            }
+    | Expr AND Expr                                         {
+                                                                ;
+                                                            }
+    | Expr BITWISEAND Expr                                  {
+                                                                ;
+                                                            }
+    | Expr BITWISEOR Expr                                   {
+                                                                ;
+                                                            }
+    | Expr BITWISEXOR Expr                                  {
+                                                                ;
+                                                            }
 
-    | Expr EQ Expr                                          { }
-    | Expr NE Expr                                          { }
-    | Expr LE Expr                                          { }
-    | Expr GE Expr                                          { }
-    | Expr LT Expr                                          { }
-    | Expr GT Expr                                          {}
+    | Expr EQ Expr                                          {
+                                                                ;
+                                                            }
+    | Expr NE Expr                                          {   
+                                                                ;
+                                                            }
+    | Expr LE Expr                                          {
+                                                                ;
+                                                            }
+    | Expr GE Expr                                          {
+                                                                ;
+                                                            }
+    | Expr LT Expr                                          {
+                                                                ;
+                                                            }
+    | Expr GT Expr                                          {
+                                                                ;
+                                                            }
 
-    | PLUS Expr                                             {}
-    | MINUS Expr                                            {}
-    | NOT Expr                                              {}
+    | PLUS Expr                                             {
+                                                                ;
+                                                            }
+    | MINUS Expr                                            {   
+                                                                ;
+                                                            }
+    | NOT Expr                                              {
+                                                                ;
+                                                            }
 
-    | IDENTIFIER LPAR Expr RPAR                            {}
-    | IDENTIFIER LPAR RPAR                            {}
+    | IDENTIFIER LPAR Expr RPAR                             {
+                                                                ;
+                                                            }
+    | IDENTIFIER LPAR RPAR                                  {
+                                                                ;
+                                                            }
     
-    | IDENTIFIER %prec UNARY                                {}
-    | NATURAL                                               {}
-    | CHRLIT                                                {}
-    | DECIMAL                                               {}
-    | LPAR Expr RPAR                                        {}
+    | IDENTIFIER %prec UNARY                                {
+                                                                ;
+                                                            }
+    | NATURAL                                               {
+                                                                ;
+                                                            }
+    | CHRLIT                                                {
+                                                                ;
+                                                            }
+    | DECIMAL                                               {
+                                                                ;
+                                                            }
+    | LPAR Expr RPAR                                        {
+                                                                ;
+                                                            }
     
-    | IDENTIFIER LPAR error RPAR                            {}
-    | LPAR error RPAR                                       {}
+    | IDENTIFIER LPAR error RPAR                            {   ;}
+    | LPAR error RPAR                                       {   ;}
     ;
+    
 
 %%
