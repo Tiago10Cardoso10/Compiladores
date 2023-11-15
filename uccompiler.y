@@ -88,14 +88,14 @@ Tiago Rafael Cardoso Santos - 2021229679
 FunctionsAndDeclarations: 
     FunctionDefinition FunctionsAndDeclarations2            {   
                                                                 $$ = raiz = criar_no(no_raiz,"Program",NULL);
-                                                                novo = criar_no(no_funcoes,"FunctionDefinition",NULL);
-                                                                adicionar_filho(raiz,novo);
+                                                                
+                                                                adicionar_filho(raiz,$1);
                                                                 adicionar_filho(raiz,$2);
                                                             }
     | FunctionDeclaration FunctionsAndDeclarations2         {   
                                                                 $$ = raiz = criar_no(no_raiz,"Program",NULL);
-                                                                novo = criar_no(no_funcoes,"FunctionDeclaration",NULL);
-                                                                adicionar_filho(raiz,novo);
+                                                                
+                                                                adicionar_filho(raiz,$1);
                                                                 adicionar_filho(raiz,$2);
                                                             }
     | Declaration  FunctionsAndDeclarations2                {   
@@ -109,12 +109,10 @@ FunctionsAndDeclarations:
 
 FunctionsAndDeclarations2:  /* empty */                     {   $$ = NULL;}
     | FunctionDefinition FunctionsAndDeclarations2          {   
-                                                                $$ = novo = criar_no(no_funcoes,"FunctionDefinition",NULL);
-                                                                adicionar_irmao(novo,$2);
+                                                                adicionar_irmao($$,$2);
                                                             }
     | FunctionDeclaration FunctionsAndDeclarations2         {
-                                                                $$ = novo = criar_no(no_funcoes,"FunctionDeclaration",NULL);
-                                                                adicionar_irmao(novo,$2);
+                                                                adicionar_irmao($$,$2);
                                                             }
     | Declaration  FunctionsAndDeclarations2                {
                                                                 adicionar_irmao($$,$2);
@@ -123,16 +121,19 @@ FunctionsAndDeclarations2:  /* empty */                     {   $$ = NULL;}
 
 FunctionDefinition:
     TypeSpec FunctionDeclarator FunctionBody                {   
-                                                                ;
+                                                                $$ = novo = criar_no(no_funcoes,"FuncDefinition",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$2);
+                                                                adicionar_filho($$,$3);
                                                             }
     ;
 
 FunctionBody: 
     LBRACE RBRACE                                           {
-                                                                ;
+                                                                $$ = NULL;
                                                             }
     | LBRACE DeclarationsAndStatements RBRACE               {
-                                                                ;
+                                                                $$ = $2;
                                                             }
     ;
 
@@ -153,23 +154,29 @@ DeclarationsAndStatements:
 
 FunctionDeclaration:
     TypeSpec FunctionDeclarator SEMI                        {
-                                                                ;
+                                                                $$ = criar_no(no_funcoes,"FuncDeclaration",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$2);
                                                             }
     ;
 
 FunctionDeclarator:
     IDENTIFIER LPAR ParameterList RPAR                      {
-                                                                ;
+                                                                $$ = criar_no(no_terminais,"Identifier",$1);
+                                                                adicionar_irmao($$,$3);
                                                             }
     ;
 
 ParameterList:
     ParameterDeclaration ParameterList2                     {
-                                                                ;
+                                                                $$ = criar_no(no_funcoes,"ParamList",NULL);
+                                                                adicionar_filho($$,$1);
+
+                                                                /* Parecido com Declaration */
                                                             }      
     ;
 
-ParameterList2: /* empty */                                 {   ; }
+ParameterList2: /* empty */                                 {   $$ = NULL; }
     | COMMA ParameterDeclaration ParameterList2             {
                                                                 ;
                                                             }
@@ -177,22 +184,25 @@ ParameterList2: /* empty */                                 {   ; }
 
 ParameterDeclaration: 
     TypeSpec                                                {
-                                                                ;
+                                                                $$ = criar_no(no_funcoes,"ParamDeclaration",NULL);
+                                                                adicionar_filho($$,$1);
                                                             }
     | TypeSpec IDENTIFIER                                   {
-                                                                ;
+                                                                $$ = criar_no(no_funcoes,"ParamDeclaration",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,criar_no(no_terminais,"Identifier",$2));
                                                             }
     ;
 
 Declaration:
     TypeSpec Declarator Declaration2 SEMI                   {
-                                                                $$ = novo = criar_no(no_funcoes,"Declaration",NULL);
+                                                                $$ = novo = criar_no(no_declaracao,"Declaration",NULL);
                                                                 adicionar_filho(novo,$1);
                                                                 adicionar_filho(novo,$2);
 
                                                                 if ($3 != NULL) {
                                                                     struct node *novo2;
-                                                                    novo2 = criar_no(no_funcoes,"Declaration",NULL);
+                                                                    novo2 = criar_no(no_declaracao,"Declaration",NULL);
                                                                     adicionar_irmao(novo,novo2);
                                                                     adicionar_filho(novo2,$1);
                                                                     adicionar_filho(novo2,$3);
@@ -304,7 +314,7 @@ StatementERROR:
     | error SEMI                                            {  $$ = NULL; nr_erro = 1;}
     ;
 
-Statement2: /* empty */                                     {   ; }
+Statement2: /* empty */                                     {   $$ = NULL; }
     | StatementERROR Statement2                             {
                                                                 ;
                                                             }
@@ -386,16 +396,16 @@ Expr:
                                                             }
     
     | IDENTIFIER %prec UNARY                                {
-                                                                ;
+                                                                $$ = criar_no(no_terminais,"Identifier",$1);
                                                             }
     | NATURAL                                               {
-                                                                ;
+                                                                $$ = criar_no(no_terminais,"Natural",$1);
                                                             }
     | CHRLIT                                                {
-                                                                ;
+                                                                $$ = criar_no(no_terminais,"Chrlit",$1);
                                                             }
     | DECIMAL                                               {
-                                                                ;
+                                                                $$ = criar_no(no_terminais,"Decimal",$1);
                                                             }
     | LPAR Expr RPAR                                        {
                                                                 ;
