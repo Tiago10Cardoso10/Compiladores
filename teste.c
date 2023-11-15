@@ -1,1 +1,4 @@
-void ola(int ola);
+void ola(int ola){
+    int OLA;
+    int ola;
+}
