@@ -71,6 +71,7 @@ struct node {
     char *tipo;
     char *token;
     struct node_list *filhos;
+    struct node_list *irmaos;
 };
 
 struct node_list {
@@ -80,6 +81,9 @@ struct node_list {
 
 struct node *criar_no(enum tipo_no tipo_no,char *tipo, char *token);
 void adicionar_filho(struct node *pai, struct node *filho);
+struct node_list *append_node(struct node_list *list, struct node *criar_no);
+struct node *nodelist_to_node(struct node_list *node_list);
+struct node_list* reverse_list(struct node_list* head);
 void imprime_arvore(struct node *no, int num);
 
 #endif

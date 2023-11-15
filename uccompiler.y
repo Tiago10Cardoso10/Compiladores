@@ -111,16 +111,21 @@ FunctionsAndDeclarations2:  /* empty */                     {   $$ = NULL;}
                                                                 /* $$ corresponde a FunctionsAndDeclarations2 e onde é chamado
                                                                     substitui pelo que aqui está
                                                                 */
-                                                                $$ = novo = criar_no(no_declaracao,"Declaration",NULL);
-                                                                
+                                                                $$ = novo = criar_no(no_declaracao,"FunctionDefinition",NULL);
+                                                                adicionar_filho(novo,$2);
                                                             }
     | FunctionDeclaration FunctionsAndDeclarations2         {
-                                                                $$ = novo = criar_no(no_declaracao,"Declaration",NULL);
-                                                                
+                                                                $$ = novo = criar_no(no_declaracao,"FunctionDeclaration",NULL);
+                                                                adicionar_filho(novo,$2);
                                                             }
     | Declaration  FunctionsAndDeclarations2                {
-                                                                $$ = novo = criar_no(no_declaracao,"Declaration",NULL);
                                                                 
+                                                                $$ = novo = criar_no(no_declaracao,"FunctionDeclaration",NULL);
+                                                                struct node_list* decls = reverse_list($1);
+                                                                while(decls != NULL){
+                                                                    adicionar_filho($$, decls->no);
+                                                                    decls = decls->next;
+                                                                }
                                                             }
     ;
 
