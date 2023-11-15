@@ -28,51 +28,26 @@ void adicionar_filho(struct node *pai, struct node *filho){
     }
 }
 
-struct node_list *append_node(struct node_list *list, struct node *criar_no) {
-    struct node_list *new_list_node = malloc(sizeof(struct node_list));
-    new_list_node->no = criar_no;
-    new_list_node->next = NULL;
+void adicionar_irmao(struct node *irmao, struct node *novo){
+    if (irmao == NULL || novo == NULL) {
+        return;
+    }
+    struct node_list *novo_irmao = malloc(sizeof(struct node_list));
 
-    if (list == NULL) {
-        // If the list is empty, start a new list with the new node
-        return new_list_node;
+    novo_irmao->no = novo;
+    novo_irmao->next = NULL;
+
+    struct node_list *ultimo_irmao = irmao->irmaos;
+    if (ultimo_irmao == NULL) {
+        irmao->irmaos = novo_irmao;
     } else {
-        // Find the last node in the list
-        struct node_list *current = list;
-        while (current->next != NULL) {
-            current = current->next;
+        while (ultimo_irmao->next != NULL) {
+            ultimo_irmao = ultimo_irmao->next;
         }
-        // Append the new node
-        current->next = new_list_node;
-        return list;  // Return the head of the list
+        ultimo_irmao->next = novo_irmao;
     }
+    
 }
-
-struct node_list *node_to_nodelist(struct node *node) {
-    struct node_list *list_item = malloc(sizeof(struct node_list));
-    list_item->no = node;
-    list_item->next = NULL;
-    return list_item;
-}
-
-struct node *nodelist_to_node(struct node_list *node_list) {
-    struct node *node = malloc(sizeof(struct node));
-    node = node_list->no;
-    return node;
-}
-
-struct node_list* reverse_list(struct node_list* head) {
-    struct node_list *prev = NULL, *current = head, *next = NULL;
-    while (current != NULL) {
-        next = current->next;
-        current->next = prev;
-        prev = current;
-        current = next;
-    }
-    return prev;
-}
-
-
 
 void imprime_arvore(struct node *no, int num){ 
     for (int i = 0; i < num; i++) {
@@ -88,5 +63,10 @@ void imprime_arvore(struct node *no, int num){
     while (atual && atual->no) {
         imprime_arvore(atual->no, num + 1);
         atual = atual->next;
+    }
+    struct node_list *atual2 = no->irmaos;
+    while (atual2 && atual2->no) {
+        imprime_arvore(atual2->no, num);
+        atual2 = atual2->next;
     }
 }
