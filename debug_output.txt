@@ -1,2 +1,0 @@
-Line 1 ,column 5: syntax error: main
- 

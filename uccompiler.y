@@ -61,7 +61,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 %token<v> DECIMAL
 %token<v> CHRLIT
 
-%type <no> FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr Expr2  
+%type <no> FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr  
 %left  UNARY
 
 %left   COMMA
@@ -190,46 +190,41 @@ Statement2:        {  }
 
 Expr:
     Expr ASSIGN Expr                                        { }
-    | Expr COMMA Expr                                        { }
-    | Expr PLUS Expr { }
-    | Expr MINUS Expr { }
-    | Expr MUL Expr { }
-    | Expr DIV Expr { }
-    | Expr MOD Expr { }
+    | Expr COMMA Expr                                       { }
+    | Expr PLUS Expr                                        { }
+    | Expr MINUS Expr                                       { }
+    | Expr MUL Expr                                         { }
+    | Expr DIV Expr                                         { }
+    | Expr MOD Expr                                         { }
 
-    | Expr OR Expr { }
-    | Expr AND Expr { }
-    | Expr BITWISEAND Expr { }
-    | Expr BITWISEOR Expr { }
-    | Expr BITWISEXOR Expr { }
+    | Expr OR Expr                                          { }
+    | Expr AND Expr                                         { }
+    | Expr BITWISEAND Expr                                  { }
+    | Expr BITWISEOR Expr                                   { }
+    | Expr BITWISEXOR Expr                                  { }
 
-    | Expr EQ Expr { }
-    | Expr NE Expr { }
-    | Expr LE Expr { }
-    | Expr GE Expr { }
-    | Expr LT Expr { }
-    | Expr GT Expr {}
+    | Expr EQ Expr                                          { }
+    | Expr NE Expr                                          { }
+    | Expr LE Expr                                          { }
+    | Expr GE Expr                                          { }
+    | Expr LT Expr                                          { }
+    | Expr GT Expr                                          {}
 
-    | PLUS Expr {}
-    | MINUS Expr {}
-    | NOT Expr  {}
+    | PLUS Expr                                             {}
+    | MINUS Expr                                            {}
+    | NOT Expr                                              {}
 
-    | IDENTIFIER LPAR RPAR {}
-    | IDENTIFIER LPAR Expr Expr2 RPAR {}
-    | IDENTIFIER %prec UNARY {}
+    | IDENTIFIER LPAR Expr RPAR                            {}
+    | IDENTIFIER LPAR RPAR                            {}
     
-    | NATURAL {}
-    | CHRLIT {}
-    | DECIMAL {}
-    | LPAR Expr RPAR {}
+    | IDENTIFIER %prec UNARY                                {}
+    | NATURAL                                               {}
+    | CHRLIT                                                {}
+    | DECIMAL                                               {}
+    | LPAR Expr RPAR                                        {}
     
-    | IDENTIFIER LPAR error RPAR {}
-    | LPAR error RPAR {}
-    ;
-    
-Expr2:
-    {}
-    | COMMA Expr2 {}
+    | IDENTIFIER LPAR error RPAR                            {}
+    | LPAR error RPAR                                       {}
     ;
 
 %%
