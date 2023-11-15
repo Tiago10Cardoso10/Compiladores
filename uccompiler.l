@@ -3,15 +3,15 @@
 Henrique José Correia Brás - 2021229812
 Tiago Rafael Cardoso Santos - 2021229679
 */
+
 #include <stdio.h>
-#include <stdbool.h>
-#include <ctype.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdarg.h>
+#include <stdbool.h>
 #include "y.tab.h"
 
-
+#include "tree.h"
 
 int linha = 1;
 int coluna = 1;
@@ -19,7 +19,9 @@ int linhareserved = 0;
 int colunareserved = 0;
 int flag = 0;
 
-extern FILE *yyin;
+extern int nr_erro;
+extern struct node *raiz;;
+
 
 %}
 
@@ -203,8 +205,9 @@ int main(int argc, char* argv[]) {
         }   
         else if(strcmp(argv[1], "-t") == 0){
             flag = 2;
-            while (yyparse() != 0){
-                yyparse();
+            yyparse();
+            if(nr_erro == 0){
+                imprime_arvore(raiz,0);
             }
         }
             
