@@ -12,6 +12,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 
     #include "tree.h"
     int nr_erro = 0;
+    int teste = 1;
     struct node *raiz;
     struct node *novo;
 %}
@@ -99,9 +100,10 @@ FunctionsAndDeclarations:
                                                             }
     | Declaration  FunctionsAndDeclarations2                {   
                                                                 $$ = raiz = criar_no(no_raiz,"Program",NULL);
-                                                                novo = criar_no(no_declaracao,"Declaration",NULL);
-                                                                adicionar_filho(raiz,novo);
+                                                                
+                                                                adicionar_filho(raiz,$1);
                                                                 adicionar_filho(raiz,$2);
+                                                                
                                                             }
     ;
 
@@ -115,9 +117,7 @@ FunctionsAndDeclarations2:  /* empty */                     {   $$ = NULL;}
                                                                 adicionar_irmao(novo,$2);
                                                             }
     | Declaration  FunctionsAndDeclarations2                {
-                                                                
-                                                                $$ = novo = criar_no(no_declaracao,"Declaration",NULL);
-                                                                adicionar_irmao(novo,$2);
+                                                                adicionar_irmao($$,$2);
                                                             }
     ;
 
@@ -186,42 +186,56 @@ ParameterDeclaration:
 
 Declaration:
     TypeSpec Declarator Declaration2 SEMI                   {
-                                                                ;
+                                                                $$ = novo = criar_no(no_funcoes,"Declaration",NULL);
+                                                                adicionar_filho(novo,$1);
+                                                                adicionar_filho(novo,$2);
+
+                                                                if ($3 != NULL) {
+                                                                    struct node *novo2;
+                                                                    novo2 = criar_no(no_funcoes,"Declaration",NULL);
+                                                                    adicionar_irmao(novo,novo2);
+                                                                    adicionar_filho(novo2,$1);
+                                                                    adicionar_filho(novo2,$3);
+                                                                }
+                                                                
                                                             }
     
-    | error SEMI                                            {  ;}
+    | error SEMI                                            {  $$ = NULL; nr_erro = 1;}
     ;
 
-Declaration2: /* empty */                                   {  ; }
+Declaration2: /* empty */                                   {  $$ = NULL;}
     | COMMA Declarator Declaration2                         {
-                                                                ;
+                                                                if ($3 != NULL){
+                                                                    $$ = $2;
+                                                                }
                                                             }
     ;
 
 TypeSpec: 
     CHAR                                                    {
-                                                                ;
+                                                                $$ = criar_no(no_nterminais,"Char",NULL);
                                                             }
     | INT                                                   {
-                                                                ;
+                                                                $$ = criar_no(no_nterminais,"Int",NULL);
                                                             }
     | VOID                                                  {
-                                                                ;
+                                                                $$ = criar_no(no_nterminais,"Void",NULL);
                                                             }
     | SHORT                                                 {
-                                                                ;
+                                                                $$ = criar_no(no_nterminais,"Short",NULL);
                                                             }
     | DOUBLE                                                {
-                                                                ;
+                                                                $$ = criar_no(no_nterminais,"Double",NULL);
                                                             }
     ;
 
 Declarator:
     IDENTIFIER                                              {
-                                                                ;
+                                                                $$ = criar_no(no_terminais,"Identifier",$1);
                                                             }
     | IDENTIFIER ASSIGN Expr                                {
-                                                                ;
+                                                                $$ = criar_no(no_terminais,"Identifier",$1);
+                                                                adicionar_irmao($$,$3);
                                                             }
     ;
 
@@ -255,7 +269,7 @@ StatementsERROR:
                                                                 ;
                                                             }
 
-    | LBRACE error RBRACE                                   {   ;}
+    | LBRACE error RBRACE                                   {   $$ = NULL; nr_erro = 1;}
     ;
 
 StatementERROR:
@@ -286,8 +300,8 @@ StatementERROR:
                                                             }
     
 
-    | LBRACE error RBRACE                                   {  ;}
-    | error SEMI                                            {   }
+    | LBRACE error RBRACE                                   {  $$ = NULL; nr_erro = 1;}
+    | error SEMI                                            {  $$ = NULL; nr_erro = 1;}
     ;
 
 Statement2: /* empty */                                     {   ; }
@@ -387,8 +401,8 @@ Expr:
                                                                 ;
                                                             }
     
-    | IDENTIFIER LPAR error RPAR                            {   ;}
-    | LPAR error RPAR                                       {   ;}
+    | IDENTIFIER LPAR error RPAR                            {   $$ = NULL; nr_erro = 1;}
+    | LPAR error RPAR                                       {   $$ = NULL; nr_erro = 1;}
     ;
     
 
