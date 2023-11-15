@@ -696,14 +696,14 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int16 yyrline[] =
 {
        0,    89,    89,    95,   101,   110,   111,   114,   117,   123,
-     132,   135,   141,   144,   147,   150,   156,   164,   171,   179,
-     180,   186,   190,   198,   213,   216,   217,   225,   228,   231,
-     234,   237,   243,   246,   253,   256,   260,   264,   267,   271,
-     275,   278,   282,   286,   289,   292,   295,   298,   302,   305,
-     308,   313,   314,   317,   318,   324,   327,   330,   333,   336,
-     339,   342,   346,   349,   352,   355,   358,   362,   365,   368,
-     371,   374,   377,   381,   384,   387,   391,   394,   398,   401,
-     404,   407,   410,   414,   415
+     132,   135,   142,   146,   150,   153,   159,   167,   174,   182,
+     183,   189,   193,   201,   214,   217,   218,   230,   233,   236,
+     239,   242,   248,   251,   258,   261,   265,   269,   275,   282,
+     288,   293,   297,   301,   304,   307,   310,   316,   323,   328,
+     332,   337,   338,   341,   342,   348,   353,   358,   363,   368,
+     373,   378,   384,   389,   394,   399,   404,   410,   415,   420,
+     425,   430,   435,   441,   445,   449,   454,   459,   464,   467,
+     470,   473,   476,   480,   481
 };
 #endif
 
@@ -1544,7 +1544,7 @@ yyreduce:
   case 9: /* FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody  */
 #line 123 "uccompiler.y"
                                                             {   
-                                                                (yyval.no) = novo = criar_no(no_funcoes,"FuncDefinition",NULL);
+                                                                (yyval.no) = criar_no(no_funcoes,"FuncDefinition",NULL);
                                                                 adicionar_filho((yyval.no),(yyvsp[-2].no));
                                                                 adicionar_filho((yyval.no),(yyvsp[-1].no));
                                                                 adicionar_filho((yyval.no),(yyvsp[0].no));
@@ -1563,108 +1563,111 @@ yyreduce:
   case 11: /* FunctionBody: LBRACE DeclarationsAndStatements RBRACE  */
 #line 135 "uccompiler.y"
                                                             {
-                                                                (yyval.no) = (yyvsp[-1].no);
+                                                                (yyval.no) = criar_no(no_funcoes,"FuncBody",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-1].no));
                                                             }
-#line 1569 "y.tab.c"
+#line 1570 "y.tab.c"
     break;
 
   case 12: /* DeclarationsAndStatements: StatementsERROR DeclarationsAndStatements  */
-#line 141 "uccompiler.y"
+#line 142 "uccompiler.y"
                                                             { 
-                                                                ;
+                                                                (yyval.no) = (yyvsp[-1].no);
+                                                                /* Parecido com Declaration */
                                                             }
-#line 1577 "y.tab.c"
+#line 1579 "y.tab.c"
     break;
 
   case 13: /* DeclarationsAndStatements: Declaration DeclarationsAndStatements  */
-#line 144 "uccompiler.y"
+#line 146 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = (yyvsp[-1].no);
+                                                                /* Parecido com Declaration */
                                                             }
-#line 1585 "y.tab.c"
+#line 1588 "y.tab.c"
     break;
 
   case 14: /* DeclarationsAndStatements: StatementsERROR  */
-#line 147 "uccompiler.y"
+#line 150 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = (yyvsp[0].no);
                                                             }
-#line 1593 "y.tab.c"
+#line 1596 "y.tab.c"
     break;
 
   case 15: /* DeclarationsAndStatements: Declaration  */
-#line 150 "uccompiler.y"
+#line 153 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = (yyvsp[0].no);
                                                             }
-#line 1601 "y.tab.c"
+#line 1604 "y.tab.c"
     break;
 
   case 16: /* FunctionDeclaration: TypeSpec FunctionDeclarator SEMI  */
-#line 156 "uccompiler.y"
+#line 159 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_funcoes,"FuncDeclaration",NULL);
                                                                 adicionar_filho((yyval.no),(yyvsp[-2].no));
                                                                 adicionar_filho((yyval.no),(yyvsp[-1].no));
                                                             }
-#line 1611 "y.tab.c"
+#line 1614 "y.tab.c"
     break;
 
   case 17: /* FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR  */
-#line 164 "uccompiler.y"
+#line 167 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_terminais,"Identifier",(yyvsp[-3].v));
                                                                 adicionar_irmao((yyval.no),(yyvsp[-1].no));
                                                             }
-#line 1620 "y.tab.c"
+#line 1623 "y.tab.c"
     break;
 
   case 18: /* ParameterList: ParameterDeclaration ParameterList2  */
-#line 171 "uccompiler.y"
+#line 174 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_funcoes,"ParamList",NULL);
                                                                 adicionar_filho((yyval.no),(yyvsp[-1].no));
 
                                                                 /* Parecido com Declaration */
                                                             }
-#line 1631 "y.tab.c"
+#line 1634 "y.tab.c"
     break;
 
   case 19: /* ParameterList2: %empty  */
-#line 179 "uccompiler.y"
+#line 182 "uccompiler.y"
                                                             {   (yyval.no) = NULL; }
-#line 1637 "y.tab.c"
+#line 1640 "y.tab.c"
     break;
 
   case 20: /* ParameterList2: COMMA ParameterDeclaration ParameterList2  */
-#line 180 "uccompiler.y"
+#line 183 "uccompiler.y"
                                                             {
                                                                 ;
                                                             }
-#line 1645 "y.tab.c"
+#line 1648 "y.tab.c"
     break;
 
   case 21: /* ParameterDeclaration: TypeSpec  */
-#line 186 "uccompiler.y"
+#line 189 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_funcoes,"ParamDeclaration",NULL);
                                                                 adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1654 "y.tab.c"
+#line 1657 "y.tab.c"
     break;
 
   case 22: /* ParameterDeclaration: TypeSpec IDENTIFIER  */
-#line 190 "uccompiler.y"
+#line 193 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_funcoes,"ParamDeclaration",NULL);
                                                                 adicionar_filho((yyval.no),(yyvsp[-1].no));
                                                                 adicionar_filho((yyval.no),criar_no(no_terminais,"Identifier",(yyvsp[0].v)));
                                                             }
-#line 1664 "y.tab.c"
+#line 1667 "y.tab.c"
     break;
 
   case 23: /* Declaration: TypeSpec Declarator Declaration2 SEMI  */
-#line 198 "uccompiler.y"
+#line 201 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = novo = criar_no(no_declaracao,"Declaration",NULL);
                                                                 adicionar_filho(novo,(yyvsp[-3].no));
@@ -1677,488 +1680,552 @@ yyreduce:
                                                                     adicionar_filho(novo2,(yyvsp[-3].no));
                                                                     adicionar_filho(novo2,(yyvsp[-1].no));
                                                                 }
-                                                                
                                                             }
-#line 1683 "y.tab.c"
+#line 1685 "y.tab.c"
     break;
 
   case 24: /* Declaration: error SEMI  */
-#line 213 "uccompiler.y"
+#line 214 "uccompiler.y"
                                                             {  (yyval.no) = NULL; nr_erro = 1;}
-#line 1689 "y.tab.c"
+#line 1691 "y.tab.c"
     break;
 
   case 25: /* Declaration2: %empty  */
-#line 216 "uccompiler.y"
+#line 217 "uccompiler.y"
                                                             {  (yyval.no) = NULL;}
-#line 1695 "y.tab.c"
+#line 1697 "y.tab.c"
     break;
 
   case 26: /* Declaration2: COMMA Declarator Declaration2  */
-#line 217 "uccompiler.y"
+#line 218 "uccompiler.y"
                                                             {
                                                                 if ((yyvsp[0].no) != NULL){
-                                                                    (yyval.no) = (yyvsp[-1].no);
+                                                                    
+                                                                    
+                                                                    adicionar_filho((yyval.no),(yyvsp[-1].no));
+                                                                    
+                                                                    
                                                                 }
                                                             }
-#line 1705 "y.tab.c"
+#line 1711 "y.tab.c"
     break;
 
   case 27: /* TypeSpec: CHAR  */
-#line 225 "uccompiler.y"
+#line 230 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_nterminais,"Char",NULL);
                                                             }
-#line 1713 "y.tab.c"
+#line 1719 "y.tab.c"
     break;
 
   case 28: /* TypeSpec: INT  */
-#line 228 "uccompiler.y"
+#line 233 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_nterminais,"Int",NULL);
                                                             }
-#line 1721 "y.tab.c"
+#line 1727 "y.tab.c"
     break;
 
   case 29: /* TypeSpec: VOID  */
-#line 231 "uccompiler.y"
+#line 236 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_nterminais,"Void",NULL);
                                                             }
-#line 1729 "y.tab.c"
+#line 1735 "y.tab.c"
     break;
 
   case 30: /* TypeSpec: SHORT  */
-#line 234 "uccompiler.y"
+#line 239 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_nterminais,"Short",NULL);
                                                             }
-#line 1737 "y.tab.c"
+#line 1743 "y.tab.c"
     break;
 
   case 31: /* TypeSpec: DOUBLE  */
-#line 237 "uccompiler.y"
+#line 242 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_nterminais,"Double",NULL);
                                                             }
-#line 1745 "y.tab.c"
+#line 1751 "y.tab.c"
     break;
 
   case 32: /* Declarator: IDENTIFIER  */
-#line 243 "uccompiler.y"
+#line 248 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_terminais,"Identifier",(yyvsp[0].v));
                                                             }
-#line 1753 "y.tab.c"
+#line 1759 "y.tab.c"
     break;
 
   case 33: /* Declarator: IDENTIFIER ASSIGN Expr  */
-#line 246 "uccompiler.y"
+#line 251 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_terminais,"Identifier",(yyvsp[-2].v));
                                                                 adicionar_irmao((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1762 "y.tab.c"
+#line 1768 "y.tab.c"
     break;
 
   case 34: /* StatementsERROR: SEMI  */
-#line 253 "uccompiler.y"
+#line 258 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = NULL;
                                                             }
-#line 1770 "y.tab.c"
+#line 1776 "y.tab.c"
     break;
 
   case 35: /* StatementsERROR: Expr SEMI  */
-#line 256 "uccompiler.y"
+#line 261 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = (yyvsp[-1].no);
                                                             }
-#line 1778 "y.tab.c"
+#line 1784 "y.tab.c"
     break;
 
   case 36: /* StatementsERROR: LBRACE Statement2 RBRACE  */
-#line 260 "uccompiler.y"
+#line 265 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = (yyvsp[-1].no);
                                                             }
-#line 1786 "y.tab.c"
+#line 1792 "y.tab.c"
     break;
 
   case 37: /* StatementsERROR: IF LPAR Expr RPAR StatementERROR ELSE StatementERROR  */
-#line 264 "uccompiler.y"
+#line 269 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_statments,"If",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-4].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1794 "y.tab.c"
+#line 1803 "y.tab.c"
     break;
 
   case 38: /* StatementsERROR: IF LPAR Expr RPAR StatementERROR  */
-#line 267 "uccompiler.y"
+#line 275 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_statments,"If",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
+                                                                
                                                             }
-#line 1802 "y.tab.c"
+#line 1814 "y.tab.c"
     break;
 
   case 39: /* StatementsERROR: WHILE LPAR Expr RPAR StatementERROR  */
-#line 271 "uccompiler.y"
+#line 282 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_statments,"While",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1810 "y.tab.c"
+#line 1824 "y.tab.c"
     break;
 
   case 40: /* StatementsERROR: RETURN Expr SEMI  */
-#line 275 "uccompiler.y"
+#line 288 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_statments,"Return",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-1].no));
+                                                                
                                                             }
-#line 1818 "y.tab.c"
+#line 1834 "y.tab.c"
     break;
 
   case 41: /* StatementsERROR: RETURN SEMI  */
-#line 278 "uccompiler.y"
+#line 293 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = NULL;
                                                             }
-#line 1826 "y.tab.c"
+#line 1842 "y.tab.c"
     break;
 
   case 42: /* StatementsERROR: LBRACE error RBRACE  */
-#line 282 "uccompiler.y"
+#line 297 "uccompiler.y"
                                                             {   (yyval.no) = NULL; nr_erro = 1;}
-#line 1832 "y.tab.c"
-    break;
-
-  case 43: /* StatementERROR: SEMI  */
-#line 286 "uccompiler.y"
-                                                            {
-                                                                ;
-                                                            }
-#line 1840 "y.tab.c"
-    break;
-
-  case 44: /* StatementERROR: Expr SEMI  */
-#line 289 "uccompiler.y"
-                                                            {
-                                                                ;
-                                                            }
 #line 1848 "y.tab.c"
     break;
 
-  case 45: /* StatementERROR: LBRACE Statement2 RBRACE  */
-#line 292 "uccompiler.y"
+  case 43: /* StatementERROR: SEMI  */
+#line 301 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = NULL;
                                                             }
 #line 1856 "y.tab.c"
     break;
 
-  case 46: /* StatementERROR: IF LPAR Expr RPAR StatementERROR ELSE StatementERROR  */
-#line 295 "uccompiler.y"
+  case 44: /* StatementERROR: Expr SEMI  */
+#line 304 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = (yyvsp[-1].no);
                                                             }
 #line 1864 "y.tab.c"
     break;
 
-  case 47: /* StatementERROR: IF LPAR Expr RPAR StatementERROR  */
-#line 298 "uccompiler.y"
+  case 45: /* StatementERROR: LBRACE Statement2 RBRACE  */
+#line 307 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = (yyvsp[-1].no);
                                                             }
 #line 1872 "y.tab.c"
     break;
 
-  case 48: /* StatementERROR: WHILE LPAR Expr RPAR StatementERROR  */
-#line 302 "uccompiler.y"
+  case 46: /* StatementERROR: IF LPAR Expr RPAR StatementERROR ELSE StatementERROR  */
+#line 310 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_statments,"If",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-4].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1880 "y.tab.c"
+#line 1883 "y.tab.c"
+    break;
+
+  case 47: /* StatementERROR: IF LPAR Expr RPAR StatementERROR  */
+#line 316 "uccompiler.y"
+                                                            {
+                                                                (yyval.no) = criar_no(no_statments,"If",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
+                                                                
+                                                            }
+#line 1894 "y.tab.c"
+    break;
+
+  case 48: /* StatementERROR: WHILE LPAR Expr RPAR StatementERROR  */
+#line 323 "uccompiler.y"
+                                                            {
+                                                                (yyval.no) = criar_no(no_statments,"While",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
+                                                            }
+#line 1904 "y.tab.c"
     break;
 
   case 49: /* StatementERROR: RETURN Expr SEMI  */
-#line 305 "uccompiler.y"
+#line 328 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_statments,"Return",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-1].no));
                                                             }
-#line 1888 "y.tab.c"
+#line 1913 "y.tab.c"
     break;
 
   case 50: /* StatementERROR: RETURN SEMI  */
-#line 308 "uccompiler.y"
+#line 332 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = NULL;
                                                             }
-#line 1896 "y.tab.c"
+#line 1921 "y.tab.c"
     break;
 
   case 51: /* StatementERROR: LBRACE error RBRACE  */
-#line 313 "uccompiler.y"
+#line 337 "uccompiler.y"
                                                             {  (yyval.no) = NULL; nr_erro = 1;}
-#line 1902 "y.tab.c"
+#line 1927 "y.tab.c"
     break;
 
   case 52: /* StatementERROR: error SEMI  */
-#line 314 "uccompiler.y"
+#line 338 "uccompiler.y"
                                                             {  (yyval.no) = NULL; nr_erro = 1;}
-#line 1908 "y.tab.c"
+#line 1933 "y.tab.c"
     break;
 
   case 53: /* Statement2: %empty  */
-#line 317 "uccompiler.y"
+#line 341 "uccompiler.y"
                                                             {   (yyval.no) = NULL; }
-#line 1914 "y.tab.c"
+#line 1939 "y.tab.c"
     break;
 
   case 54: /* Statement2: StatementERROR Statement2  */
-#line 318 "uccompiler.y"
+#line 342 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                /* Parecido com Declariation */ ;
                                                             }
-#line 1922 "y.tab.c"
+#line 1947 "y.tab.c"
     break;
 
   case 55: /* Expr: Expr ASSIGN Expr  */
-#line 324 "uccompiler.y"
+#line 348 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Store",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1930 "y.tab.c"
+#line 1957 "y.tab.c"
     break;
 
   case 56: /* Expr: Expr COMMA Expr  */
-#line 327 "uccompiler.y"
+#line 353 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Comma",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1938 "y.tab.c"
+#line 1967 "y.tab.c"
     break;
 
   case 57: /* Expr: Expr PLUS Expr  */
-#line 330 "uccompiler.y"
+#line 358 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Add",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1946 "y.tab.c"
+#line 1977 "y.tab.c"
     break;
 
   case 58: /* Expr: Expr MINUS Expr  */
-#line 333 "uccompiler.y"
+#line 363 "uccompiler.y"
                                                             {   
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Sub",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1954 "y.tab.c"
+#line 1987 "y.tab.c"
     break;
 
   case 59: /* Expr: Expr MUL Expr  */
-#line 336 "uccompiler.y"
+#line 368 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Mul",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1962 "y.tab.c"
+#line 1997 "y.tab.c"
     break;
 
   case 60: /* Expr: Expr DIV Expr  */
-#line 339 "uccompiler.y"
+#line 373 "uccompiler.y"
                                                             {   
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Div",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1970 "y.tab.c"
+#line 2007 "y.tab.c"
     break;
 
   case 61: /* Expr: Expr MOD Expr  */
-#line 342 "uccompiler.y"
+#line 378 "uccompiler.y"
                                                             {   
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Mod",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1978 "y.tab.c"
+#line 2017 "y.tab.c"
     break;
 
   case 62: /* Expr: Expr OR Expr  */
-#line 346 "uccompiler.y"
+#line 384 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Or",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1986 "y.tab.c"
+#line 2027 "y.tab.c"
     break;
 
   case 63: /* Expr: Expr AND Expr  */
-#line 349 "uccompiler.y"
+#line 389 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"And",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 1994 "y.tab.c"
+#line 2037 "y.tab.c"
     break;
 
   case 64: /* Expr: Expr BITWISEAND Expr  */
-#line 352 "uccompiler.y"
+#line 394 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"BitWiseAnd",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 2002 "y.tab.c"
+#line 2047 "y.tab.c"
     break;
 
   case 65: /* Expr: Expr BITWISEOR Expr  */
-#line 355 "uccompiler.y"
+#line 399 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"BitWiseOr",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 2010 "y.tab.c"
+#line 2057 "y.tab.c"
     break;
 
   case 66: /* Expr: Expr BITWISEXOR Expr  */
-#line 358 "uccompiler.y"
+#line 404 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"BitWiseXor",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 2018 "y.tab.c"
+#line 2067 "y.tab.c"
     break;
 
   case 67: /* Expr: Expr EQ Expr  */
-#line 362 "uccompiler.y"
+#line 410 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"EQ",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 2026 "y.tab.c"
+#line 2077 "y.tab.c"
     break;
 
   case 68: /* Expr: Expr NE Expr  */
-#line 365 "uccompiler.y"
+#line 415 "uccompiler.y"
                                                             {   
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"NE",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 2034 "y.tab.c"
+#line 2087 "y.tab.c"
     break;
 
   case 69: /* Expr: Expr LE Expr  */
-#line 368 "uccompiler.y"
+#line 420 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"LE",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 2042 "y.tab.c"
+#line 2097 "y.tab.c"
     break;
 
   case 70: /* Expr: Expr GE Expr  */
-#line 371 "uccompiler.y"
+#line 425 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"GE",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 2050 "y.tab.c"
+#line 2107 "y.tab.c"
     break;
 
   case 71: /* Expr: Expr LT Expr  */
-#line 374 "uccompiler.y"
+#line 430 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"LT",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 2058 "y.tab.c"
+#line 2117 "y.tab.c"
     break;
 
   case 72: /* Expr: Expr GT Expr  */
-#line 377 "uccompiler.y"
+#line 435 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"GT",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[-2].no));
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 2066 "y.tab.c"
+#line 2127 "y.tab.c"
     break;
 
   case 73: /* Expr: PLUS Expr  */
-#line 381 "uccompiler.y"
+#line 441 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Plus",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 2074 "y.tab.c"
+#line 2136 "y.tab.c"
     break;
 
   case 74: /* Expr: MINUS Expr  */
-#line 384 "uccompiler.y"
+#line 445 "uccompiler.y"
                                                             {   
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Minus",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 2082 "y.tab.c"
+#line 2145 "y.tab.c"
     break;
 
   case 75: /* Expr: NOT Expr  */
-#line 387 "uccompiler.y"
+#line 449 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Not",NULL);
+                                                                adicionar_filho((yyval.no),(yyvsp[0].no));
                                                             }
-#line 2090 "y.tab.c"
+#line 2154 "y.tab.c"
     break;
 
   case 76: /* Expr: IDENTIFIER LPAR Expr RPAR  */
-#line 391 "uccompiler.y"
+#line 454 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Call",NULL);
+                                                                adicionar_filho((yyval.no),criar_no(no_terminais,"Identifier",(yyvsp[-3].v)));
+                                                                adicionar_filho((yyval.no),(yyvsp[-1].no));
                                                             }
-#line 2098 "y.tab.c"
+#line 2164 "y.tab.c"
     break;
 
   case 77: /* Expr: IDENTIFIER LPAR RPAR  */
-#line 394 "uccompiler.y"
+#line 459 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = criar_no(no_operadores,"Call",NULL);
+                                                                adicionar_filho((yyval.no),criar_no(no_terminais,"Identifier",(yyvsp[-2].v)));
                                                             }
-#line 2106 "y.tab.c"
+#line 2173 "y.tab.c"
     break;
 
   case 78: /* Expr: IDENTIFIER  */
-#line 398 "uccompiler.y"
+#line 464 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_terminais,"Identifier",(yyvsp[0].v));
                                                             }
-#line 2114 "y.tab.c"
+#line 2181 "y.tab.c"
     break;
 
   case 79: /* Expr: NATURAL  */
-#line 401 "uccompiler.y"
+#line 467 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_terminais,"Natural",(yyvsp[0].v));
                                                             }
-#line 2122 "y.tab.c"
+#line 2189 "y.tab.c"
     break;
 
   case 80: /* Expr: CHRLIT  */
-#line 404 "uccompiler.y"
+#line 470 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_terminais,"Chrlit",(yyvsp[0].v));
                                                             }
-#line 2130 "y.tab.c"
+#line 2197 "y.tab.c"
     break;
 
   case 81: /* Expr: DECIMAL  */
-#line 407 "uccompiler.y"
+#line 473 "uccompiler.y"
                                                             {
                                                                 (yyval.no) = criar_no(no_terminais,"Decimal",(yyvsp[0].v));
                                                             }
-#line 2138 "y.tab.c"
+#line 2205 "y.tab.c"
     break;
 
   case 82: /* Expr: LPAR Expr RPAR  */
-#line 410 "uccompiler.y"
+#line 476 "uccompiler.y"
                                                             {
-                                                                ;
+                                                                (yyval.no) = (yyvsp[-1].no);
                                                             }
-#line 2146 "y.tab.c"
+#line 2213 "y.tab.c"
     break;
 
   case 83: /* Expr: IDENTIFIER LPAR error RPAR  */
-#line 414 "uccompiler.y"
+#line 480 "uccompiler.y"
                                                             {   (yyval.no) = NULL; nr_erro = 1;}
-#line 2152 "y.tab.c"
+#line 2219 "y.tab.c"
     break;
 
   case 84: /* Expr: LPAR error RPAR  */
-#line 415 "uccompiler.y"
+#line 481 "uccompiler.y"
                                                             {   (yyval.no) = NULL; nr_erro = 1;}
-#line 2158 "y.tab.c"
+#line 2225 "y.tab.c"
     break;
 
 
-#line 2162 "y.tab.c"
+#line 2229 "y.tab.c"
 
       default: break;
     }
@@ -2351,5 +2418,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 419 "uccompiler.y"
+#line 485 "uccompiler.y"
 

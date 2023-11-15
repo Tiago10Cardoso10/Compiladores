@@ -210,9 +210,7 @@ Declaration:
                                                                     adicionar_filho(novo2,$1);
                                                                     adicionar_filho(novo2,$3);
                                                                 }
-                                                                
                                                             }
-    
     | error SEMI                                            {  $$ = NULL; nr_erro = 1;}
     ;
 
