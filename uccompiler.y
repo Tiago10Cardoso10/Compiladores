@@ -121,7 +121,7 @@ FunctionsAndDeclarations2:  /* empty */                     {   $$ = NULL;}
 
 FunctionDefinition:
     TypeSpec FunctionDeclarator FunctionBody                {   
-                                                                $$ = novo = criar_no(no_funcoes,"FuncDefinition",NULL);
+                                                                $$ = criar_no(no_funcoes,"FuncDefinition",NULL);
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_filho($$,$2);
                                                                 adicionar_filho($$,$3);
@@ -133,22 +133,25 @@ FunctionBody:
                                                                 $$ = NULL;
                                                             }
     | LBRACE DeclarationsAndStatements RBRACE               {
-                                                                $$ = $2;
+                                                                $$ = criar_no(no_funcoes,"FuncBody",NULL);
+                                                                adicionar_filho($$,$2);
                                                             }
     ;
 
 DeclarationsAndStatements:
     StatementsERROR DeclarationsAndStatements               { 
-                                                                ;
+                                                                $$ = $1;
+                                                                /* Parecido com Declaration */
                                                             }
     | Declaration DeclarationsAndStatements                 {
-                                                                ;
+                                                                $$ = $1;
+                                                                /* Parecido com Declaration */
                                                             }
     | StatementsERROR                                       {
-                                                                ;
+                                                                $$ = $1;
                                                             }
     | Declaration                                           {
-                                                                ;
+                                                                $$ = $1;
                                                             }  
     ;
 
@@ -251,32 +254,42 @@ Declarator:
 
 StatementsERROR:
     SEMI                                                    {
-                                                                ;
+                                                                $$ = NULL;
                                                             }
     | Expr SEMI                                             {
-                                                                ;
+                                                                $$ = $1;
                                                             }
 
     | LBRACE Statement2 RBRACE                              {
-                                                                ;
+                                                                $$ = $2;
                                                             }
 
     | IF LPAR Expr RPAR StatementERROR ELSE StatementERROR  {
-                                                                ;
+                                                                $$ = criar_no(no_statments,"If",NULL);
+                                                                adicionar_filho($$,$3);
+                                                                adicionar_filho($$,$5);
+                                                                adicionar_filho($$,$7);
                                                             }
     | IF LPAR Expr RPAR StatementERROR                      {
-                                                                ;
+                                                                $$ = criar_no(no_statments,"If",NULL);
+                                                                adicionar_filho($$,$3);
+                                                                adicionar_filho($$,$5);
+                                                                
                                                             }
 
     | WHILE LPAR Expr RPAR StatementERROR                   {
-                                                                ;
+                                                                $$ = criar_no(no_statments,"While",NULL);
+                                                                adicionar_filho($$,$3);
+                                                                adicionar_filho($$,$5);
                                                             }
 
     | RETURN Expr SEMI                                      {
-                                                                ;
+                                                                $$ = criar_no(no_statments,"Return",NULL);
+                                                                adicionar_filho($$,$2);
+                                                                
                                                             }
     | RETURN SEMI                                           {
-                                                                ;
+                                                                $$ = NULL;
                                                             }
 
     | LBRACE error RBRACE                                   {   $$ = NULL; nr_erro = 1;}
@@ -284,29 +297,38 @@ StatementsERROR:
 
 StatementERROR:
     SEMI                                                    {
-                                                                ;
+                                                                $$ = NULL;
                                                             }
     | Expr SEMI                                             {
-                                                                ;
+                                                                $$ = $1;
                                                             }
     | LBRACE Statement2 RBRACE                              {
-                                                                ;
+                                                                $$ = $2;
                                                             }
     | IF LPAR Expr RPAR StatementERROR ELSE StatementERROR  {
-                                                                ;
+                                                                $$ = criar_no(no_statments,"If",NULL);
+                                                                adicionar_filho($$,$3);
+                                                                adicionar_filho($$,$5);
+                                                                adicionar_filho($$,$7);
                                                             }
     | IF LPAR Expr RPAR StatementERROR                      {
-                                                                ;
+                                                                $$ = criar_no(no_statments,"If",NULL);
+                                                                adicionar_filho($$,$3);
+                                                                adicionar_filho($$,$5);
+                                                                
                                                             }
     
     | WHILE LPAR Expr RPAR StatementERROR                   {
-                                                                ;
+                                                                $$ = criar_no(no_statments,"While",NULL);
+                                                                adicionar_filho($$,$3);
+                                                                adicionar_filho($$,$5);
                                                             }
     | RETURN Expr SEMI                                      {
-                                                                ;
+                                                                $$ = criar_no(no_statments,"Return",NULL);
+                                                                adicionar_filho($$,$2);
                                                             }
     | RETURN SEMI                                           {
-                                                                ;
+                                                                $$ = NULL;
                                                             }
     
 
@@ -316,83 +338,125 @@ StatementERROR:
 
 Statement2: /* empty */                                     {   $$ = NULL; }
     | StatementERROR Statement2                             {
-                                                                ;
+                                                                /* Parecido com Declariation */ ;
                                                             }
     ;
 
 Expr:
     Expr ASSIGN Expr                                        {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Store",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr COMMA Expr                                       {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Comma",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr PLUS Expr                                        {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Add",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr MINUS Expr                                       {   
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Sub",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr MUL Expr                                         {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Mul",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr DIV Expr                                         {   
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Div",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr MOD Expr                                         {   
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Mod",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
 
     | Expr OR Expr                                          {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Or",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr AND Expr                                         {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"And",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr BITWISEAND Expr                                  {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"BitWiseAnd",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr BITWISEOR Expr                                   {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"BitWiseOr",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr BITWISEXOR Expr                                  {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"BitWiseXor",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
 
     | Expr EQ Expr                                          {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"EQ",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr NE Expr                                          {   
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"NE",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr LE Expr                                          {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"LE",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr GE Expr                                          {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"GE",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr LT Expr                                          {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"LT",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
     | Expr GT Expr                                          {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"GT",NULL);
+                                                                adicionar_filho($$,$1);
+                                                                adicionar_filho($$,$3);
                                                             }
 
     | PLUS Expr                                             {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Plus",NULL);
+                                                                adicionar_filho($$,$2);
                                                             }
     | MINUS Expr                                            {   
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Minus",NULL);
+                                                                adicionar_filho($$,$2);
                                                             }
     | NOT Expr                                              {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Not",NULL);
+                                                                adicionar_filho($$,$2);
                                                             }
 
     | IDENTIFIER LPAR Expr RPAR                             {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Call",NULL);
+                                                                adicionar_filho($$,criar_no(no_terminais,"Identifier",$1));
+                                                                adicionar_filho($$,$3);
                                                             }
     | IDENTIFIER LPAR RPAR                                  {
-                                                                ;
+                                                                $$ = criar_no(no_operadores,"Call",NULL);
+                                                                adicionar_filho($$,criar_no(no_terminais,"Identifier",$1));
                                                             }
     
     | IDENTIFIER %prec UNARY                                {
@@ -408,7 +472,7 @@ Expr:
                                                                 $$ = criar_no(no_terminais,"Decimal",$1);
                                                             }
     | LPAR Expr RPAR                                        {
-                                                                ;
+                                                                $$ = $2;
                                                             }
     
     | IDENTIFIER LPAR error RPAR                            {   $$ = NULL; nr_erro = 1;}
