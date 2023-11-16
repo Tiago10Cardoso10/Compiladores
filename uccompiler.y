@@ -70,6 +70,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 
 
 %left   IF
+%left   RPAR LPAR
 %left   OR
 %left   AND
 %left   BITWISEOR
@@ -80,9 +81,9 @@ Tiago Rafael Cardoso Santos - 2021229679
 %left   ASSIGN
 %left   PLUS MINUS
 %left   DIV MUL MOD
-%left   RPAR LPAR
-%left   COMMA
+
 %right  NOT
+%left   COMMA
 
 
 
@@ -105,7 +106,6 @@ FunctionsAndDeclarations:
     FunctionDefinition FunctionsAndDeclarations2            {   
                                                                 $$ = $1;
                                                                 adicionar_irmao($1,$2);
-
                                                             }
     | FunctionDeclaration FunctionsAndDeclarations2         {   
                                                                 $$ = $1;
@@ -114,28 +114,23 @@ FunctionsAndDeclarations:
     | Declaration  FunctionsAndDeclarations2                {   
                                                                 $$ = $1;
                                                                 adicionar_irmao($1,$2);
-
-                                                                
                                                             }
     ;
 
-FunctionsAndDeclarations2:  /* empty */                     {   if (vazio == 0){
-                                                                    $$ = criar_no(no_especial, "NULL",NULL);
-                                                                }else{
-                                                                    $$ = NULL; 
-                                                                    vazio = 0;
-                                                                }}
+FunctionsAndDeclarations2:  /* empty */                     {   
+                                                                $$ = NULL;
+                                                            }
     | FunctionDefinition FunctionsAndDeclarations2          {   
                                                                 adicionar_irmao($$,$2);
-                                                                vazio = 1;
+                                                                
                                                             }
     | FunctionDeclaration FunctionsAndDeclarations2         {
                                                                 adicionar_irmao($$,$2);
-                                                                vazio = 1;
+                                                                
                                                             }
     | Declaration  FunctionsAndDeclarations2                {
                                                                 adicionar_irmao($$,$2);
-                                                                vazio = 1;
+                                                                
                                                             }
     ;
 
@@ -144,27 +139,21 @@ FunctionDefinition:
                                                                 
                                                                 $$ = criar_no(no_funcoes,"FuncDefinition",NULL);
                                                                 adicionar_filho($$,$1);
-                                                                adicionar_filho($$,$2);
+                                                                adicionar_irmao($1,$2);
                                                                 adicionar_filho($$,$3);
-                                                                
                                                             }
     ;
 
 FunctionBody: 
     LBRACE RBRACE                                           {
-                                                                if (vazio == 0){
-                                                                    $$ = criar_no(no_especial, "NULL",NULL);
-                                                                }else{
-                                                                    $$ = NULL; 
-                                                                    vazio = 0;
-                                                                }
+                                                                $$ = criar_no(no_funcoes,"FuncBody",NULL);
                                                             }
     | LBRACE DeclarationsAndStatements RBRACE               {
                                                                 
                                                                 $$ = criar_no(no_funcoes,"FuncBody",NULL);
                                                                 adicionar_filho($$,$2);
                                                                 
-                                                                vazio = 1;
+                                                                
                                                             }
     ;
 
@@ -211,20 +200,24 @@ ParameterList:
                                                                 $$ = criar_no(no_funcoes,"ParamList",NULL);
                                                                 adicionar_filho($$,$1);
                                                                 
-
-                                                                /* Parecido com Declaration */
+                                                                
+                                                                /* Falta entrar no loop do ParameterList 2 */
+                                                                
                                                             }      
     ;
 
-ParameterList2: /* empty */                                 {   if (vazio == 0){
-                                                                    $$ = criar_no(no_especial, "NULL",NULL);
-                                                                }else{
-                                                                    $$ = NULL; 
-                                                                    vazio = 0;
-                                                                } }
+ParameterList2: /* empty */                                 {  $$ == NULL;
+                                                            }
     | COMMA ParameterDeclaration ParameterList2             {
-                                                                $$ = $2;
-                                                                vazio = 1;
+                                                                
+                                                                if ($3 != NULL){
+                                                                    $$ = $2;
+                                                                    adicionar_irmao($$,$3);
+                                                                } else {
+                                                                    $$ = $2;
+                                                                }
+                                                                
+                                                                
                                                             }
     ;
 
@@ -262,16 +255,11 @@ Declaration:
     | error SEMI                                            {  $$ = NULL; nr_erro = 1;}
     ;
 
-Declaration2: /* empty */                                   {   if (vazio == 0){
-                                                                    $$ = criar_no(no_especial, "NULL",NULL);
-                                                                }else{
-                                                                    $$ = NULL; 
-                                                                    vazio = 0;
-                                                                } }
+Declaration2: /* empty */                                   {  $$ = NULL;}
     | COMMA Declarator Declaration2                         {
                                                                 $$ = $2;
                                                                 
-                                                                vazio = 1;
+                                                                
                                                             }
     ;
 
@@ -310,7 +298,7 @@ StatementsERROR:
                                                                 }else{
                                                                     $$ = NULL; 
                                                                     vazio = 0;
-                                                                } 
+                                                                }
                                                             }
     | Expr SEMI                                             {
                                                                 $$ = $1;
@@ -354,6 +342,7 @@ StatementsERROR:
                                                                 } else {
                                                                     adicionar_irmao($3,$5);
                                                                 }
+                                                                adicionar_irmao($3,criar_no(no_statments,"NULL",NULL));
                                                                 
                                                             }
 
@@ -392,18 +381,18 @@ StatementsERROR:
 StatementERROR:
     SEMI                                                    {
                                                                 if (vazio == 0){
-                                                                    $$ = criar_no(no_especial, "NULL",NULL);
+                                                                    $$ = criar_no(no_especial, "NULCOMMAL",NULL);
                                                                 }else{
                                                                     $$ = NULL; 
                                                                     vazio = 0;
-                                                                } 
+                                                                }
                                                             }
     | Expr SEMI                                             {
                                                                 $$ = $1;
                                                                 vazio = 1;
                                                             }
     | LBRACE Statement2 RBRACE                              {
-                                                                if (conta_irmaos($2) >= 1){
+                                                                if (conta_irmaos($2) > 1){
                                                                     novo = criar_no(no_statments, "StatList",NULL);
                                                                     $$ = novo;
                                                                     adicionar_filho(novo, $2);
@@ -425,11 +414,6 @@ StatementERROR:
                                                                     adicionar_irmao($3,$5);
                                                                     adicionar_irmao($5,$7);
                                                                 }
-                                                                
-                                                                
-                                                                
-                                                                
-                                                                
                                                             }
     | IF LPAR Expr RPAR StatementERROR                      {
                                                                 
@@ -443,6 +427,8 @@ StatementERROR:
                                                                 } else {
                                                                     adicionar_irmao($3,$5);
                                                                 }
+                                                                adicionar_irmao($3,criar_no(no_statments,"NULL",NULL));
+                                                                
                                                             }
     
     | WHILE LPAR Expr RPAR StatementERROR                   {
@@ -477,12 +463,13 @@ StatementERROR:
     | error SEMI                                            {  $$ = NULL;nr_erro = 1;}
     ;
 
-Statement2: /* empty */                                     {   if (vazio == 0){
-                                                                    $$ = criar_no(no_especial, "NULL",NULL);
+Statement2: /* empty */                                     {   
+                                                                if (vazio == 0){
+                                                                    $$ = criar_no(no_especial, "NUasLL",NULL);
                                                                 }else{
                                                                     $$ = NULL; 
-                                                                    vazio = 0;
-                                                                }
+                                                                    vazio = 0;}
+                                                                
                                                             }
     | StatementERROR Statement2                             {
                                                                 if($1 != NULL){
@@ -490,7 +477,9 @@ Statement2: /* empty */                                     {   if (vazio == 0){
                                                                     adicionar_irmao($$, $2);
                                                                 } else{
                                                                     $$ = $2;
+                                                                    vazio = 1;
                                                                 }
+                                                                
                                                             }
     ;
 
