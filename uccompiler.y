@@ -332,6 +332,7 @@ StatementsERROR:
                                                                 
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
+                                                                
                                                                 if (conta_irmaos($5) == 1){
                                                                     novo = criar_no(no_statments,"StatList",NULL);
                                                                     adicionar_irmao($3,novo);
@@ -346,7 +347,7 @@ StatementsERROR:
                                                                 
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
-
+                                                                
                                                                 if (conta_irmaos($5) == 1){
                                                                     novo = criar_no(no_statments,"StatList",NULL);
                                                                     adicionar_irmao($3,novo);
@@ -354,7 +355,7 @@ StatementsERROR:
                                                                 } else {
                                                                     adicionar_irmao($3,$5);
                                                                 }
-                                                                
+                                                                adicionar_irmao($3,criar_no(no_statments,"NULL",NULL));
                                                             }
 
     | WHILE LPAR Expr RPAR StatementERROR                   {
@@ -403,7 +404,7 @@ StatementERROR:
                                                                 vazio = 1;
                                                             }
     | LBRACE Statement2 RBRACE                              {
-                                                                if (conta_irmaos($2) >= 1){
+                                                                if (conta_irmaos($2) > 1){
                                                                     novo = criar_no(no_statments, "StatList",NULL);
                                                                     $$ = novo;
                                                                     adicionar_filho(novo, $2);
@@ -435,7 +436,7 @@ StatementERROR:
                                                                 
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
-
+                                                                
                                                                 if (conta_irmaos($5) == 1){
                                                                     novo = criar_no(no_statments,"StatList",NULL);
                                                                     adicionar_irmao($3,novo);
@@ -443,6 +444,7 @@ StatementERROR:
                                                                 } else {
                                                                     adicionar_irmao($3,$5);
                                                                 }
+                                                                adicionar_irmao($3,criar_no(no_statments,"NULL",NULL));
                                                             }
     
     | WHILE LPAR Expr RPAR StatementERROR                   {
@@ -485,12 +487,14 @@ Statement2: /* empty */                                     {   if (vazio == 0){
                                                                 }
                                                             }
     | StatementERROR Statement2                             {
+                                                                
                                                                 if($1 != NULL){
                                                                     $$ = $1;
                                                                     adicionar_irmao($$, $2);
                                                                 } else{
                                                                     $$ = $2;
                                                                 }
+                                                                
                                                             }
     ;
 
