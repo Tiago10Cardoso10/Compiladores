@@ -249,14 +249,8 @@ Declaration:
                                                                 $$ = criar_no(no_declaracao,"Declaration",NULL);
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$2);
-                                                                
-                                                                if ($3 != NULL){
-                                                                    struct node *novo2;
-                                                                    novo2 = criar_no(no_declaracao,"Declaration",NULL);
-                                                                    adicionar_irmao(novo,novo2);
-                                                                    adicionar_filho(novo2,$1);
-                                                                    adicionar_irmao($1,$3);
-                                                                }
+                                                                adicionar_irmao($1,$3);
+                                                    
                                                                 
                                                             }
     | error SEMI                                            {  $$ = NULL; nr_erro = 1;}
@@ -269,9 +263,9 @@ Declaration2: /* empty */                                   {   if (vazio == 0){
                                                                     vazio = 0;
                                                                 } }
     | COMMA Declarator Declaration2                         {
-                                                                $$ = $2;
+                                                                $$ = $3;
+                                                                adicionar_irmao($$,$2);
                                                                 
-                                                                vazio = 1;
                                                             }
     ;
 
