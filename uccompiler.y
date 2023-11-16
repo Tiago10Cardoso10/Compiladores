@@ -15,6 +15,7 @@ Tiago Rafael Cardoso Santos - 2021229679
     int teste = 1;
     struct node *raiz;
     struct node *novo;
+    int vazio = 0;
 %}
 
 %union {
@@ -84,6 +85,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 
 
 
+
 %%
 FunctionsAndDeclarations: 
     FunctionDefinition FunctionsAndDeclarations2            {   
@@ -138,14 +140,14 @@ FunctionBody:
                                                             }
     ;
 
-DeclarationsAndStatements:
+DeclarationsAndStatements: 
     StatementsERROR DeclarationsAndStatements               { 
                                                                 $$ = $1;
-                                                                /* Parecido com Declaration */
+                                                                adicionar_irmao($$,$2);
                                                             }
     | Declaration DeclarationsAndStatements                 {
                                                                 $$ = $1;
-                                                                /* Parecido com Declaration */
+                                                                adicionar_irmao($$,$2);
                                                             }
     | StatementsERROR                                       {
                                                                 $$ = $1;
@@ -216,27 +218,34 @@ Declaration:
 
 Declaration2: /* empty */                                   {  $$ = NULL;}
     | COMMA Declarator Declaration2                         {
-                                                                if ($3 != NULL){
-                                                                    $$ = $2;
-                                                                }
+                                                                $$ = novo = criar_no(no_declaracao, "Declaration", NULL);
+                                                                adicionar_filho(novo, $2);
+
+                                                            if ($3 != NULL) {
+                                                                struct node *novo2 = criar_no(no_declaracao, "Declaration", NULL);
+                                                                adicionar_irmao(novo, novo2);
+                                                                adicionar_filho(novo2, $2);
+                                                                adicionar_filho(novo2, $3);
                                                             }
+                                                            }
+    
     ;
 
 TypeSpec: 
     CHAR                                                    {
-                                                                $$ = criar_no(no_nterminais,"Char",NULL);
+                                                                $$ = criar_no(no_terminais,"Char",NULL);
                                                             }
     | INT                                                   {
-                                                                $$ = criar_no(no_nterminais,"Int",NULL);
+                                                                $$ = criar_no(no_terminais,"Int",NULL);
                                                             }
     | VOID                                                  {
-                                                                $$ = criar_no(no_nterminais,"Void",NULL);
+                                                                $$ = criar_no(no_terminais,"Void",NULL);
                                                             }
     | SHORT                                                 {
-                                                                $$ = criar_no(no_nterminais,"Short",NULL);
+                                                                $$ = criar_no(no_terminais,"Short",NULL);
                                                             }
     | DOUBLE                                                {
-                                                                $$ = criar_no(no_nterminais,"Double",NULL);
+                                                                $$ = criar_no(no_terminais,"Double",NULL);
                                                             }
     ;
 
@@ -265,12 +274,16 @@ StatementsERROR:
     | IF LPAR Expr RPAR StatementERROR ELSE StatementERROR  {
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
+                                                                novo = criar_no(no_statments,"StatList",NULL);
+                                                                adicionar_filho($$,novo);
                                                                 adicionar_filho($$,$5);
                                                                 adicionar_filho($$,$7);
                                                             }
     | IF LPAR Expr RPAR StatementERROR                      {
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
+                                                                novo = criar_no(no_statments,"StatList",NULL);
+                                                                adicionar_filho($$,novo);
                                                                 adicionar_filho($$,$5);
                                                                 
                                                             }
@@ -278,6 +291,8 @@ StatementsERROR:
     | WHILE LPAR Expr RPAR StatementERROR                   {
                                                                 $$ = criar_no(no_statments,"While",NULL);
                                                                 adicionar_filho($$,$3);
+                                                                novo = criar_no(no_statments,"StatList",NULL);
+                                                                adicionar_filho($$,novo);
                                                                 adicionar_filho($$,$5);
                                                             }
 
@@ -295,7 +310,7 @@ StatementsERROR:
 
 StatementERROR:
     SEMI                                                    {
-                                                                $$ = NULL;
+                                                                $$ = criar_no(no_especial, "NULL",NULL);
                                                             }
     | Expr SEMI                                             {
                                                                 $$ = $1;
@@ -306,12 +321,16 @@ StatementERROR:
     | IF LPAR Expr RPAR StatementERROR ELSE StatementERROR  {
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
+                                                                novo = criar_no(no_statments,"StatList",NULL);
+                                                                adicionar_filho($$,novo);
                                                                 adicionar_filho($$,$5);
                                                                 adicionar_filho($$,$7);
                                                             }
     | IF LPAR Expr RPAR StatementERROR                      {
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
+                                                                novo = criar_no(no_statments,"StatList",NULL);
+                                                                adicionar_filho($$,novo);
                                                                 adicionar_filho($$,$5);
                                                                 
                                                             }
@@ -319,6 +338,8 @@ StatementERROR:
     | WHILE LPAR Expr RPAR StatementERROR                   {
                                                                 $$ = criar_no(no_statments,"While",NULL);
                                                                 adicionar_filho($$,$3);
+                                                                novo = criar_no(no_statments,"StatList",NULL);
+                                                                adicionar_filho($$,novo);
                                                                 adicionar_filho($$,$5);
                                                             }
     | RETURN Expr SEMI                                      {
@@ -326,7 +347,7 @@ StatementERROR:
                                                                 adicionar_filho($$,$2);
                                                             }
     | RETURN SEMI                                           {
-                                                                $$ = NULL;
+                                                                $$ = criar_no(no_especial, "NULL",NULL);
                                                             }
     
 
@@ -334,9 +355,18 @@ StatementERROR:
     | error SEMI                                            {  $$ = NULL; nr_erro = 1;}
     ;
 
-Statement2: /* empty */                                     {   $$ = NULL; }
+Statement2: /* empty */                                     {   if (vazio == 0){
+                                                                    $$ = criar_no(no_especial, "NULL",NULL);
+                                                                }else{
+                                                                    $$ = NULL; 
+                                                                    vazio = 0;
+                                                                }
+                                                            }
     | StatementERROR Statement2                             {
-                                                                /* Parecido com Declariation */ ;
+                                                                vazio=1;
+                                                                $$ = $1;
+                                                                adicionar_irmao($$,$2);
+                                                                
                                                             }
     ;
 

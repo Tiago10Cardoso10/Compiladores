@@ -1,2 +1,9 @@
-int ola,ola1,ola2,ola3;
-int ola4;
+int main(void) {
+  char i = 'A';
+  while (i <= 'Z')
+  {
+    putchar(i);
+    i = i + 1;
+  }
+  return 0;
+}
