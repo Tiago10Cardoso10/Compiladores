@@ -55,10 +55,12 @@ void imprime_arvore(struct node *no, int num){
     }
     
     
-    if(no->token)
+    if(no->token){
         printf("%s(%s)\n", no->tipo, no->token);
-    else
+    } else {
         printf("%s\n", no->tipo);
+    }
+    
     struct node_list *atual = no->filhos;
     while (atual && atual->no) {
         imprime_arvore(atual->no, num + 1);
