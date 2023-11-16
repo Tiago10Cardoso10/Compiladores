@@ -49,6 +49,17 @@ void adicionar_irmao(struct node *irmao, struct node *novo){
     
 }
 
+int conta_irmaos(struct node *raiz) {
+    int conta = 0;
+    struct node_list *aux = raiz->irmaos;
+
+    while (aux != NULL) {
+        aux = aux->next;
+        conta++;
+    }
+    return conta;
+}
+
 void imprime_arvore(struct node *no, int num){ 
     for (int i = 0; i < num; i++) {
         printf(".."); 

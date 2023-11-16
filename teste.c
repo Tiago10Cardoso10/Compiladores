@@ -1,1 +1,6 @@
-int ola,ola1,ola2,ola3;
+int main(void){
+	{a=1;}
+	{a=1;b=2;}
+	{a=1;b=2;c=3;}
+	{a=1;b=2;c=3;d=4;}
+}
