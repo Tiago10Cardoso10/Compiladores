@@ -67,7 +67,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 
 %left  UNARY
 
-
+%left   ASSIGN
 %left   OR
 %left   AND
 %left   BITWISEOR
@@ -75,7 +75,6 @@ Tiago Rafael Cardoso Santos - 2021229679
 %left   BITWISEAND
 %left   EQ NE
 %left   LT GT LE GE
-%left   ASSIGN
 %left   PLUS MINUS
 %left   DIV MUL MOD
 %left   RPAR LPAR
@@ -244,7 +243,7 @@ ParameterDeclaration:
 
 Declaration:
     TypeSpec Declarator Declaration2 SEMI                   {
-                                                                $$ = criar_no(no_declaracao,"Declaration",NULL);
+                                                                $$ = novo = criar_no(no_declaracao,"Declaration",NULL);
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$2);
                                                                 
@@ -269,8 +268,8 @@ Declaration2: /* empty */                                   {  if (vazio == 0){
                                                                     vazio = 0;
                                                                 } }
     | COMMA Declarator Declaration2                         {
-                                                                
                                                                     $$ = $2;
+                                                                    adicionar_irmao($$,$3);
                                                                     vazio = 1;
                                                             }
     ;
