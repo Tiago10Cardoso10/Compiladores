@@ -1,8 +1,4 @@
 int main(void){
-	func1(1,2,3);
-
-	func2((1,2), 3);
-
 	if (a){
 		statement1 = 1;
 	}else {
