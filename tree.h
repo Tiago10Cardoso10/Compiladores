@@ -63,7 +63,7 @@ typedef enum tipo_no{
     no_statments,
     no_operadores,
     no_terminais,
-    no_nterminais,
+    no_especial,
 }tipo_no;
 
 struct node {
