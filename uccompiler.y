@@ -335,9 +335,9 @@ StatementsERROR:
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
                                                                 novo = criar_no(no_statments,"StatList",NULL);
-                                                                if (conta_irmaos($5) == 1 && $5 != NULL){
+                                                                if ($5 != NULL){
                                                                     adicionar_irmao($5, $3);
-                                                                    if(conta_irmaos($7) == 1 && $7 != NULL){
+                                                                    if($7 != NULL){
                                                                         adicionar_irmao($7, $5);
                                                                     } else{
                                                                         adicionar_irmao(novo, $5);
@@ -346,7 +346,7 @@ StatementsERROR:
                                                                 } else {
                                                                     adicionar_irmao(novo, $3);
                                                                     adicionar_filho(novo, $5);
-                                                                    if(conta_irmaos($7) == 1 && $7 != NULL){
+                                                                    if($7 != NULL){
                                                                         adicionar_irmao($7, novo);
                                                                     } else {
                                                                         struct node *novo2 = criar_no(no_statments,"StatList",NULL);
@@ -361,7 +361,7 @@ StatementsERROR:
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
                                                                 novo = criar_no(no_statments,"StatList",NULL);
-                                                                if($5 != NULL && conta_irmaos($5) == 1){
+                                                                if($5 != NULL){
                                                                     adicionar_irmao($3,$5);
                                                                     adicionar_irmao(novo,$5);
                                                                 } else {
@@ -377,7 +377,7 @@ StatementsERROR:
                                                                 
                                                                 $$ = criar_no(no_statments,"While",NULL);
                                                                 adicionar_filho($$,$3);
-                                                                if (conta_irmaos($5) == 1 && $5 != NULL){
+                                                                if ($5 != NULL){
                                                                     adicionar_irmao($5, $3);
 
                                                                 } else{
@@ -435,9 +435,9 @@ StatementERROR:
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
                                                                 novo = criar_no(no_statments,"StatList",NULL);
-                                                                if (conta_irmaos($5) == 1 && $5 != NULL){
+                                                                if ($5 != NULL){
                                                                     adicionar_irmao($5, $3);
-                                                                    if(conta_irmaos($7) == 1 && $7 != NULL){
+                                                                    if($7 != NULL){
                                                                         adicionar_irmao($7, $5);
                                                                     } else{
                                                                         adicionar_irmao(novo, $5);
@@ -446,7 +446,7 @@ StatementERROR:
                                                                 } else {
                                                                     adicionar_irmao(novo, $3);
                                                                     adicionar_filho(novo, $5);
-                                                                    if(conta_irmaos($7) == 1 && $7 != NULL){
+                                                                    if($7 != NULL){
                                                                         adicionar_irmao($7, novo);
                                                                     } else {
                                                                         struct node *novo2 = criar_no(no_statments,"StatList",NULL);
@@ -461,7 +461,7 @@ StatementERROR:
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
                                                                 novo = criar_no(no_statments,"StatList",NULL);
-                                                                if($5 != NULL && conta_irmaos($5) == 1){
+                                                                if($5 != NULL){
                                                                     adicionar_irmao($3,$5);
                                                                     adicionar_irmao(novo,$5);
                                                                 } else {
@@ -475,7 +475,7 @@ StatementERROR:
                                                                 
                                                                 $$ = criar_no(no_statments,"While",NULL);
                                                                 adicionar_filho($$,$3);
-                                                                if (conta_irmaos($5) == 1 && $5 != NULL){
+                                                                if ($5 != NULL){
                                                                     adicionar_irmao($5, $3);
 
                                                                 } else{
