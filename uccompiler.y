@@ -58,7 +58,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 %token<v> DECIMAL
 %token<v> CHRLIT
 
-%type <no> Statement3 Program FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr
+%type <no> Expr2 Expr3 Statement3 Program FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr
 
 %left  UNARY
 
@@ -241,12 +241,7 @@ Declaration:
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_filho($$,$2);
                                                                 
-                                                                if($3 != NULL){
-                                                                    novo = criar_no(no_declaracao,"Declaration",NULL);
-                                                                    adicionar_irmao($$,novo);
-                                                                    adicionar_filho(novo,$1);
-                                                                    adicionar_filho(novo,$3);
-                                                                }
+                                                                
 
                                                                 /*  
                                                                     $$ = $1;
@@ -309,7 +304,7 @@ StatementsERROR:
     SEMI                                                    {
                                                                 $$ = NULL;
                                                             }
-    | Expr SEMI                                             {
+    | Expr2 SEMI                                             {
                                                                 $$ = $1;
                                                             }
 
@@ -317,7 +312,7 @@ StatementsERROR:
                                                                 $$ = $2;
                                                             }
 
-    | IF LPAR Expr RPAR StatementERROR ELSE StatementERROR  {
+    | IF LPAR Expr2 RPAR StatementERROR ELSE StatementERROR  {
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
                                                                 
@@ -325,7 +320,7 @@ StatementsERROR:
                                                                 adicionar_filho($$,$7);
                                                                 
                                                             }
-    | IF LPAR Expr RPAR StatementERROR                      {
+    | IF LPAR Expr2 RPAR StatementERROR                      {
                                                                 
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
@@ -335,7 +330,7 @@ StatementsERROR:
                                                                 
                                                             }
 
-    | WHILE LPAR Expr RPAR StatementERROR                   {
+    | WHILE LPAR Expr2 RPAR StatementERROR                   {
                                                                 
                                                                 $$ = criar_no(no_statments,"While",NULL);
                                                                 adicionar_filho($$,$3);
@@ -349,7 +344,7 @@ StatementsERROR:
 
                                                             }
 
-    | RETURN Expr SEMI                                      {
+    | RETURN Expr2 SEMI                                      {
                                                                 
                                                                 
                                                                 $$ = criar_no(no_statments,"Return",NULL);
@@ -379,7 +374,7 @@ StatementERROR:
     | LBRACE Statement2 RBRACE                              {
                                                                 $$ = $2;
                                                             }
-    | IF LPAR Expr RPAR StatementERROR ELSE StatementERROR  {
+    | IF LPAR Expr2 RPAR StatementERROR ELSE StatementERROR  {
                                                                 
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
@@ -387,7 +382,7 @@ StatementERROR:
                                                                 adicionar_filho($$,$5);
                                                                 adicionar_filho($$,$7);
                                                             }
-    | IF LPAR Expr RPAR StatementERROR                      {
+    | IF LPAR Expr2 RPAR StatementERROR                      {
                                                                 
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
@@ -397,7 +392,7 @@ StatementERROR:
                                                                 
                                                             }
     
-    | WHILE LPAR Expr RPAR StatementERROR                   {
+    | WHILE LPAR Expr2 RPAR StatementERROR                   {
                                                                 
                                                                 $$ = criar_no(no_statments,"While",NULL);
                                                                 adicionar_filho($$,$3);
@@ -410,7 +405,7 @@ StatementERROR:
                                                                 
 
                                                             }
-    | RETURN Expr SEMI                                      {
+    | RETURN Expr2 SEMI                                      {
                                                                 
                                                                 $$ = criar_no(no_statments,"Return",NULL);
                                                                 adicionar_filho($$,$2);
@@ -463,14 +458,7 @@ Expr:
                                                                 adicionar_irmao($1,$3);
                                                                 
                                                             }
-    | Expr COMMA Expr                                       {
-                                                                
-                                                                $$ = criar_no(no_operadores,"Comma",NULL);
-                                                                adicionar_filho($$,$1);
-                                                                adicionar_irmao($1,$3);
-                                                                
-                                                                /*  Retirar quando tiver Expr2 Expr3  */
-                                                            }
+    
     | Expr PLUS Expr                                        {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Add",NULL);
@@ -610,15 +598,10 @@ Expr:
                                                                 $$ = criar_no(no_operadores,"Call",NULL);
                                                                 novo = criar_no(no_terminais,"Identifier",$1);
                                                                 adicionar_filho($$,novo);
-                                                                adicionar_irmao(novo,$3);
+                                                                adicionar_filho($$,$3);
                                                                 
                                                             }
-    | IDENTIFIER LPAR RPAR                                  {
-                                                                
-                                                                $$ = criar_no(no_operadores,"Call",NULL);
-                                                                adicionar_filho($$,criar_no(no_terminais,"Identifier",$1));
-                                                                
-                                                            }
+
     
     | IDENTIFIER %prec UNARY                                {
                                                                 
@@ -652,12 +635,27 @@ Expr:
     
 
 Expr2:
-    Expr {}
-    | Expr2 COMMA Expr {}
+    Expr {$$ = $1;}
+    | Expr COMMA Expr2 {    if($3 != NULL){
+                                $$ = criar_no(no_operadores,"Comma",NULL);
+                                adicionar_filho($$,$1);
+                                adicionar_irmao($1,$3);
+                            } else {
+                                $$ = criar_no(no_operadores,"Comma",NULL);
+                                adicionar_filho($$,$1);
+                                
+                            }
+                        }
     ;
 
 Expr3:
-    {}
-    | Expr3 COMMA Expr    {}
+    {$$ = NULL;}
+    | Expr COMMA Expr3   { if($1 != NULL){
+                                $$ = $1;
+
+                                adicionar_irmao($1,$3);
+                            } else {
+                                $$ = $3;}
+                            }
     ;
 %%
