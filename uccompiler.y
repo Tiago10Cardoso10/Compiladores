@@ -52,8 +52,6 @@ Tiago Rafael Cardoso Santos - 2021229679
 %token RPAR
 %token SEMI
 %token RESERVED
-%token SUB
-%token ADD
 
 %token<v> IDENTIFIER
 %token<v> NATURAL
@@ -76,16 +74,8 @@ Tiago Rafael Cardoso Santos - 2021229679
 %left   BITWISEAND
 %left   EQ NE
 %left   LT GT LE GE
-%left   PLUS
-%left   DIV 
-
-%left   ADD 
-%left   SUB
-%left   MUL
-%left   MOD 
- 
-%left   MINUS 
-
+%left   MOD
+%left   PLUS MINUS
 
 %right  NOT
 %left   RPAR LPAR
