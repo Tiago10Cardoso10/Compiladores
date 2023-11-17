@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "ast.h"
 
 // Helper function to convert the category enum to a string
@@ -78,7 +79,7 @@ struct node *newnode(enum category category, char *token) {
 
 // append a node to the list of children of the parent node
 void addchild(struct node *parent, struct node *child) {
-    //printf("parent name: %s\n", categoryToString(parent->category));
+        //printf("parent name: %s\n", categoryToString(parent->category));
     if(!parent->children){
         parent->children = malloc(sizeof(struct node_list));
         parent->children->node = child;
@@ -92,10 +93,37 @@ void addchild(struct node *parent, struct node *child) {
             children = children->next;
         children->next = new;
     }
-    //printf("parent: %s\t\tchild: %s\n", categoryToString(parent->category), categoryToString(child->category));
+}
+
+struct node* copy_leaf_node(struct node* original) {
+    if (original == NULL) {
+        return NULL;
+    }
+
+    struct node* new_node = malloc(sizeof(struct node));
+    if (new_node == NULL) {
+        // Handle memory allocation error
+        return NULL;
+    }
+
+    // Copy the properties of the original node to the new node
+    new_node->category = original->category;
+    if(original->token == NULL)
+        new_node->token = NULL;
+    else
+        new_node->token = strdup(original->token);
+
+    // Initialize the children of the new node to NULL
+    new_node->children = NULL;
+
+    return new_node;
 }
 
 struct node_list *append_node(struct node_list *list, struct node *new_node) {
+    if (new_node == NULL){ // if the node is NULL just return and don't append node
+        return list;
+    }
+    // if the node is not NULL append it to the provided node list
     struct node_list *new_list_node = malloc(sizeof(struct node_list));
     new_list_node->node = new_node;
     new_list_node->next = NULL;
@@ -116,6 +144,9 @@ struct node_list *append_node(struct node_list *list, struct node *new_node) {
 }
 
 struct node_list *node_to_nodelist(struct node *node) {
+    if (node == NULL){
+        return NULL;
+    }
     struct node_list *list_item = malloc(sizeof(struct node_list));
     list_item->node = node;
     list_item->next = NULL;
@@ -123,6 +154,9 @@ struct node_list *node_to_nodelist(struct node *node) {
 }
 
 struct node *nodelist_to_node(struct node_list *node_list) {
+    if (node_list == NULL){
+        return NULL;
+    }
     struct node *node = malloc(sizeof(struct node));
     node = node_list->node;
     return node;
@@ -142,18 +176,71 @@ struct node_list* reverse_list(struct node_list* head) {
 void ast_print(struct node *node, int depth) {
     // Indentation based on depth
     for (int i = 0; i < depth; i++) {
-        printf(".."); // Using two spaces for indentation
+        printf("..");
     }
     
-    // Print the node's category and token. 
+    // print the node's category and token.
     if(node->token)
         printf("%s(%s)\n", categoryToString(node->category), node->token);
     else
         printf("%s\n", categoryToString(node->category));
-    // Recursively print the children
+    // recursively print the children
     struct node_list *current = node->children;
     while (current && current->node) {
         ast_print(current->node, depth + 1);
         current = current->next;
     }
+}
+
+void free_node(struct node *node) {
+    //printf("%s\n", categoryToString(node->category));
+    if(node->category == Program){
+        free(node);
+        return;
+    }
+    if (node == NULL) {
+        return;
+    }
+
+    struct node_list *current = node->children;
+    node->children = NULL; // Prevent potential double access
+
+    while (current) {
+        struct node_list *next = current->next;
+        if (current->node) {
+            free_node(current->node);
+            current->node = NULL;
+        }
+        free(current);
+        current = next;
+    }
+
+    if (node->token) {
+        free(node->token);
+        node->token = NULL;
+    }
+
+    free(node);
+}
+
+// Function to deallocate all the memory of the AST
+void ast_deallocate(struct node *root) {
+    if (root == NULL) {
+        return;
+    }
+
+    // Deallocate all child nodes
+    struct node_list *current = root->children;
+    while (current) {
+        struct node_list *next = current->next;
+        if (current->node) {
+            free_node(current->node);
+            current->node = NULL; // Avoid double free
+        }
+        free(current);  // Free the node_list element
+        current = next;
+    }
+
+    // Free the root node
+    free_node(root);
 }
