@@ -64,21 +64,20 @@ Tiago Rafael Cardoso Santos - 2021229679
 
 %right  IF
 
-%left   OR
-%left   AND
-%left   ASSIGN
-%left   BITWISEOR
-%left   BITWISEXOR
-%left   BITWISEAND
-%left   EQ NE
-%left   DIV MUL MOD
-%left   COMMA
-%left   CALL
-%left   LT GT LE GE
-%left   RPAR LPAR
-
-%right  PLUS MINUS
-%right  NOT
+%left LPAR RPAR
+%left COMMA
+%left ASSIGN
+%left OR
+%left AND 
+%left BITWISEOR
+%left BITWISEXOR
+%left BITWISEAND
+%left EQ NE 
+%left LT LE GT GE
+%left PLUS
+%left MUL DIV MOD
+%left MINUS
+%right NOT
 
 %nonassoc ELSE
 
