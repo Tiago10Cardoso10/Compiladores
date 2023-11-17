@@ -1,1 +1,2 @@
-int ola,ola1,ola2,ola3;
+int c,v=3,d,f=2;
+int novo;

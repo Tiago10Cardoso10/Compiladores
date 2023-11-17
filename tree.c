@@ -50,44 +50,41 @@ void adicionar_irmao(struct node *irmao, struct node *novo){
     
 }
 
-struct node_list *node_to_nodelist(struct node *node) {
-    if (node == NULL){
-        return NULL;
+void adiciona_primeiro(struct node* pai, struct node* filho) {
+    if (pai == NULL || filho == NULL) {
+        return;
     }
-    struct node_list *list_item = malloc(sizeof(struct node_list));
-    list_item->no = node;
-    list_item->next = NULL;
-    return list_item;
-}
 
-int conta_irmaos(struct node *raiz) {
-    int conta = 0; // Contador de irmaos
-    struct node_list *ultimo_irmao = raiz->irmaos;
-    if (ultimo_irmao == NULL) {
-        conta = 0;
-    } else {
-        conta = 1;
-        while (ultimo_irmao->next != NULL) {
-            ultimo_irmao = ultimo_irmao->next;
-            conta += 1;
+    
+    if (pai->filhos == NULL) {
+        struct node_list *lista_filhos = (struct node_list*)malloc(sizeof(struct node_list));
+        if (lista_filhos == NULL) {
+            return;
         }
+        lista_filhos->no = filho;
+        lista_filhos->next = NULL;
+        pai->filhos = lista_filhos;
+    } else {
+        
+        struct node_list *lista_irmaos = (struct node_list*)malloc(sizeof(struct node_list));
+        if (lista_irmaos == NULL) {
+            return;
+        }
+        lista_irmaos->no = filho;
+        lista_irmaos->next = pai->filhos;
+        pai->filhos = lista_irmaos;
     }
-    return conta;
-}
 
-int conta_filhos(struct node *raiz) {
-    int conta = 0; // Contador de irmaos
-    struct node_list *ultimo_irmao = raiz->filhos;
-    if (ultimo_irmao == NULL) {
-        conta = 0;
-    } else {
-        conta = 1;
-        while (ultimo_irmao->next != NULL) {
-            ultimo_irmao = ultimo_irmao->next;
-            conta += 1;
-        }
+    
+    struct node_list *atual_irmao = pai->irmaos;
+    while (atual_irmao != NULL) {
+        struct node_list *nova_lista = (struct node_list*)malloc(sizeof(struct node_list));
+        nova_lista->no = filho;
+        nova_lista->next = atual_irmao->no->filhos;
+        atual_irmao->no->filhos = nova_lista;
+
+        atual_irmao = atual_irmao->next;
     }
-    return conta;
 }
 
 void imprime_arvore(struct node *no, int num){ 
