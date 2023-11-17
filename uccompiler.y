@@ -286,6 +286,7 @@ Declarator:
                                                             }
     | IDENTIFIER ASSIGN Expr2                                {
                                                                 $$ = criar_no(no_declaracao,"Declaration",NULL);
+                                                                adicionar_filho($$,criar_no(no_terminais,"Identifier",$1));
                                                                 adicionar_filho($$,$3);
                                                             }
     ;
@@ -586,7 +587,7 @@ Expr:
                                                                 $$ = criar_no(no_operadores,"Call",NULL);
                                                                 novo = criar_no(no_terminais,"Identifier",$1);
                                                                 adicionar_filho($$,novo);
-                                                                adicionar_filho($$,$3);
+                                                                adicionar_irmao(novo,$3);
                                                                 
                                                             }
     
