@@ -1,8 +1,6 @@
 Terminals unused in grammar
 
     RESERVED
-    SUB
-    ADD
 
 
 Grammar
@@ -160,83 +158,81 @@ Terminals, with rules where they appear
     RPAR (289) 18 38 39 40 47 48 49 78 79 84 85 86
     SEMI (290) 17 24 25 35 36 41 42 44 45 50 51 53
     RESERVED (291)
-    SUB (292)
-    ADD (293)
-    IDENTIFIER <v> (294) 18 23 33 34 78 79 80 85
-    NATURAL <v> (295) 81
-    DECIMAL <v> (296) 83
-    CHRLIT <v> (297) 82
-    UNARY (298)
+    IDENTIFIER <v> (292) 18 23 33 34 78 79 80 85
+    NATURAL <v> (293) 81
+    DECIMAL <v> (294) 83
+    CHRLIT <v> (295) 82
+    UNARY (296)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (44)
+    $accept (42)
         on left: 0
-    Program <no> (45)
+    Program <no> (43)
         on left: 1 2
         on right: 0
-    FunctionsAndDeclarations <no> (46)
+    FunctionsAndDeclarations <no> (44)
         on left: 3 4 5
         on right: 2
-    FunctionsAndDeclarations2 <no> (47)
+    FunctionsAndDeclarations2 <no> (45)
         on left: 6 7 8 9
         on right: 3 4 5 7 8 9
-    FunctionDefinition <no> (48)
+    FunctionDefinition <no> (46)
         on left: 10
         on right: 3 7
-    FunctionBody <no> (49)
+    FunctionBody <no> (47)
         on left: 11 12
         on right: 10
-    DeclarationsAndStatements <no> (50)
+    DeclarationsAndStatements <no> (48)
         on left: 13 14 15 16
         on right: 12 13 14
-    FunctionDeclaration <no> (51)
+    FunctionDeclaration <no> (49)
         on left: 17
         on right: 4 8
-    FunctionDeclarator <no> (52)
+    FunctionDeclarator <no> (50)
         on left: 18
         on right: 10 17
-    ParameterList <no> (53)
+    ParameterList <no> (51)
         on left: 19
         on right: 18
-    ParameterList2 <no> (54)
+    ParameterList2 <no> (52)
         on left: 20 21
         on right: 19 21
-    ParameterDeclaration <no> (55)
+    ParameterDeclaration <no> (53)
         on left: 22 23
         on right: 19 21
-    Declaration <no> (56)
+    Declaration <no> (54)
         on left: 24 25
         on right: 5 9 14 16
-    Declaration2 <no> (57)
+    Declaration2 <no> (55)
         on left: 26 27
         on right: 24 27
-    TypeSpec <no> (58)
+    TypeSpec <no> (56)
         on left: 28 29 30 31 32
         on right: 10 17 22 23 24
-    Declarator <no> (59)
+    Declarator <no> (57)
         on left: 33 34
         on right: 26 27
-    StatementsERROR <no> (60)
+    StatementsERROR <no> (58)
         on left: 35 36 37 38 39 40 41 42 43
         on right: 13 15 55 57
-    StatementERROR <no> (61)
+    StatementERROR <no> (59)
         on left: 44 45 46 47 48 49 50 51 52 53
         on right: 38 39 40 47 48 49
-    Statement2 <no> (62)
+    Statement2 <no> (60)
         on left: 54 55
         on right: 37 46
-    Statement3 <no> (63)
+    Statement3 <no> (61)
         on left: 56 57
         on right: 55 57
-    Expr <no> (64)
+    Expr <no> (62)
         on left: 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86
         on right: 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 87 88 90
-    Expr2 <no> (65)
+    Expr2 <no> (63)
         on left: 87 88
         on right: 34 36 38 39 40 41 45 47 48 49 50 84 88
-    Expr3 <no> (66)
+    Expr3 <no> (64)
         on left: 89 90
         on right: 78 90
 
@@ -1054,18 +1050,8 @@ State 64
    74     | Expr • GT Expr
    76     | MINUS Expr •
 
-    BITWISEAND  shift, and go to state 68
-    BITWISEOR   shift, and go to state 69
-    BITWISEXOR  shift, and go to state 70
-    AND         shift, and go to state 71
-    ASSIGN      shift, and go to state 72
-    EQ          shift, and go to state 75
-    GE          shift, and go to state 76
-    GT          shift, and go to state 77
-    LE          shift, and go to state 78
-    LT          shift, and go to state 79
-    NE          shift, and go to state 82
-    OR          shift, and go to state 83
+    MUL  shift, and go to state 73
+    DIV  shift, and go to state 74
 
     $default  reduce using rule 76 (Expr)
 
@@ -1091,24 +1077,6 @@ State 65
    74     | Expr • GT Expr
    77     | NOT Expr •
 
-    BITWISEAND  shift, and go to state 68
-    BITWISEOR   shift, and go to state 69
-    BITWISEXOR  shift, and go to state 70
-    AND         shift, and go to state 71
-    ASSIGN      shift, and go to state 72
-    MUL         shift, and go to state 73
-    DIV         shift, and go to state 74
-    EQ          shift, and go to state 75
-    GE          shift, and go to state 76
-    GT          shift, and go to state 77
-    LE          shift, and go to state 78
-    LT          shift, and go to state 79
-    MINUS       shift, and go to state 80
-    MOD         shift, and go to state 81
-    NE          shift, and go to state 82
-    OR          shift, and go to state 83
-    PLUS        shift, and go to state 84
-
     $default  reduce using rule 77 (Expr)
 
 
@@ -1133,18 +1101,8 @@ State 66
    74     | Expr • GT Expr
    75     | PLUS Expr •
 
-    BITWISEAND  shift, and go to state 68
-    BITWISEOR   shift, and go to state 69
-    BITWISEXOR  shift, and go to state 70
-    AND         shift, and go to state 71
-    ASSIGN      shift, and go to state 72
-    EQ          shift, and go to state 75
-    GE          shift, and go to state 76
-    GT          shift, and go to state 77
-    LE          shift, and go to state 78
-    LT          shift, and go to state 79
-    NE          shift, and go to state 82
-    OR          shift, and go to state 83
+    MUL  shift, and go to state 73
+    DIV  shift, and go to state 74
 
     $default  reduce using rule 75 (Expr)
 
@@ -1704,12 +1662,17 @@ State 106
    73     | Expr • LT Expr
    74     | Expr • GT Expr
 
-    EQ  shift, and go to state 75
-    GE  shift, and go to state 76
-    GT  shift, and go to state 77
-    LE  shift, and go to state 78
-    LT  shift, and go to state 79
-    NE  shift, and go to state 82
+    MUL    shift, and go to state 73
+    DIV    shift, and go to state 74
+    EQ     shift, and go to state 75
+    GE     shift, and go to state 76
+    GT     shift, and go to state 77
+    LE     shift, and go to state 78
+    LT     shift, and go to state 79
+    MINUS  shift, and go to state 80
+    MOD    shift, and go to state 81
+    NE     shift, and go to state 82
+    PLUS   shift, and go to state 84
 
     $default  reduce using rule 66 (Expr)
 
@@ -1737,12 +1700,17 @@ State 107
 
     BITWISEAND  shift, and go to state 68
     BITWISEXOR  shift, and go to state 70
+    MUL         shift, and go to state 73
+    DIV         shift, and go to state 74
     EQ          shift, and go to state 75
     GE          shift, and go to state 76
     GT          shift, and go to state 77
     LE          shift, and go to state 78
     LT          shift, and go to state 79
+    MINUS       shift, and go to state 80
+    MOD         shift, and go to state 81
     NE          shift, and go to state 82
+    PLUS        shift, and go to state 84
 
     $default  reduce using rule 67 (Expr)
 
@@ -1769,12 +1737,17 @@ State 108
    74     | Expr • GT Expr
 
     BITWISEAND  shift, and go to state 68
+    MUL         shift, and go to state 73
+    DIV         shift, and go to state 74
     EQ          shift, and go to state 75
     GE          shift, and go to state 76
     GT          shift, and go to state 77
     LE          shift, and go to state 78
     LT          shift, and go to state 79
+    MINUS       shift, and go to state 80
+    MOD         shift, and go to state 81
     NE          shift, and go to state 82
+    PLUS        shift, and go to state 84
 
     $default  reduce using rule 68 (Expr)
 
@@ -1803,12 +1776,17 @@ State 109
     BITWISEAND  shift, and go to state 68
     BITWISEOR   shift, and go to state 69
     BITWISEXOR  shift, and go to state 70
+    MUL         shift, and go to state 73
+    DIV         shift, and go to state 74
     EQ          shift, and go to state 75
     GE          shift, and go to state 76
     GT          shift, and go to state 77
     LE          shift, and go to state 78
     LT          shift, and go to state 79
+    MINUS       shift, and go to state 80
+    MOD         shift, and go to state 81
     NE          shift, and go to state 82
+    PLUS        shift, and go to state 84
 
     $default  reduce using rule 65 (Expr)
 
@@ -1839,13 +1817,18 @@ State 110
     BITWISEXOR  shift, and go to state 70
     AND         shift, and go to state 71
     ASSIGN      shift, and go to state 72
+    MUL         shift, and go to state 73
+    DIV         shift, and go to state 74
     EQ          shift, and go to state 75
     GE          shift, and go to state 76
     GT          shift, and go to state 77
     LE          shift, and go to state 78
     LT          shift, and go to state 79
+    MINUS       shift, and go to state 80
+    MOD         shift, and go to state 81
     NE          shift, and go to state 82
     OR          shift, and go to state 83
+    PLUS        shift, and go to state 84
 
     $default  reduce using rule 58 (Expr)
 
@@ -1871,21 +1854,6 @@ State 111
    73     | Expr • LT Expr
    74     | Expr • GT Expr
 
-    BITWISEAND  shift, and go to state 68
-    BITWISEOR   shift, and go to state 69
-    BITWISEXOR  shift, and go to state 70
-    AND         shift, and go to state 71
-    ASSIGN      shift, and go to state 72
-    EQ          shift, and go to state 75
-    GE          shift, and go to state 76
-    GT          shift, and go to state 77
-    LE          shift, and go to state 78
-    LT          shift, and go to state 79
-    MINUS       shift, and go to state 80
-    NE          shift, and go to state 82
-    OR          shift, and go to state 83
-    PLUS        shift, and go to state 84
-
     $default  reduce using rule 61 (Expr)
 
 
@@ -1909,21 +1877,6 @@ State 112
    72     | Expr • GE Expr
    73     | Expr • LT Expr
    74     | Expr • GT Expr
-
-    BITWISEAND  shift, and go to state 68
-    BITWISEOR   shift, and go to state 69
-    BITWISEXOR  shift, and go to state 70
-    AND         shift, and go to state 71
-    ASSIGN      shift, and go to state 72
-    EQ          shift, and go to state 75
-    GE          shift, and go to state 76
-    GT          shift, and go to state 77
-    LE          shift, and go to state 78
-    LT          shift, and go to state 79
-    MINUS       shift, and go to state 80
-    NE          shift, and go to state 82
-    OR          shift, and go to state 83
-    PLUS        shift, and go to state 84
 
     $default  reduce using rule 62 (Expr)
 
@@ -1949,10 +1902,15 @@ State 113
    73     | Expr • LT Expr
    74     | Expr • GT Expr
 
-    GE  shift, and go to state 76
-    GT  shift, and go to state 77
-    LE  shift, and go to state 78
-    LT  shift, and go to state 79
+    MUL    shift, and go to state 73
+    DIV    shift, and go to state 74
+    GE     shift, and go to state 76
+    GT     shift, and go to state 77
+    LE     shift, and go to state 78
+    LT     shift, and go to state 79
+    MINUS  shift, and go to state 80
+    MOD    shift, and go to state 81
+    PLUS   shift, and go to state 84
 
     $default  reduce using rule 69 (Expr)
 
@@ -1978,6 +1936,12 @@ State 114
    73     | Expr • LT Expr
    74     | Expr • GT Expr
 
+    MUL    shift, and go to state 73
+    DIV    shift, and go to state 74
+    MINUS  shift, and go to state 80
+    MOD    shift, and go to state 81
+    PLUS   shift, and go to state 84
+
     $default  reduce using rule 72 (Expr)
 
 
@@ -2001,6 +1965,12 @@ State 115
    73     | Expr • LT Expr
    74     | Expr • GT Expr
    74     | Expr GT Expr •
+
+    MUL    shift, and go to state 73
+    DIV    shift, and go to state 74
+    MINUS  shift, and go to state 80
+    MOD    shift, and go to state 81
+    PLUS   shift, and go to state 84
 
     $default  reduce using rule 74 (Expr)
 
@@ -2026,6 +1996,12 @@ State 116
    73     | Expr • LT Expr
    74     | Expr • GT Expr
 
+    MUL    shift, and go to state 73
+    DIV    shift, and go to state 74
+    MINUS  shift, and go to state 80
+    MOD    shift, and go to state 81
+    PLUS   shift, and go to state 84
+
     $default  reduce using rule 71 (Expr)
 
 
@@ -2049,6 +2025,12 @@ State 117
    73     | Expr • LT Expr
    73     | Expr LT Expr •
    74     | Expr • GT Expr
+
+    MUL    shift, and go to state 73
+    DIV    shift, and go to state 74
+    MINUS  shift, and go to state 80
+    MOD    shift, and go to state 81
+    PLUS   shift, and go to state 84
 
     $default  reduce using rule 73 (Expr)
 
@@ -2074,18 +2056,8 @@ State 118
    73     | Expr • LT Expr
    74     | Expr • GT Expr
 
-    BITWISEAND  shift, and go to state 68
-    BITWISEOR   shift, and go to state 69
-    BITWISEXOR  shift, and go to state 70
-    AND         shift, and go to state 71
-    ASSIGN      shift, and go to state 72
-    EQ          shift, and go to state 75
-    GE          shift, and go to state 76
-    GT          shift, and go to state 77
-    LE          shift, and go to state 78
-    LT          shift, and go to state 79
-    NE          shift, and go to state 82
-    OR          shift, and go to state 83
+    MUL  shift, and go to state 73
+    DIV  shift, and go to state 74
 
     $default  reduce using rule 60 (Expr)
 
@@ -2111,20 +2083,10 @@ State 119
    73     | Expr • LT Expr
    74     | Expr • GT Expr
 
-    BITWISEAND  shift, and go to state 68
-    BITWISEOR   shift, and go to state 69
-    BITWISEXOR  shift, and go to state 70
-    AND         shift, and go to state 71
-    ASSIGN      shift, and go to state 72
-    EQ          shift, and go to state 75
-    GE          shift, and go to state 76
-    GT          shift, and go to state 77
-    LE          shift, and go to state 78
-    LT          shift, and go to state 79
-    MINUS       shift, and go to state 80
-    NE          shift, and go to state 82
-    OR          shift, and go to state 83
-    PLUS        shift, and go to state 84
+    MUL    shift, and go to state 73
+    DIV    shift, and go to state 74
+    MINUS  shift, and go to state 80
+    PLUS   shift, and go to state 84
 
     $default  reduce using rule 63 (Expr)
 
@@ -2150,10 +2112,15 @@ State 120
    73     | Expr • LT Expr
    74     | Expr • GT Expr
 
-    GE  shift, and go to state 76
-    GT  shift, and go to state 77
-    LE  shift, and go to state 78
-    LT  shift, and go to state 79
+    MUL    shift, and go to state 73
+    DIV    shift, and go to state 74
+    GE     shift, and go to state 76
+    GT     shift, and go to state 77
+    LE     shift, and go to state 78
+    LT     shift, and go to state 79
+    MINUS  shift, and go to state 80
+    MOD    shift, and go to state 81
+    PLUS   shift, and go to state 84
 
     $default  reduce using rule 70 (Expr)
 
@@ -2183,12 +2150,17 @@ State 121
     BITWISEOR   shift, and go to state 69
     BITWISEXOR  shift, and go to state 70
     AND         shift, and go to state 71
+    MUL         shift, and go to state 73
+    DIV         shift, and go to state 74
     EQ          shift, and go to state 75
     GE          shift, and go to state 76
     GT          shift, and go to state 77
     LE          shift, and go to state 78
     LT          shift, and go to state 79
+    MINUS       shift, and go to state 80
+    MOD         shift, and go to state 81
     NE          shift, and go to state 82
+    PLUS        shift, and go to state 84
 
     $default  reduce using rule 64 (Expr)
 
@@ -2214,18 +2186,8 @@ State 122
    73     | Expr • LT Expr
    74     | Expr • GT Expr
 
-    BITWISEAND  shift, and go to state 68
-    BITWISEOR   shift, and go to state 69
-    BITWISEXOR  shift, and go to state 70
-    AND         shift, and go to state 71
-    ASSIGN      shift, and go to state 72
-    EQ          shift, and go to state 75
-    GE          shift, and go to state 76
-    GT          shift, and go to state 77
-    LE          shift, and go to state 78
-    LT          shift, and go to state 79
-    NE          shift, and go to state 82
-    OR          shift, and go to state 83
+    MUL  shift, and go to state 73
+    DIV  shift, and go to state 74
 
     $default  reduce using rule 59 (Expr)
 

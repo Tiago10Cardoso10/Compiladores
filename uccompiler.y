@@ -76,7 +76,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 %left   LT GT LE GE
 %left   MOD
 %left   PLUS MINUS
-
+%left   DIV MUL
 %right  NOT
 %left   RPAR LPAR
 
