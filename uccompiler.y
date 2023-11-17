@@ -65,20 +65,20 @@ Tiago Rafael Cardoso Santos - 2021229679
 
 %right  IF
 
-%left LPAR RPAR
-%left COMMA
-%left ASSIGN
-%left OR
-%left AND 
-%left BITWISEOR
-%left BITWISEXOR
-%left BITWISEAND
-%left EQ NE 
-%left LT LE GT GE
-%left PLUS
-%left MUL DIV MOD
-%left MINUS
-%right NOT
+%left   COMMA
+%right  ASSIGN
+%left   OR
+%left   AND
+%left   BITWISEOR
+%left   BITWISEXOR
+%left   BITWISEAND
+%left   EQ NE
+%left   LT GT LE GE
+%left   MOD
+%left   PLUS MINUS
+%left   DIV MUL
+%right  NOT
+%left   RPAR LPAR
 
 %nonassoc ELSE
 
@@ -286,6 +286,7 @@ Declarator:
                                                             }
     | IDENTIFIER ASSIGN Expr2                                {
                                                                 $$ = criar_no(no_declaracao,"Declaration",NULL);
+                                                                adicionar_filho($$,criar_no(no_terminais,"Identifier",$1));
                                                                 adicionar_filho($$,$3);
                                                             }
     ;
@@ -316,7 +317,7 @@ StatementsERROR:
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 adicionar_filho($$,$5);
-                                                                adicionar_filho($$,criar_no(no_especial,"NULL",NULL));
+                                                                adicionar_filho($$,criar_no(no_especial,"Null",NULL));
                                                                 
                                                             }
 
@@ -326,7 +327,7 @@ StatementsERROR:
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 if ($5 == NULL){
-                                                                    adicionar_filho($$,criar_no(no_especial,"NULL",NULL));
+                                                                    adicionar_filho($$,criar_no(no_especial,"Null",NULL));
                                                                 } else {
                                                                     adicionar_filho($$,$5);
                                                                 }
@@ -342,7 +343,7 @@ StatementsERROR:
                                                             }
     | RETURN SEMI                                           {
                                                                 $$ = criar_no(no_statments,"Return",NULL);
-                                                                novo = criar_no(no_especial, "NULL",NULL);
+                                                                novo = criar_no(no_especial, "Null",NULL);
                                                                 adicionar_filho($$,novo); 
                                                             }
 
@@ -376,7 +377,7 @@ StatementERROR:
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 adicionar_filho($$,$5);
-                                                                adicionar_filho($$,criar_no(no_especial,"NULL",NULL));
+                                                                adicionar_filho($$,criar_no(no_especial,"Null",NULL));
                                                                 
                                                             }
     
@@ -386,7 +387,7 @@ StatementERROR:
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 if ($5 == NULL){
-                                                                    adicionar_filho($$,criar_no(no_especial,"NULL",NULL));
+                                                                    adicionar_filho($$,criar_no(no_especial,"Null",NULL));
                                                                 } else {
                                                                     adicionar_filho($$,$5);
                                                                 }
@@ -402,7 +403,7 @@ StatementERROR:
                                                             }
     | RETURN SEMI                                           {
                                                                 $$ = criar_no(no_statments,"Return",NULL);
-                                                                novo = criar_no(no_especial, "NULL",NULL);
+                                                                novo = criar_no(no_especial, "Null",NULL);
                                                                 adicionar_filho($$,novo);
                                                             }
     
@@ -521,28 +522,28 @@ Expr:
 
     | Expr EQ Expr                                          {
                                                                 
-                                                                $$ = criar_no(no_operadores,"EQ",NULL);
+                                                                $$ = criar_no(no_operadores,"Eq",NULL);
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
                                                             }
     | Expr NE Expr                                          {   
                                                                 
-                                                                $$ = criar_no(no_operadores,"NE",NULL);
+                                                                $$ = criar_no(no_operadores,"Ne",NULL);
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
                                                             }
     | Expr LE Expr                                          {
                                                                 
-                                                                $$ = criar_no(no_operadores,"LE",NULL);
+                                                                $$ = criar_no(no_operadores,"Le",NULL);
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
                                                             }
     | Expr GE Expr                                          {
                                                                 
-                                                                $$ = criar_no(no_operadores,"GE",NULL);
+                                                                $$ = criar_no(no_operadores,"Ge",NULL);
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
@@ -550,14 +551,14 @@ Expr:
     | Expr LT Expr                                          {
                                                                 
                                                                 
-                                                                $$ = criar_no(no_operadores,"LT",NULL);
+                                                                $$ = criar_no(no_operadores,"Lt",NULL);
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
                                                             }
     | Expr GT Expr                                          {
                                                                 
-                                                                $$ = criar_no(no_operadores,"GT",NULL);
+                                                                $$ = criar_no(no_operadores,"Gt",NULL);
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
