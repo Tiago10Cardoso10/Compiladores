@@ -17,6 +17,7 @@ void adicionar_filho(struct node *pai, struct node *filho){
         pai->filhos = malloc(sizeof(struct node_list));
         pai->filhos->no = filho;
         pai->filhos->next = NULL;
+        pai->irmaos = NULL;
     } else {
         struct node_list *novo = malloc(sizeof(struct node_list));
         novo->no = filho;
@@ -49,13 +50,42 @@ void adicionar_irmao(struct node *irmao, struct node *novo){
     
 }
 
-int conta_irmaos(struct node *raiz) {
-    int conta = 0;
-    struct node_list *aux = raiz->irmaos;
+struct node_list *node_to_nodelist(struct node *node) {
+    if (node == NULL){
+        return NULL;
+    }
+    struct node_list *list_item = malloc(sizeof(struct node_list));
+    list_item->no = node;
+    list_item->next = NULL;
+    return list_item;
+}
 
-    while (aux != NULL) {
-        aux = aux->next;
-        conta++;
+int conta_irmaos(struct node *raiz) {
+    int conta = 0; // Contador de irmaos
+    struct node_list *ultimo_irmao = raiz->irmaos;
+    if (ultimo_irmao == NULL) {
+        conta = 0;
+    } else {
+        conta = 1;
+        while (ultimo_irmao->next != NULL) {
+            ultimo_irmao = ultimo_irmao->next;
+            conta += 1;
+        }
+    }
+    return conta;
+}
+
+int conta_filhos(struct node *raiz) {
+    int conta = 0; // Contador de irmaos
+    struct node_list *ultimo_irmao = raiz->filhos;
+    if (ultimo_irmao == NULL) {
+        conta = 0;
+    } else {
+        conta = 1;
+        while (ultimo_irmao->next != NULL) {
+            ultimo_irmao = ultimo_irmao->next;
+            conta += 1;
+        }
     }
     return conta;
 }

@@ -83,6 +83,8 @@ struct node *criar_no(enum tipo_no tipo_no,char *tipo, char *token);
 void adicionar_filho(struct node *pai, struct node *filho);
 void adicionar_irmao(struct node *irmao, struct node *novo);
 void imprime_arvore(struct node *no, int num);
+struct node_list *node_to_nodelist(struct node *node);
 int conta_irmaos(struct node *raiz);
+int conta_filhos(struct node *raiz);
 
 #endif
