@@ -250,7 +250,7 @@ Declaration:
 
                                                                 /*  
                                                                     $$ = $1;
-                                                                    nsertfirstchild;
+                                                                    nsertfirstchild
                                                                 Meter apenas insertfirstchild */
                                                                 
                                                             }
@@ -277,9 +277,7 @@ Declaration2:
 
 TypeSpec: 
     CHAR                                                    {
-                                                                
-                                                                $$ = criar_no(no_declaracao,"Declaration",NULL);
-                                                                adicionar_filho($$,criar_no(no_terminais,"Char",NULL);
+                                                                $$ = criar_no(no_terminais,"Char",NULL);
                                                             }
     | INT                                                   {
                                                                 $$ = criar_no(no_terminais,"Int",NULL);
@@ -297,6 +295,8 @@ TypeSpec:
 
 Declarator:
     IDENTIFIER                                              {
+                                                                /* Meter aqui a cena de declaration
+                                                                adicionia filho ao declaration $1 */
                                                                 $$ = criar_no(no_terminais,"Identifier",$1);
                                                             }
     | IDENTIFIER ASSIGN Expr                                {
