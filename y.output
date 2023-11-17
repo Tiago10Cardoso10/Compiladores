@@ -1123,8 +1123,6 @@ State 64
    73     | Expr • GT Expr
    76     | NOT Expr •
 
-    COMMA  shift, and go to state 73
-
     $default  reduce using rule 76 (Expr)
 
 

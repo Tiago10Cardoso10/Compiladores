@@ -1,1 +1,1 @@
-int x=3,y,w=3;
+int ola,ola1,ola2,ola3;

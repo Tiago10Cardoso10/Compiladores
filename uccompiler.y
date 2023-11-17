@@ -234,30 +234,24 @@ Declaration:
                                                                 $$ = criar_no(no_declaracao,"Declaration",NULL);
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_filho($$,$2);
-                                                                
-                                                                if($3 != NULL){
-                                                                    novo = criar_no(no_declaracao,"Declaration",NULL);
-                                                                    adicionar_irmao($$,novo);
-                                                                    adicionar_filho(novo,$1);
-                                                                    adicionar_filho(novo,$3);
+                                                                if ($3!=NULL){
+                                                                    adicionar_irmao($$, criar_no(no_declaracao,"Declaration",NULL));
+                                                                    adicionar_filho($$,$3);
                                                                 }
+                                                                
                                                                 
                                                             }
     | error SEMI                                            {  $$ = NULL; nr_erro = 1;}
     ;
 
 Declaration2: /* empty */                                   {  $$ = NULL;}
-    | COMMA Declarator Declaration2                         {
+    | COMMA Declarator  Declaration2                        {
+                                                                $$ = $2;
                                                                 
+                                                                adicionar_filho($$,$3);
+                                                                    
                                                                 
-                                                                if($3 != NULL){
-                                                                    $$ = $2;
-                                                                } else {
-                                                                    $$ = $2;
-                                                                }
                                                             
-                                                                
-                                                                
                                                             }
     ;
 
