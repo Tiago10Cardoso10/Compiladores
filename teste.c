@@ -1,5 +1,4 @@
-int main(void){
-	{a=1;}
-	{b=1;c=1;}
-	{a=1;b=2;c=3;}
+int x(void){
+	func(1,2,3);
+	sa((1,2),3);
 }

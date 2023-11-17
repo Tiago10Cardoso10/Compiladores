@@ -1098,6 +1098,10 @@ State 63
    75     | Expr • GT Expr
    77     | MINUS Expr •
 
+    MUL  shift, and go to state 72
+    DIV  shift, and go to state 74
+    MOD  shift, and go to state 81
+
     $default  reduce using rule 77 (Expr)
 
 
@@ -1148,10 +1152,9 @@ State 65
    75     | Expr • GT Expr
    76     | PLUS Expr •
 
-    MUL    shift, and go to state 72
-    DIV    shift, and go to state 74
-    MINUS  shift, and go to state 80
-    MOD    shift, and go to state 81
+    MUL  shift, and go to state 72
+    DIV  shift, and go to state 74
+    MOD  shift, and go to state 81
 
     $default  reduce using rule 76 (Expr)
 
@@ -1907,6 +1910,7 @@ State 110
     BITWISEOR   shift, and go to state 68
     BITWISEXOR  shift, and go to state 69
     AND         shift, and go to state 70
+    ASSIGN      shift, and go to state 71
     MUL         shift, and go to state 72
     DIV         shift, and go to state 74
     EQ          shift, and go to state 75
@@ -1944,8 +1948,6 @@ State 111
    73     | Expr • GE Expr
    74     | Expr • LT Expr
    75     | Expr • GT Expr
-
-    MINUS  shift, and go to state 80
 
     $default  reduce using rule 62 (Expr)
 
@@ -2014,8 +2016,6 @@ State 113
    73     | Expr • GE Expr
    74     | Expr • LT Expr
    75     | Expr • GT Expr
-
-    MINUS  shift, and go to state 80
 
     $default  reduce using rule 63 (Expr)
 
@@ -2201,6 +2201,10 @@ State 119
    74     | Expr • LT Expr
    75     | Expr • GT Expr
 
+    MUL  shift, and go to state 72
+    DIV  shift, and go to state 74
+    MOD  shift, and go to state 81
+
     $default  reduce using rule 61 (Expr)
 
 
@@ -2225,8 +2229,6 @@ State 120
    73     | Expr • GE Expr
    74     | Expr • LT Expr
    75     | Expr • GT Expr
-
-    MINUS  shift, and go to state 80
 
     $default  reduce using rule 64 (Expr)
 
@@ -2329,10 +2331,9 @@ State 123
    74     | Expr • LT Expr
    75     | Expr • GT Expr
 
-    MUL    shift, and go to state 72
-    DIV    shift, and go to state 74
-    MINUS  shift, and go to state 80
-    MOD    shift, and go to state 81
+    MUL  shift, and go to state 72
+    DIV  shift, and go to state 74
+    MOD  shift, and go to state 81
 
     $default  reduce using rule 60 (Expr)
 
