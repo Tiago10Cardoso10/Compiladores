@@ -52,13 +52,15 @@ Tiago Rafael Cardoso Santos - 2021229679
 %token RPAR
 %token SEMI
 %token RESERVED
+%token SUB
+%token ADD
 
 %token<v> IDENTIFIER
 %token<v> NATURAL
 %token<v> DECIMAL
 %token<v> CHRLIT
 
-%type <no> Expr2  Statement3 Program FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr
+%type <no> Expr2 Expr3 Statement3 Program FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr
 
 %left  UNARY
 
@@ -74,9 +76,17 @@ Tiago Rafael Cardoso Santos - 2021229679
 %left   BITWISEAND
 %left   EQ NE
 %left   LT GT LE GE
-%left   MOD
-%left   PLUS MINUS
-%left   DIV MUL
+%left   PLUS
+%left   DIV 
+
+%left   ADD 
+%left   SUB
+%left   MUL
+%left   MOD 
+ 
+%left   MINUS 
+
+
 %right  NOT
 %left   RPAR LPAR
 
@@ -605,15 +615,21 @@ Expr:
                                                                 
                                                             }
 
-    | IDENTIFIER LPAR Expr2 RPAR                             {
+    | IDENTIFIER LPAR Expr Expr3 RPAR                             {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Call",NULL);
                                                                 novo = criar_no(no_terminais,"Identifier",$1);
                                                                 adicionar_filho($$,novo);
                                                                 adicionar_filho($$,$3);
+                                                                adicionar_filho($$,$4);
                                                                 
                                                             }
-    
+    | IDENTIFIER LPAR RPAR                                  {
+                                                                $$ = criar_no(no_operadores,"Call",NULL);
+                                                                novo = criar_no(no_terminais,"Identifier",$1);
+                                                                adicionar_filho($$,novo);
+                                                            }
+
     | IDENTIFIER %prec UNARY                                {
                                                                 
                                                                 $$ = criar_no(no_terminais,"Identifier",$1);
@@ -652,12 +668,25 @@ Expr2:
                                 adicionar_filho($$,$1);
                                 adicionar_irmao($1,$3);
                             } else {
-                                $$ = criar_no(no_operadores,"Comma",NULL);
-                                adicionar_filho($$,$3);
+                                $$ = $3;
+                                
                                 
                             }
                         }
     ;
 
-
+Expr3:
+    {$$ = NULL;}
+    | Expr3 COMMA Expr  {
+                            if($1 != NULL){
+                                $$ = $1;
+                                
+                                adicionar_irmao($$,$3);
+                        }else {
+                                $$ = $3;
+                                
+                                
+                            }
+                    
+    }
 %%
