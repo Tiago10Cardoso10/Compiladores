@@ -1,1 +1,1 @@
-int x,y;
+int x=3,y,w=3;

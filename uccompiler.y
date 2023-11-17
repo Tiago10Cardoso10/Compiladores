@@ -251,8 +251,7 @@ Declaration2: /* empty */                                   {  $$ = NULL;}
                                                                 
                                                                 
                                                                 if($3 != NULL){
-                                                                    novo = criar_no(no_declaracao,"Declaration",NULL);
-                                                                    adicionar_irmao($$,novo);
+                                                                    $$ = $2;
                                                                 } else {
                                                                     $$ = $2;
                                                                 }
