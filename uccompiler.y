@@ -58,7 +58,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 %token<v> DECIMAL
 %token<v> CHRLIT
 
-%type <no> Expr2 Expr3 Statement3 Program FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr
+%type <no> Expr2  Statement3 Program FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr
 
 %left  UNARY
 
@@ -236,18 +236,9 @@ ParameterDeclaration:
     ;
 
 Declaration:
-    TypeSpec Declaration2 SEMI                   {
-                                                                $$ = criar_no(no_declaracao,"Declaration",NULL);
-                                                                adicionar_filho($$,$1);
-                                                                adicionar_filho($$,$2);
-                                                                
-                                                                
-
-                                                                /*  
-                                                                    $$ = $1;
-                                                                    nsertfirstchild
-                                                                Meter apenas insertfirstchild */
-                                                                
+    TypeSpec Declaration2 SEMI                              {  
+                                                                $$ = $2;
+                                                                adiciona_primeiro($$,$1);
                                                             }
     | error SEMI                                            {  $$ = NULL; nr_erro = 1;}
     ;
@@ -265,7 +256,7 @@ Declaration2:
                                                                 
                                                                 
                                                             
-                                                                /* Meter 2 */
+                                                                
                                                                 
                                                             }
     ;
@@ -290,13 +281,12 @@ TypeSpec:
 
 Declarator:
     IDENTIFIER                                              {
-                                                                /* Meter aqui a cena de declaration
-                                                                adicionia filho ao declaration $1 */
-                                                                $$ = criar_no(no_terminais,"Identifier",$1);
+                                                                $$ = criar_no(no_declaracao,"Declaration",NULL);
+                                                                adicionar_filho($$,criar_no(no_terminais,"Identifier",$1));
                                                             }
-    | IDENTIFIER ASSIGN Expr                                {
-                                                                $$ = criar_no(no_terminais,"Identifier",$1);
-                                                                adicionar_irmao($$,$3);
+    | IDENTIFIER ASSIGN Expr2                                {
+                                                                $$ = criar_no(no_declaracao,"Declaration",NULL);
+                                                                adicionar_filho($$,$3);
                                                             }
     ;
 
@@ -340,8 +330,6 @@ StatementsERROR:
                                                                 } else {
                                                                     adicionar_filho($$,$5);
                                                                 }
-                                                                
-
                                                             }
 
     | RETURN Expr2 SEMI                                      {
@@ -367,7 +355,7 @@ StatementERROR:
                                                                 $$ = criar_no(no_especial,"Null",NULL);
                                                                 
                                                             }
-    | Expr SEMI                                             {
+    | Expr2 SEMI                                             {
                                                                 $$ = $1;
                                                                 vazio = 1;
                                                             }
@@ -593,7 +581,7 @@ Expr:
                                                                 
                                                             }
 
-    | IDENTIFIER LPAR Expr3 RPAR                             {
+    | IDENTIFIER LPAR Expr2 RPAR                             {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Call",NULL);
                                                                 novo = criar_no(no_terminais,"Identifier",$1);
@@ -601,7 +589,6 @@ Expr:
                                                                 adicionar_filho($$,$3);
                                                                 
                                                             }
-
     
     | IDENTIFIER %prec UNARY                                {
                                                                 
@@ -636,26 +623,17 @@ Expr:
 
 Expr2:
     Expr {$$ = $1;}
-    | Expr COMMA Expr2 {    if($3 != NULL){
+    | Expr2 COMMA Expr {    if($1 != NULL){
                                 $$ = criar_no(no_operadores,"Comma",NULL);
                                 adicionar_filho($$,$1);
                                 adicionar_irmao($1,$3);
                             } else {
                                 $$ = criar_no(no_operadores,"Comma",NULL);
-                                adicionar_filho($$,$1);
+                                adicionar_filho($$,$3);
                                 
                             }
                         }
     ;
 
-Expr3:
-    {$$ = NULL;}
-    | Expr COMMA Expr3   { if($1 != NULL){
-                                $$ = $1;
 
-                                adicionar_irmao($1,$3);
-                            } else {
-                                $$ = $3;}
-                            }
-    ;
 %%

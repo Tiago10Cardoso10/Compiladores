@@ -1,4 +1,2 @@
-int x(void){
-	func(1,2,3);
-	sa((1,2),3);
-}
+int c,v=3,d,f=2;
+int novo;
