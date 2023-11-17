@@ -92,8 +92,7 @@ extern int yydebug;
     NATURAL = 293,                 /* NATURAL  */
     DECIMAL = 294,                 /* DECIMAL  */
     CHRLIT = 295,                  /* CHRLIT  */
-    UNARY = 296,                   /* UNARY  */
-    CALL = 297                     /* CALL  */
+    UNARY = 296                    /* UNARY  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -141,18 +140,17 @@ extern int yydebug;
 #define DECIMAL 294
 #define CHRLIT 295
 #define UNARY 296
-#define CALL 297
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 16 "uccompiler.y"
+#line 17 "uccompiler.y"
 
     char *v;
     struct node *no;
 
-#line 156 "y.tab.h"
+#line 154 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
