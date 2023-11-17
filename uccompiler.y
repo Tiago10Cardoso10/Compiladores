@@ -308,15 +308,12 @@ StatementsERROR:
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 
-                                                                if ($5 == NULL && $7 == NULL) {
-                                                                    adicionar_filho($$, criar_no(no_especial, "Null", NULL));
-                                                                } else {
-                                                                    if ($5 != NULL) {
-                                                                        adicionar_filho($$, $5);
-                                                                    } else {
+                                                                if ($5 != NULL && $7 != NULL){
+                                                                    adicionar_filho($$, $5);
+                                                                    adicionar_filho($$, $7);
+                                                                } else if ($5 == NULL) {
                                                                         adicionar_filho($$, criar_no(no_especial, "Null", NULL));
                                                                         adicionar_filho($$, $7);
-                                                                    }
                                                                 }
                                                                 
                                                             }
@@ -380,20 +377,30 @@ StatementERROR:
                                                                 $$ = $2;
                                                             }
     | IF LPAR Expr2 RPAR StatementERROR ELSE StatementERROR  {
-                                                                
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
                                                                 
-                                                                adicionar_filho($$,$5);
-                                                                adicionar_filho($$,$7);
+                                                                
+                                                                if ($5 != NULL && $7 != NULL){
+                                                                    adicionar_filho($$, $5);
+                                                                    adicionar_filho($$, $7);
+                                                                } else if ($5 == NULL) {
+                                                                        adicionar_filho($$, criar_no(no_especial, "Null", NULL));
+                                                                        adicionar_filho($$, $7);
+                                                                }
                                                             }
     | IF LPAR Expr2 RPAR StatementERROR                      {
                                                                 
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
                                                                 
-                                                                adicionar_filho($$,$5);
-                                                                adicionar_filho($$,criar_no(no_especial,"Null",NULL));
+                                                                if($5==NULL){
+                                                                        adicionar_filho($$,criar_no(no_especial,"Null",NULL));
+                                                                        adicionar_filho($$,criar_no(no_especial,"Null",NULL));
+                                                                } else {
+                                                                    adicionar_filho($$,$5);
+                                                                    adicionar_filho($$,criar_no(no_especial,"Null",NULL));
+                                                                }
                                                                 
                                                             }
     
