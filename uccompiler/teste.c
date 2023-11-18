@@ -1,13 +1,9 @@
-int main(void){
-	
-	double x=1.5;
-	
-	int a=1,b=2,c=3;
-	
-	short d=4;
-	
-	char c = 'a';
-	
-	a=(-1*3+2/4);
-		
-}
+int main(void);
+int main(void, int);
+void chara(int integer, double, void a , double , int , char );
+int a =2;
+void as = 2+2;
+double a= 2-2-2-2*2*2,bs=((((((((((((2))))))+2)))))), test;
+void a = 2-(as-(aasd) + 2*2), b;
+int test(void a, int);
+void new(void);

@@ -60,10 +60,6 @@ Tiago Rafael Cardoso Santos - 2021229679
 
 %type <no> Expr2 Expr3 Statement3 Program FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr
 
-%left  UNARY
-
-
-%right  IF
 
 %left   COMMA
 %right  ASSIGN
@@ -72,16 +68,13 @@ Tiago Rafael Cardoso Santos - 2021229679
 %left   BITWISEOR
 %left   BITWISEXOR
 %left   BITWISEAND
-%left   EQ NE
-%left   LT GT LE GE
-%left   MOD
-%left   PLUS SUB ADD
-%left   MUL DIV 
-%left   MINUS
-%right  NOT
+%left   EQ NE LT GT LE GE
+%left   PLUS MINUS
+%left   MOD MUL DIV 
+%right  NOT UNARY
 %left   RPAR LPAR
+%right  IF ELSE
 
-%nonassoc ELSE
 
 
 /* Colocar erro = 0, em todos os casos aceites */
@@ -605,18 +598,18 @@ Expr:
                                                                 
                                                             }
 
-    | PLUS Expr                                             {
+    | PLUS Expr   %prec UNARY                                           {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Plus",NULL);
                                                                 adicionar_filho($$,$2);
                                                                 
                                                             }
-    | MINUS Expr                                            {   
+    | MINUS Expr  %prec UNARY                                           {   
                                                                 
                                                                 $$ = criar_no(no_operadores,"Minus",NULL);
                                                                 adicionar_filho($$,$2);
                                                             }
-    | NOT Expr                                              {
+    | NOT Expr   %prec UNARY                                            {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Not",NULL);
                                                                 adicionar_filho($$,$2);
@@ -638,7 +631,7 @@ Expr:
                                                                 adicionar_filho($$,novo);
                                                             }
 
-    | IDENTIFIER %prec UNARY                                {
+    | IDENTIFIER                                            {
                                                                 
                                                                 $$ = criar_no(no_terminais,"Identifier",$1);
                                                                 

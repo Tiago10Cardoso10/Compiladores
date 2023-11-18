@@ -102,8 +102,8 @@ Program
 ........Identifier(PI)
 ........Decimal(3.14)
 ......Return
-........Mul
-..........Sub
-............Identifier(a)
+........Sub
+..........Identifier(a)
+..........Mul
 ............Identifier(b)
-..........Identifier(PI)
+............Identifier(PI)

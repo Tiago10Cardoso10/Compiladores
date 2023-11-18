@@ -51,10 +51,10 @@ Program
 ..........Natural(2)
 ........Natural(2)
 ......Mul
+........Natural(2)
 ........Mul
 ..........Natural(2)
 ..........Natural(2)
-........Natural(2)
 ..Declaration
 ....Double
 ....Identifier(bs)
