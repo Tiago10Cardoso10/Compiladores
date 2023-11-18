@@ -287,7 +287,7 @@ Declarator:
 
 StatementsERROR:
     SEMI                                                    {
-                                                                $$ = NULL;
+                                                                $$ = criar_no(no_especial," ", NULL);
                                                             }
     | Expr2 SEMI                                             {
                                                                 $$ = $1;
@@ -302,20 +302,19 @@ StatementsERROR:
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 
-                                                                if ($5 != NULL && $7 != NULL){
-                                                                    adicionar_filho($$, $5);
-                                                                    adicionar_filho($$, $7);
-                                                                } else {
-                                                                        if ($5 == NULL){
+                                                                if ($5 == NULL || strcmp(" ",$5->tipo) == 0){
+                                                                    adicionar_filho($$, criar_no(no_especial, "Null", NULL));
+                                                                        if ($7 == NULL || strcmp(" ",$7->tipo) == 0){
                                                                             adicionar_filho($$, criar_no(no_especial, "Null", NULL));
-                                                                            if ($7 != NULL){
-                                                                                adicionar_filho($$, $7);
-                                                                            } else {
-                                                                                adicionar_filho($$, criar_no(no_especial, "Null", NULL));
-                                                                            } 
                                                                         } else {
-                                                                            adicionar_filho($$,$5);
+                                                                            adicionar_filho($$, $7);
+                                                                        } 
+                                                                } else {
+                                                                        adicionar_filho($$,$5);
+                                                                        if ($7 == NULL || strcmp(" ",$7->tipo) == 0){
                                                                             adicionar_filho($$, criar_no(no_especial, "Null", NULL));
+                                                                        } else {
+                                                                            adicionar_filho($$, $7);
                                                                         }
                                                                 }
                                                             }
@@ -324,7 +323,7 @@ StatementsERROR:
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
                                                                 
-                                                                if($5==NULL){
+                                                                if($5==NULL || strcmp(" ",$5->tipo) == 0){
                                                                         adicionar_filho($$,criar_no(no_especial,"Null",NULL));
                                                                         adicionar_filho($$,criar_no(no_especial,"Null",NULL));
                                                                 } else {
@@ -341,7 +340,7 @@ StatementsERROR:
                                                                 $$ = criar_no(no_statments,"While",NULL);
                                                                 adicionar_filho($$,$3);
                                                                 
-                                                                if ($5 == NULL){
+                                                                if ($5 == NULL || strcmp(" ",$5->tipo) == 0){
                                                                     adicionar_filho($$,criar_no(no_especial,"Null",NULL));
                                                                 } else {
                                                                     adicionar_filho($$,$5);
@@ -368,7 +367,7 @@ StatementsERROR:
 StatementERROR:
     SEMI                                                    {
                                                                 
-                                                                $$ = NULL;
+                                                                $$ = criar_no(no_especial," ", NULL);
                                                                 
                                                             }
     | Expr2 SEMI                                             {
@@ -383,29 +382,30 @@ StatementERROR:
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 
-                                                                if ($5 != NULL && $7 != NULL){
-                                                                    adicionar_filho($$, $5);
-                                                                    adicionar_filho($$, $7);
-                                                                } else {
-                                                                        if ($5 == NULL){
+                                                                
+                                                                if ($5 == NULL || strcmp(" ",$5->tipo) == 0){
+                                                                    adicionar_filho($$, criar_no(no_especial, "Null", NULL));
+                                                                        if ($7 == NULL || strcmp(" ",$7->tipo) == 0){
                                                                             adicionar_filho($$, criar_no(no_especial, "Null", NULL));
-                                                                            if ($7 != NULL){
-                                                                                adicionar_filho($$, $7);
-                                                                            } else {
-                                                                                adicionar_filho($$, criar_no(no_especial, "Null", NULL));
-                                                                            } 
                                                                         } else {
-                                                                            adicionar_filho($$,$5);
+                                                                            adicionar_filho($$, $7);
+                                                                        } 
+                                                                } else {
+                                                                        adicionar_filho($$,$5);
+                                                                        if ($7 == NULL || strcmp(" ",$7->tipo) == 0){
                                                                             adicionar_filho($$, criar_no(no_especial, "Null", NULL));
+                                                                        } else {
+                                                                            adicionar_filho($$, $7);
                                                                         }
                                                                 }
+                                                                
                                                             }
     | IF LPAR Expr2 RPAR StatementERROR                      {
                                                                 
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);
                                                                 
-                                                                if($5==NULL){
+                                                                if($5==NULL || strcmp(" ",$5->tipo) == 0){
                                                                         adicionar_filho($$,criar_no(no_especial,"Null",NULL));
                                                                         adicionar_filho($$,criar_no(no_especial,"Null",NULL));
                                                                 } else {
@@ -420,7 +420,7 @@ StatementERROR:
                                                                 $$ = criar_no(no_statments,"While",NULL);
                                                                 adicionar_filho($$,$3);
                                                                 
-                                                                if ($5 == NULL){
+                                                                if ($5 == NULL || strcmp(" ",$5->tipo) == 0){
                                                                     adicionar_filho($$,criar_no(no_especial,"Null",NULL));
                                                                 } else {
                                                                     adicionar_filho($$,$5);
@@ -432,8 +432,6 @@ StatementERROR:
                                                                 
                                                                 $$ = criar_no(no_statments,"Return",NULL);
                                                                 adicionar_filho($$,$2);
-                                                                vazio = 1;
-                                                                
                                                             }
     | RETURN SEMI                                           {
                                                                 $$ = criar_no(no_statments,"Return",NULL);
@@ -451,11 +449,16 @@ Statement2: /* empty */                                     {
                                                             }
     | StatementERROR Statement3                             {
                                                                 
-                                                                if ($2 != NULL){
-                                                                    $$ = criar_no(no_statments,"StatList",NULL);
-                                                                    adicionar_filho($$,$1);
-                                                                    adicionar_filho($$,$2);
-                                                                
+                                                                if ($2 != NULL ){
+                                                                    if(strcmp($1->tipo," ") != 0 ){
+                                                                        $$ = criar_no(no_statments,"StatList",NULL);
+                                                                        adicionar_filho($$,$1);
+                                                                        adicionar_filho($$,$2);
+                                                                    } else {
+                                                                        $$ = $1;
+                                                                        adicionar_irmao($$,$2);
+                                                                    } 
+                                                                    
                                                                 } else {
                                                                     $$ = $1;
                                                                 }
@@ -468,6 +471,7 @@ Statement3: /* empty */                                     {
                                                             } 
     
     | StatementERROR Statement3                              {
+                                                                    
                                                                     $$ = $1;
                                                                     adicionar_irmao($$,$2);
                                                                 
