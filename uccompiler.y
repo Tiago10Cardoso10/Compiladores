@@ -366,7 +366,7 @@ StatementsERROR:
 StatementERROR:
     SEMI                                                    {
                                                                 
-                                                                $$ = criar_no(no_especial,"Null",NULL);
+                                                                $$ = NULL;
                                                                 
                                                             }
     | Expr2 SEMI                                             {
@@ -438,7 +438,7 @@ StatementERROR:
 Statement2: /* empty */                                     {   
                                                                 $$ = NULL;
                                                             }
-    | StatementsERROR Statement3                             {
+    | StatementERROR Statement3                             {
                                                                 
                                                                 if ($2 != NULL){
                                                                     $$ = criar_no(no_statments,"StatList",NULL);
@@ -456,7 +456,7 @@ Statement3: /* empty */                                     {
                                                                 $$ = NULL;
                                                             } 
     
-    | StatementsERROR Statement3                              {
+    | StatementERROR Statement3                              {
                                                                     $$ = $1;
                                                                     adicionar_irmao($$,$2);
                                                                 
