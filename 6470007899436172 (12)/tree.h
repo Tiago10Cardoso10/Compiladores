@@ -8,7 +8,53 @@
 #include <stdbool.h>
 
 
-
+/*
+enum tipo_no{
+    Program,
+    Declaration,
+    FuncDeclaration,
+    FuncDefinition,
+    ParamList,
+    FuncBody,
+    ParamDeclaration,
+    StatList,
+    If,
+    While,
+    Return,
+    Or,
+    And,
+    Eq,
+    Ne,
+    Lt,
+    Gt,
+    Le,
+    Ge,
+    Add, 
+    Sub, 
+    Mul, 
+    Div, 
+    Mod, 
+    Not, 
+    Minus, 
+    Plus, 
+    Store, 
+    Comma, 
+    Call, 
+    BitWiseAnd,
+    BitWiseXor, 
+    BitWiseOr, 
+    Char, 
+    Chrlit, 
+    Identifier, 
+    Int, 
+    Short, 
+    Natural, 
+    Double, 
+    Decimal, 
+    Void,
+    Null
+};
+*/
 
 typedef enum tipo_no{
     no_raiz,
@@ -38,6 +84,5 @@ void adicionar_filho(struct node *pai, struct node *filho);
 void adicionar_irmao(struct node *irmao, struct node *novo);
 void adiciona_primeiro(struct node* pai, struct node* filho);
 void imprime_arvore(struct node *no, int num);
-
 
 #endif

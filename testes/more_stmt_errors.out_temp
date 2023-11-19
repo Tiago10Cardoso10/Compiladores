@@ -10,7 +10,9 @@ Program
 ........Eq
 ..........Identifier(a)
 ..........Natural(1)
-........Null
+........Store
+..........Identifier(a)
+..........Natural(2)
 ........Null
 ..FuncDefinition
 ....Int

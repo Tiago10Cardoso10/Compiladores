@@ -50,7 +50,6 @@ void adicionar_irmao(struct node *irmao, struct node *novo){
     
 }
 
-
 void adiciona_primeiro(struct node* pai, struct node* filho) {
     if (pai == NULL || filho == NULL) {
         return;
@@ -89,17 +88,15 @@ void adiciona_primeiro(struct node* pai, struct node* filho) {
 }
 
 void imprime_arvore(struct node *no, int num){ 
-    if (strcmp(no->tipo," ") != 0){ 
-        for (int i = 0; i < num; i++) {
-            printf(".."); 
-        }
+    for (int i = 0; i < num; i++) {
+        printf(".."); 
+    }
     
     
-        if(no->token){
-            printf("%s(%s)\n", no->tipo, no->token);
-        } else {
-            printf("%s\n", no->tipo);
-        }
+    if(no->token){
+        printf("%s(%s)\n", no->tipo, no->token);
+    } else {
+        printf("%s\n", no->tipo);
     }
     
     struct node_list *atual = no->filhos;

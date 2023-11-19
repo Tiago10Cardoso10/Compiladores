@@ -50,7 +50,12 @@ Program
 ........Eq
 ..........Identifier(o)
 ..........Identifier(e)
-........Null
+........StatList
+..........While
+............Natural(1)
+............Null
+..........Return
+............Identifier(a)
 ........Null
 ......Return
 ........Identifier(c)

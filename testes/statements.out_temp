@@ -8,7 +8,9 @@ Program
 ....FuncBody
 ......While
 ........Identifier(a)
-........Null
+........Return
+..........Minus
+............Natural(1)
 ......If
 ........Eq
 ..........Identifier(a)
