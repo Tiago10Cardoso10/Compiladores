@@ -58,8 +58,7 @@ Tiago Rafael Cardoso Santos - 2021229679
 %token<v> DECIMAL
 %token<v> CHRLIT
 
-%type <no> Expr2 Expr3  Program FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr
-
+%type <no> Program FunctionsAndDeclarations FunctionsAndDeclarations2 FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterList2 ParameterDeclaration Declaration Declaration2 TypeSpec Declarator StatementsERROR StatementERROR Statement2 Expr Expr2 Expr3 
 
 %left   COMMA
 %right  ASSIGN
@@ -68,13 +67,14 @@ Tiago Rafael Cardoso Santos - 2021229679
 %left   BITWISEOR
 %left   BITWISEXOR
 %left   BITWISEAND
-%left   EQ NE LT GT LE GE
+%left   EQ NE 
+%left   LT GT LE GE
 %left   PLUS MINUS
 %left   MOD MUL DIV 
 %right  NOT
 %left   RPAR LPAR
-%right  IF ELSE
 
+%right IF ELSE
 
 
 /* Colocar erro = 0, em todos os casos aceites */
@@ -253,7 +253,7 @@ Declarator:
                                                                 $$ = criar_no(no_declaracao,"Declaration",NULL);
                                                                 adicionar_filho($$,criar_no(no_terminais,"Identifier",$1));
                                                             }
-    | IDENTIFIER ASSIGN Expr2                                {
+    | IDENTIFIER ASSIGN Expr2                               {
                                                                 $$ = criar_no(no_declaracao,"Declaration",NULL);
                                                                 adicionar_filho($$,criar_no(no_terminais,"Identifier",$1));
                                                                 adicionar_filho($$,$3);
@@ -391,7 +391,7 @@ StatementERROR:
                                                                     adicionar_filho($$, $7);
                                                                 }
                                                             }
-    | IF LPAR Expr2 RPAR StatementERROR                     {
+    | IF LPAR Expr2 RPAR StatementERROR                      {
                                                                 
                                                                 $$ = criar_no(no_statments,"If",NULL);
                                                                 adicionar_filho($$,$3);

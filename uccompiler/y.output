@@ -1982,6 +1982,10 @@ State 120
 
     MUL    shift, and go to state 73
     DIV    shift, and go to state 74
+    GE     shift, and go to state 76
+    GT     shift, and go to state 77
+    LE     shift, and go to state 78
+    LT     shift, and go to state 79
     MINUS  shift, and go to state 80
     MOD    shift, and go to state 81
     PLUS   shift, and go to state 84
@@ -2184,6 +2188,10 @@ State 127
 
     MUL    shift, and go to state 73
     DIV    shift, and go to state 74
+    GE     shift, and go to state 76
+    GT     shift, and go to state 77
+    LE     shift, and go to state 78
+    LT     shift, and go to state 79
     MINUS  shift, and go to state 80
     MOD    shift, and go to state 81
     PLUS   shift, and go to state 84
