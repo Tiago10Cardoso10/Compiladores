@@ -89,15 +89,17 @@ void adiciona_primeiro(struct node* pai, struct node* filho) {
 }
 
 void imprime_arvore(struct node *no, int num){ 
-    for (int i = 0; i < num; i++) {
-        printf(".."); 
-    }
+    if (strcmp(no->tipo," ") != 0){ 
+        for (int i = 0; i < num; i++) {
+            printf(".."); 
+        }
     
     
-    if(no->token){
-        printf("%s(%s)\n", no->tipo, no->token);
-    } else {
-        printf("%s\n", no->tipo);
+        if(no->token){
+            printf("%s(%s)\n", no->tipo, no->token);
+        } else {
+            printf("%s\n", no->tipo);
+        }
     }
     
     struct node_list *atual = no->filhos;
@@ -122,11 +124,10 @@ struct tabela criar_tabela(struct node *raiz) {
     // Processa o primeiro filho do nó raiz
     struct node_list *raiz_aux = raiz->filhos;
     if (strcmp(raiz_aux->no->tipo, "FuncDefinition") == 0) {
-        declaration(raiz_aux,&tab);
     } else if (strcmp(raiz_aux->no->tipo, "FuncDeclaration") == 0) {
-        declaration(raiz_aux,&tab);
     } else if (strcmp(raiz_aux->no->tipo, "Declaration") == 0) {
         declaration(raiz_aux,&tab);
+        
     }
 
     struct node_list *raiz_aux2 = raiz_aux->no->irmaos;
@@ -149,99 +150,64 @@ void declaration(struct node_list *ast,struct tabela *tab){
 
     // Verificar se já existe
 
-    struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
+        struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
 
-    char *guarda1 = ast->no->tipo;
-    aux_elem->tipo = (char*) malloc(strlen(guarda1) + 1);
-    strcpy(aux_elem->tipo, guarda1);
-    
-    
-    char *guarda = ast->no->filhos->no->tipo;
-    aux_elem->tipo_func = (char*) malloc(strlen(guarda) + 1);
-    strcpy(aux_elem->tipo_func, guarda);
-
-    char *teste = ast->no->filhos->next->no->token;
-    aux_elem->identifier = (char*) malloc(strlen(teste) + 1);
-    strcpy(aux_elem->identifier, teste);
-
-    if (tab->elem == NULL) {
-        tab->elem = aux_elem;
-    } else {
+        char *guarda1 = ast->no->tipo;
+        aux_elem->tipo = (char*) malloc(strlen(guarda1) + 1);
+        strcpy(aux_elem->tipo, guarda1);
         
-        while(tab->elem != NULL){
-            tab->elem = tab->elem->next;
+        char *guarda = ast->no->filhos->no->tipo;
+        aux_elem->tipo_func = (char*) malloc(strlen(guarda) + 1);
+        strcpy(aux_elem->tipo_func, guarda);
+
+        char *teste = ast->no->filhos->next->no->token;
+        aux_elem->identifier = (char*) malloc(strlen(teste) + 1);
+        strcpy(aux_elem->identifier, teste);
+
+        aux_elem->next = NULL;
+
+        struct elementos *aux = tab->elem;
+        if (tab->elem == NULL) {
+            tab->elem = aux_elem;
+        } else {
+            aux = tab->elem;
+            while (aux->next != NULL) {
+                printf("sdasd");
+                aux = aux->next;
+            }
+            
+            aux->next = aux_elem;
         }
-        tab->elem = aux_elem;
-        tab->elem->next = NULL;
-    }
     
 }
-
-void declaration(struct node_list *ast,struct tabela *tab){
-    struct tabela *aux_tab = (struct tabela*) malloc(sizeof(struct tabela));
-
-    aux_tab = tab; // Para verificar se há igual
-
-    // Verificar se já existe
-
-    struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
-
-    char *guarda1 = ast->no->tipo;
-    aux_elem->tipo = (char*) malloc(strlen(guarda1) + 1);
-    strcpy(aux_elem->tipo, guarda1);
-    
-    
-    char *guarda = ast->no->filhos->no->tipo;
-    aux_elem->tipo_func = (char*) malloc(strlen(guarda) + 1);
-    strcpy(aux_elem->tipo_func, guarda);
-
-    char *teste = ast->no->filhos->next->no->token;
-    aux_elem->identifier = (char*) malloc(strlen(teste) + 1);
-    strcpy(aux_elem->identifier, teste);
-
-    if (tab->elem == NULL) {
-        tab->elem = aux_elem;
-    } else {
-        
-        while(tab->elem != NULL){
-            tab->elem = tab->elem->next;
-        }
-        tab->elem = aux_elem;
-        tab->elem->next = NULL;
-    }
-    
-}
-
-
 
 void imprime_tabela(struct tabela *tab){
     printf("===== Global Symbol Table =====\n");
     printf("putchar\tint(int)\n");
     printf("getchar\tint(void)\n");
     
-    
-
-    while(tab->elem != NULL){
-        if (strcmp(tab->elem->tipo, "Declaration") == 0){
-            printf("%s\t%s(",tab->elem->identifier,tab->elem->tipo_func);
-            param(tab->elem->param,tab->elem->nr_param);
-            printf(")\n");
-        } else {
-            printf("%s\t%s\n",tab->elem->identifier,tab->elem->tipo_func);
-        }
-        tab->elem = tab->elem->next;
+    struct elementos *current_elem = tab->elem;
+    while (current_elem != NULL) {
+        printf("%s\t%s\n",current_elem->identifier,current_elem->tipo_func);
+        current_elem = current_elem->next;
     }
     printf("\n");
-    
-    /* Quando é funcDeclaration */
 }
 
-void param(char **parametros,int num){ //Imprime parametros
+
+void param(char **parametros,int num){
     for(int i = 0; i < num; i++){
         printf("%s", parametros[i]);
         if(num > 1 && i != num - 1){
             printf(",");
-        }
+        } 
+        /* 
+        else {
+                printf("%s\t%s(",tab->elem->identifier,tab->elem->tipo_func);
+                param(tab->elem->param,tab->elem->nr_param);
+                printf(")\n");
+            }
+        */
     }
 }
 
