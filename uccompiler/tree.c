@@ -126,6 +126,7 @@ struct tabela criar_tabela(struct node *raiz) {
     struct node_list *raiz_aux = raiz->filhos;
     if (strcmp(raiz_aux->no->tipo, "FuncDefinition") == 0) {
     } else if (strcmp(raiz_aux->no->tipo, "FuncDeclaration") == 0) {
+        functiondeclaration(raiz_aux,&tab);
     } else if (strcmp(raiz_aux->no->tipo, "Declaration") == 0) {
         declaration(raiz_aux,&tab);
     }
@@ -137,6 +138,7 @@ struct tabela criar_tabela(struct node *raiz) {
     while (raiz_aux2 != NULL || save != NULL) {
         if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
         } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
+            
         } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
             declaration(raiz_aux2,&tab);
         }
@@ -229,7 +231,7 @@ void cria_especiasG(struct tabela *tab){
 void declaration(struct node_list *ast,struct tabela *tab){
     struct elementos *aux_tab = tab->elem;
 
-    if(repeticao(aux_tab,ast->no->filhos->next->no->token) == 0){
+    if(repeticao(aux_tab,ast->no->tipo,ast->no->filhos->next->no->token) == 0){
         struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
 
         char *guarda1 = ast->no->tipo;
@@ -260,15 +262,59 @@ void declaration(struct node_list *ast,struct tabela *tab){
     }
 }
 
-void functiondeclaration(){
+void functiondeclaration(struct node_list *ast,struct tabela *tab){
+    struct elementos *aux_tab = tab->elem;
+
+    if(repeticao(aux_tab,ast->no->tipo,ast->no->filhos->next->no->token) == 0){
+        struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
+
+        char *guarda1 = ast->no->tipo;
+        aux_elem->tipo = (char*) malloc(strlen(guarda1) + 1);
+        strcpy(aux_elem->tipo, guarda1);
+        
+        char *guarda2 = tipo_func(ast->no->filhos->no->tipo);
+        aux_elem->tipo_func = (char*) malloc(strlen(guarda2) + 1);
+        strcpy(aux_elem->tipo_func, guarda2);
+
+        char *guarda3 = ast->no->filhos->next->no->token;
+        aux_elem->identifier = (char*) malloc(strlen(guarda3) + 1);
+        strcpy(aux_elem->identifier,guarda3);
+
+        struct node_list *aux_irmaos = ast->no->filhos->next->no->irmaos->no->filhos;
+        int contador = 0;
+        while (aux_irmaos){
+            printf("%s",aux_irmaos->no->filhos->no->tipo); // Para buscar INT E DOUBLE
+            contador++;
+            aux_irmaos = aux_irmaos->next;
+        }
+        printf("%d\n",contador);
+
+        aux_elem->next = NULL;
+
+        struct elementos *aux = tab->elem;
+        if (tab->elem == NULL) {
+            tab->elem = aux_elem;
+        } else {
+            aux = tab->elem;
+            while (aux->next != NULL) {
+                aux = aux->next;
+            }
+            
+            aux->next = aux_elem;
+        }
     
+    
+    
+    }
 }
 
-int repeticao(struct elementos *aux, char *identifier){
+int repeticao(struct elementos *aux, char *tipo,char *identifier){
     int val = 0;
     while(aux != NULL){
-        if(strcmp(aux->identifier,identifier) == 0){
-            val = 1;
+        if(strcmp(aux->tipo,tipo) == 0){
+            if(strcmp(aux->identifier,identifier) == 0){
+                val = 1;
+            }
         }
         aux = aux->next;
     }
@@ -294,7 +340,6 @@ void imprime_tabela(struct tabela *tab){
 
 void param(char **parametros,int num){
     for(int i = 0; i < num; i++){
-        printf("%d",i);
         printf("%s", parametros[i]);
         if(num > 1 && i != num - 1){
             printf(",");
