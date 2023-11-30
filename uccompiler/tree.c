@@ -132,7 +132,7 @@ struct tabela criar_tabela(struct node *raiz) {
     
     struct node_list *raiz_aux2 = raiz_aux->no->irmaos;
     
-    struct node_list *save;
+    struct node_list *save = raiz_aux2;
 
     while (raiz_aux2 != NULL || save != NULL) {
         if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
