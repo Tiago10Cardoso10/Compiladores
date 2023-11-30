@@ -130,6 +130,7 @@ struct tabela criar_tabela(struct node *raiz) {
         
     }
 
+    struct node_list *save;
     struct node_list *raiz_aux2 = raiz_aux->no->irmaos;
     while (raiz_aux2 != NULL) {
         if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
@@ -137,8 +138,19 @@ struct tabela criar_tabela(struct node *raiz) {
         } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
             declaration(raiz_aux2,&tab);
         }
+        save = raiz_aux2;
         raiz_aux2 = raiz_aux2->next;
     }
+    save = save->no->irmaos;
+    while (save != NULL) {
+        if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
+        } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
+        } else if (strcmp(save->no->tipo, "Declaration") == 0){
+            declaration(save,&tab);
+        }
+        save = save->no->irmaos;
+    }
+    
 
     return tab;
 }
@@ -172,7 +184,6 @@ void declaration(struct node_list *ast,struct tabela *tab){
         } else {
             aux = tab->elem;
             while (aux->next != NULL) {
-                printf("sdasd");
                 aux = aux->next;
             }
             
