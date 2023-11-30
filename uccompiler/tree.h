@@ -59,10 +59,12 @@ void adiciona_primeiro(struct node* pai, struct node* filho);
 void imprime_arvore(struct node *no, int num);
 
 struct tabela criar_tabela(struct node *raiz);
+void cria_especiasP(struct tabela *tab);
+void cria_especiasG(struct tabela *tab);
+void declaration(struct node_list *ast,struct tabela *tab);
+int repeticao(struct elementos *aux, char *tipo);
 void imprime_tabela(struct tabela *tab);
 void param(char **parametros,int num);
-void declaration(struct node_list *ast,struct tabela *tab);
-int repeticao();
-
+char *tipo_func(char *tipo_func);
 
 #endif

@@ -1,4 +1,4 @@
-int teste,alo,gay,porra,tiago,cardoso,coitado;
-int fds;
-int ola;
-int asdasd;
+int teste,teste1,teste2,teste19;
+int teste3;
+int teste4;
+int teste5,teste6,teste7,teste8;
