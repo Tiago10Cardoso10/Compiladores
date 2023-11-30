@@ -138,7 +138,7 @@ struct tabela criar_tabela(struct node *raiz) {
     while (raiz_aux2 != NULL || save != NULL) {
         if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
         } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
-            
+            functiondeclaration(raiz_aux,&tab);
         } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
             declaration(raiz_aux2,&tab);
         }
@@ -149,6 +149,7 @@ struct tabela criar_tabela(struct node *raiz) {
             while (save != NULL) {
                 if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
                 } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
+                    functiondeclaration(raiz_aux,&tab);
                 } else if (strcmp(save->no->tipo, "Declaration") == 0){
                     declaration(save,&tab);
                 }
@@ -285,7 +286,12 @@ void functiondeclaration(struct node_list *ast,struct tabela *tab){
         while (aux_irmaos){
             printf("%s",aux_irmaos->no->filhos->no->tipo); // Para buscar INT E DOUBLE
             contador++;
-            aux_irmaos = aux_irmaos->next;
+            if(aux_irmaos->next != NULL){
+                aux_irmaos = aux_irmaos->next;
+            }else{
+                aux_irmaos = aux_irmaos->no->irmaos;
+            }
+            
         }
         printf("%d\n",contador);
 
