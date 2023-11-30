@@ -106,7 +106,7 @@ void imprime_arvore(struct node *no, int num){
     while (atual && atual->no) {
         imprime_arvore(atual->no, num + 1);
         atual = atual->next;
-    }
+    } 
     struct node_list *atual2 = no->irmaos;
     while (atual2 && atual2->no) {
         imprime_arvore(atual2->no, num);
@@ -115,21 +115,18 @@ void imprime_arvore(struct node *no, int num){
 }
 
 //----------------Criar Tabelas ------------------
-
 struct tabela criar_tabela(struct node *raiz) {
     struct tabela tab;
 
-    tab.elem = NULL; // Inicialize elem como NULL ou conforme necessário
+    tab.elem = NULL;
 
-    // Processa o primeiro filho do nó raiz
     struct node_list *raiz_aux = raiz->filhos;
     if (strcmp(raiz_aux->no->tipo, "FuncDefinition") == 0) {
     } else if (strcmp(raiz_aux->no->tipo, "FuncDeclaration") == 0) {
     } else if (strcmp(raiz_aux->no->tipo, "Declaration") == 0) {
         declaration(raiz_aux,&tab);
-        
     }
-
+    
     struct node_list *raiz_aux2 = raiz_aux->no->irmaos;
     while (raiz_aux2 != NULL) {
         if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
@@ -137,11 +134,29 @@ struct tabela criar_tabela(struct node *raiz) {
         } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
             declaration(raiz_aux2,&tab);
         }
+
+        struct node_list *save = raiz_aux2;
+        if (raiz_aux2->next == NULL){
+            save = save->no->irmaos;
+            while (save != NULL) {
+                if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
+                } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
+                } else if (strcmp(save->no->tipo, "Declaration") == 0){
+                    declaration(save,&tab);
+                }
+                save = save->no->irmaos;
+            }
+        }
+        
         raiz_aux2 = raiz_aux2->next;
+        
     }
+
+
 
     return tab;
 }
+
 
 void declaration(struct node_list *ast,struct tabela *tab){
     struct tabela *aux_tab = (struct tabela*) malloc(sizeof(struct tabela));
@@ -172,7 +187,6 @@ void declaration(struct node_list *ast,struct tabela *tab){
         } else {
             aux = tab->elem;
             while (aux->next != NULL) {
-                printf("sdasd");
                 aux = aux->next;
             }
             
@@ -188,10 +202,19 @@ void imprime_tabela(struct tabela *tab){
     
     struct elementos *current_elem = tab->elem;
     while (current_elem != NULL) {
-        printf("%s\t%s\n",current_elem->identifier,current_elem->tipo_func);
+        if (strcmp(current_elem->tipo, "Declaration") == 0) {
+            printf("%s\t%s\n",current_elem->identifier,current_elem->tipo_func);
+        } else {
+                printf("%s\t%s(",current_elem->identifier,current_elem->tipo_func);
+                param(current_elem->param,current_elem->nr_param);
+                printf(")\n");
+        }
+
         current_elem = current_elem->next;
     }
     printf("\n");
+
+    
 }
 
 
@@ -201,13 +224,6 @@ void param(char **parametros,int num){
         if(num > 1 && i != num - 1){
             printf(",");
         } 
-        /* 
-        else {
-                printf("%s\t%s(",tab->elem->identifier,tab->elem->tipo_func);
-                param(tab->elem->param,tab->elem->nr_param);
-                printf(")\n");
-            }
-        */
     }
 }
 
@@ -216,5 +232,3 @@ void param(char **parametros,int num){
 int repeticao(){
     return 0;
 }
-
-

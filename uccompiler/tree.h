@@ -64,5 +64,4 @@ void param(char **parametros,int num);
 void declaration(struct node_list *ast,struct tabela *tab);
 int repeticao();
 
-
 #endif
