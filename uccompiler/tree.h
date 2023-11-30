@@ -7,55 +7,6 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
-
-/*
-enum tipo_no{
-    Program,
-    Declaration,
-    FuncDeclaration,
-    FuncDefinition,
-    ParamList,
-    FuncBody,
-    ParamDeclaration,
-    StatList,
-    If,
-    While,
-    Return,
-    Or,
-    And,
-    Eq,
-    Ne,
-    Lt,
-    Gt,
-    Le,
-    Ge,
-    Add, 
-    Sub, 
-    Mul, 
-    Div, 
-    Mod, 
-    Not, 
-    Minus, 
-    Plus, 
-    Store, 
-    Comma, 
-    Call, 
-    BitWiseAnd,
-    BitWiseXor, 
-    BitWiseOr, 
-    Char, 
-    Chrlit, 
-    Identifier, 
-    Int, 
-    Short, 
-    Natural, 
-    Double, 
-    Decimal, 
-    Void,
-    Null
-};
-*/
-
 typedef enum tipo_no{
     no_raiz,
     no_declaracao,
@@ -65,6 +16,9 @@ typedef enum tipo_no{
     no_terminais,
     no_especial,
 }tipo_no;
+
+
+/* Arvore AST */
 
 struct node {
     enum tipo_no tipo_no;
@@ -79,10 +33,36 @@ struct node_list {
     struct node_list *next;
 };
 
+/* Tabela de Simbolos */
+
+struct elementos{
+    char *tipo;
+    char *tipo_func;
+    char *identifier;
+    char **param;
+    int  nr_param;
+    char *tipo_devolve;
+    struct elementos *next;
+};
+
+struct tabela {
+    struct elementos *elem;
+    
+};
+
+
+
 struct node *criar_no(enum tipo_no tipo_no,char *tipo, char *token);
 void adicionar_filho(struct node *pai, struct node *filho);
 void adicionar_irmao(struct node *irmao, struct node *novo);
 void adiciona_primeiro(struct node* pai, struct node* filho);
 void imprime_arvore(struct node *no, int num);
+
+struct tabela criar_tabela(struct node *raiz);
+void imprime_tabela(struct tabela *tab);
+void param(char **parametros,int num);
+void declaration(struct node_list *ast,struct tabela *tab);
+int repeticao();
+
 
 #endif

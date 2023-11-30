@@ -209,8 +209,15 @@ int main(int argc, char* argv[]) {
             if(nr_erro == 0){
                 imprime_arvore(raiz,0);
             }
+        } else if (strcmp(argv[1], "-s") == 0){
+            flag = 2;
+            yyparse();
+            if(nr_erro == 0){
+                struct tabela t = criar_tabela(raiz);
+                imprime_tabela(&t);
+                imprime_arvore(raiz,0);
+            }
         }
-            
     }
     if (argc == 1){
         flag = 0;
