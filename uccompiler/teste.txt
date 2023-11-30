@@ -1,4 +1,4 @@
 int teste,teste1,teste2,teste19;
-int teste3;
-int teste4;
+int teste3,teste20,teste21,teste22,teste23,teste24;
+int teste4,teste15,teste90;
 int teste5,teste6,teste7,teste8;
