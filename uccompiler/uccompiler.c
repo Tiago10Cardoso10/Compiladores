@@ -1,5 +1,7 @@
 #include "uccompiler.h"
 
+extern int linha,coluna;
+
 //----------------Criar arvore ------------------
 
 struct node *criar_no(enum tipo_no tipo_no,char *tipo, char *token){
@@ -383,7 +385,6 @@ void functiondefinition(struct node_list *ast,struct tabela *tab){
         struct node_list *aux_body = ast->no->filhos->next->next->no->filhos;
         while (aux_body)
         {
-            // Fazer funcao auxiliar para adicionar em nova quando em Function Body é declaration
             if(strcmp(aux_body->no->tipo,"Declaration") == 0){
                 declaration(aux_body,aux_elem->nova);
             }
@@ -422,6 +423,7 @@ int repeticao(struct elementos *aux, char *tipo,char *identifier){
         if(strcmp(aux->tipo,tipo) == 0){
             if(strcmp(aux->identifier,identifier) == 0){
                 val = 1;
+                printf("Line %d, column %d: Symbol %s already defined\n",linha,coluna,identifier);
             }
         }
         aux = aux->next;
