@@ -354,8 +354,13 @@ void functiondefinition(struct node_list *ast,struct tabela *tab){
             aux_elem->param_t[contador] = (char*) malloc((strlen(tipo) + 1) * sizeof(char));
             strcpy(aux_elem->param_t[contador], tipo);
 
-            if(aux_irmaos->no->filhos->next->no->token != NULL){
+            if(aux_irmaos->no->filhos->next != NULL){
                 char *identifier = aux_irmaos->no->filhos->next->no->token;
+                aux_elem->param_i = (char**) realloc(aux_elem->param_i, (contador + 1) * sizeof(char*));
+                aux_elem->param_i[contador] = (char*) malloc((strlen(identifier) + 1) * sizeof(char));
+                strcpy(aux_elem->param_i[contador], identifier);
+            } else {
+                char *identifier = "NULL";
                 aux_elem->param_i = (char**) realloc(aux_elem->param_i, (contador + 1) * sizeof(char*));
                 aux_elem->param_i[contador] = (char*) malloc((strlen(identifier) + 1) * sizeof(char));
                 strcpy(aux_elem->param_i[contador], identifier);
@@ -377,6 +382,7 @@ void functiondefinition(struct node_list *ast,struct tabela *tab){
         struct node_list *aux_body = ast->no->filhos->next->next->no->filhos;
         while (aux_body)
         {
+            // Fazer funcao auxiliar para adicionar em nova quando em Function Body é declaration
             aux_body = aux_body->next;
         }
         
@@ -429,7 +435,8 @@ void imprime_tabela(struct tabela *tab){
             printf("===== Function %s Symbol Table =====\n",aux->identifier);
             printf("return\t%s\n",aux->tipo_devolve);
             paramlist(aux->param_t,aux->param_i,aux->nr_param);
-            
+
+            // Falta dar print quando aparece Declaration dentro de FunctionBody
             
         }
         aux = aux->next;
@@ -449,7 +456,7 @@ void param(char **parametros,int num){
 
 void paramlist(char **parametros,char **identifiers,int num){
     for(int i = 0; i < num; i++){
-        if(identifiers[i] != NULL){
+        if(strcmp(identifiers[i],"NULL") != 0){
             printf("%s\t%s\tparam\n",identifiers[i],parametros[i]);
         }
     }

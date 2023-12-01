@@ -24,7 +24,7 @@ for inp in testes/*.uc; do
         echo "$inp"
         out=${inp%.uc}.out
         tmp=${inp%.uc}.out_temp
-        flag="-t"
+        flag="-s"
         #if [[ "$inp" == *_e2.c ]]; then
         #    flag="-e2"
         #fi

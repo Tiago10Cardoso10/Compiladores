@@ -1,3 +1,109 @@
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+main	int(void)
+chara	void(int,double,void,double,int,char)
+a	int
+as	void
+p	double
+bs	double
+test	double
+b	void
+test	int(void,int)
+abcde	int(int,int,int)
+okokok	int(void)
+new	void(void)
+factorial	int(int)
+recursive_factorial	int(int)
+tail_recursive_fac	int(int,int)
+main	int(void)
+soma	void(int,char)
+subt	void(int,char,double)
+d	int
+c	int
+t	double
+chama	int(void)
+uauu	int(void)
+ctoi	int(char)
+block	char(char,char)
+check_your_priorities	int(int,int,int)
+not_block	char(char,char)
+x	int
+y	int
+z	int
+check_your_decimal	double(double,double)
+main_0	int(void)
+i	int
+j	int
+k	int
+ch0	char
+ch1	char
+ch2	char
+pow	double(double)
+pow	int(int)
+c1	char
+c2	char
+s	short
+f1	char(void)
+blah	int(void)
+df	double(double,double)
+df	double(double,double)
+
+===== Function abcde Symbol Table =====
+return	int
+a	int	param
+b	int	param
+i	int	param
+===== Function okokok Symbol Table =====
+return	int
+===== Function factorial Symbol Table =====
+return	int
+number	int	param
+===== Function recursive_factorial Symbol Table =====
+return	int
+number	int	param
+===== Function tail_recursive_fac Symbol Table =====
+return	int
+number	int	param
+k	int	param
+===== Function main Symbol Table =====
+return	int
+===== Function chama Symbol Table =====
+return	int
+===== Function uauu Symbol Table =====
+return	int
+===== Function ctoi Symbol Table =====
+return	int
+c	char	param
+===== Function block Symbol Table =====
+return	char
+a	char	param
+b	char	param
+===== Function check_your_priorities Symbol Table =====
+return	int
+a	int	param
+b	int	param
+d	int	param
+===== Function not_block Symbol Table =====
+return	char
+a	char	param
+b	char	param
+===== Function check_your_decimal Symbol Table =====
+return	double
+a	double	param
+b	double	param
+===== Function main_0 Symbol Table =====
+return	int
+===== Function pow Symbol Table =====
+return	int
+i	int	param
+===== Function f1 Symbol Table =====
+return	char
+===== Function df Symbol Table =====
+return	double
+d	double	param
+dd	double	param
+
 Program
 ..FuncDeclaration
 ....Int

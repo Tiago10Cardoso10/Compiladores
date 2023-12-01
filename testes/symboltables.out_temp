@@ -1,3 +1,37 @@
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+c1	char
+c2	char
+s	short
+t	short
+i	int
+j	int
+d	double
+e	double
+f1	char(void)
+df	double(double,double)
+df	double(double,double)
+ii	int(int,char,double,short)
+dd	double
+sf	short(short)
+
+===== Function f1 Symbol Table =====
+return	char
+===== Function df Symbol Table =====
+return	double
+d	double	param
+dd	double	param
+===== Function ii Symbol Table =====
+return	int
+i	int	param
+c	char	param
+d	double	param
+s	short	param
+===== Function sf Symbol Table =====
+return	short
+s	short	param
+
 Program
 ..Declaration
 ....Char
