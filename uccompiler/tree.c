@@ -138,7 +138,7 @@ struct tabela criar_tabela(struct node *raiz) {
     while (raiz_aux2 != NULL || save != NULL) {
         if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
         } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
-            
+            functiondeclaration(raiz_aux2,&tab);
         } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
             declaration(raiz_aux2,&tab);
         }
@@ -149,6 +149,7 @@ struct tabela criar_tabela(struct node *raiz) {
             while (save != NULL) {
                 if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
                 } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
+                    functiondeclaration(save,&tab);
                 } else if (strcmp(save->no->tipo, "Declaration") == 0){
                     declaration(save,&tab);
                 }
@@ -280,14 +281,27 @@ void functiondeclaration(struct node_list *ast,struct tabela *tab){
         aux_elem->identifier = (char*) malloc(strlen(guarda3) + 1);
         strcpy(aux_elem->identifier,guarda3);
 
+        
+        aux_elem->param = NULL;
+
         struct node_list *aux_irmaos = ast->no->filhos->next->no->irmaos->no->filhos;
         int contador = 0;
-        while (aux_irmaos){
-            printf("%s",aux_irmaos->no->filhos->no->tipo); // Para buscar INT E DOUBLE
+        while (aux_irmaos) {
+            char *tipo = tipo_func(aux_irmaos->no->filhos->no->tipo);
+            
+            aux_elem->param = (char**) realloc(aux_elem->param, (contador + 1) * sizeof(char*));
+            aux_elem->param[contador] = (char*) malloc((strlen(tipo) + 1) * sizeof(char));
+            strcpy(aux_elem->param[contador], tipo);
+
             contador++;
-            aux_irmaos = aux_irmaos->next;
+            if (aux_irmaos->next != NULL) {
+                aux_irmaos = aux_irmaos->next;
+            } else {
+                aux_irmaos = aux_irmaos->no->irmaos;
+            }
         }
-        printf("%d\n",contador);
+        aux_elem->nr_param = contador;
+
 
         aux_elem->next = NULL;
 
@@ -302,9 +316,6 @@ void functiondeclaration(struct node_list *ast,struct tabela *tab){
             
             aux->next = aux_elem;
         }
-    
-    
-    
     }
 }
 

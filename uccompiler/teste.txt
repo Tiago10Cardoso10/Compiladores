@@ -1,1 +1,4 @@
 int boas(int,double,short);
+int top,cona,bras;
+short Benfica;
+double empate;
