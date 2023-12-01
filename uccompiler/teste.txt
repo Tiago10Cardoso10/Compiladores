@@ -1,4 +1,6 @@
-int boas(int){
-    int teste;
-    int asd;
+int var;
+
+void no_function(void) {
+	
 }
+
