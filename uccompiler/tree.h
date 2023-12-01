@@ -39,10 +39,12 @@ struct elementos{
     char *tipo;
     char *tipo_func;
     char *identifier;
-    char **param;
+    char **param_t;
+    char **param_i;
     int  nr_param;
     char *tipo_devolve;
     struct elementos *next;
+    struct elementos *nova;
 };
 
 struct tabela {
@@ -63,9 +65,12 @@ void cria_especiasP(struct tabela *tab);
 void cria_especiasG(struct tabela *tab);
 void declaration(struct node_list *ast,struct tabela *tab);
 void functiondeclaration(struct node_list *ast,struct tabela *tab);
+void functiondefinition(struct node_list *ast,struct tabela *tab);
+void body(struct node_list *ast,struct tabela *tab);
 int repeticao(struct elementos *aux,char *tipo ,char *identifier);
 void imprime_tabela(struct tabela *tab);
 void param(char **parametros,int num);
+void paramlist(char **parametros,char **identifiers,int num);
 char *tipo_func(char *tipo_func);
 
 #endif

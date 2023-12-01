@@ -1,4 +1,3 @@
-int boas(int,double,short);
-int top,cona,bras;
-short Benfica;
-double empate;
+int boas(int){
+    int teste;
+}

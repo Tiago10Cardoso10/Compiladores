@@ -125,6 +125,7 @@ struct tabela criar_tabela(struct node *raiz) {
 
     struct node_list *raiz_aux = raiz->filhos;
     if (strcmp(raiz_aux->no->tipo, "FuncDefinition") == 0) {
+        functiondefinition(raiz_aux,&tab);
     } else if (strcmp(raiz_aux->no->tipo, "FuncDeclaration") == 0) {
         functiondeclaration(raiz_aux,&tab);
     } else if (strcmp(raiz_aux->no->tipo, "Declaration") == 0) {
@@ -137,6 +138,7 @@ struct tabela criar_tabela(struct node *raiz) {
 
     while (raiz_aux2 != NULL || save != NULL) {
         if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
+            functiondefinition(raiz_aux2,&tab);
         } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
             functiondeclaration(raiz_aux2,&tab);
         } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
@@ -148,6 +150,7 @@ struct tabela criar_tabela(struct node *raiz) {
             save = raiz_aux2->no->irmaos;
             while (save != NULL) {
                 if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
+                    functiondefinition(save,&tab);
                 } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
                     functiondeclaration(save,&tab);
                 } else if (strcmp(save->no->tipo, "Declaration") == 0){
@@ -169,7 +172,7 @@ struct tabela criar_tabela(struct node *raiz) {
 void cria_especiasP(struct tabela *tab){
     struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
 
-    char *guarda1 = "FunctionDeclaration";
+    char *guarda1 = "FuncDeclaration";
     aux_elem->tipo = (char*) malloc(strlen(guarda1) + 1);
     strcpy(aux_elem->tipo, guarda1);
         
@@ -185,9 +188,9 @@ void cria_especiasP(struct tabela *tab){
 
     char *guarda4 = "int";
 
-    aux_elem->param = (char**) malloc(aux_elem->nr_param * sizeof(char*));
-    aux_elem->param[0] = (char*) malloc(strlen(guarda4) + 1);
-    strcpy(aux_elem->param[0], guarda4);
+    aux_elem->param_t = (char**) malloc(aux_elem->nr_param * sizeof(char*));
+    aux_elem->param_t[0] = (char*) malloc(strlen(guarda4) + 1);
+    strcpy(aux_elem->param_t[0], guarda4);
 
     aux_elem->next = NULL;
 
@@ -197,7 +200,7 @@ void cria_especiasP(struct tabela *tab){
 void cria_especiasG(struct tabela *tab){
     struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
 
-    char *guarda1 = "FunctionDeclaration";
+    char *guarda1 = "FuncDeclaration";
     aux_elem->tipo = (char*) malloc(strlen(guarda1) + 1);
     strcpy(aux_elem->tipo, guarda1);
         
@@ -213,10 +216,10 @@ void cria_especiasG(struct tabela *tab){
 
     char *guarda4 = "void";
 
-    aux_elem->param = (char**) malloc(aux_elem->nr_param * sizeof(char*));
-    aux_elem->param[0] = (char*) malloc(strlen(guarda4) + 1);
+    aux_elem->param_t = (char**) malloc(aux_elem->nr_param * sizeof(char*));
+    aux_elem->param_t[0] = (char*) malloc(strlen(guarda4) + 1);
 
-    strcpy(aux_elem->param[0], guarda4);
+    strcpy(aux_elem->param_t[0], guarda4);
 
     aux_elem->next = NULL;
 
@@ -282,16 +285,16 @@ void functiondeclaration(struct node_list *ast,struct tabela *tab){
         strcpy(aux_elem->identifier,guarda3);
 
         
-        aux_elem->param = NULL;
+        aux_elem->param_t = NULL;
 
         struct node_list *aux_irmaos = ast->no->filhos->next->no->irmaos->no->filhos;
         int contador = 0;
         while (aux_irmaos) {
             char *tipo = tipo_func(aux_irmaos->no->filhos->no->tipo);
             
-            aux_elem->param = (char**) realloc(aux_elem->param, (contador + 1) * sizeof(char*));
-            aux_elem->param[contador] = (char*) malloc((strlen(tipo) + 1) * sizeof(char));
-            strcpy(aux_elem->param[contador], tipo);
+            aux_elem->param_t = (char**) realloc(aux_elem->param_t, (contador + 1) * sizeof(char*));
+            aux_elem->param_t[contador] = (char*) malloc((strlen(tipo) + 1) * sizeof(char));
+            strcpy(aux_elem->param_t[contador], tipo);
 
             contador++;
             if (aux_irmaos->next != NULL) {
@@ -305,6 +308,78 @@ void functiondeclaration(struct node_list *ast,struct tabela *tab){
 
         aux_elem->next = NULL;
 
+        struct elementos *aux = tab->elem;
+        if (tab->elem == NULL) {
+            tab->elem = aux_elem;
+        } else {
+            aux = tab->elem;
+            while (aux->next != NULL) {
+                aux = aux->next;
+            }
+            
+            aux->next = aux_elem;
+        }
+    }
+}
+
+void functiondefinition(struct node_list *ast,struct tabela *tab){
+    struct elementos *aux_tab = tab->elem;
+
+    if(repeticao(aux_tab,ast->no->tipo,ast->no->filhos->next->no->token) == 0){
+        struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
+
+        char *guarda1 = ast->no->tipo;
+        aux_elem->tipo = (char*) malloc(strlen(guarda1) + 1);
+        strcpy(aux_elem->tipo, guarda1);
+        
+        char *guarda2 = tipo_func(ast->no->filhos->no->tipo);
+        aux_elem->tipo_func = (char*) malloc(strlen(guarda2) + 1);
+        aux_elem->tipo_devolve = (char*) malloc(strlen(guarda2) + 1);
+        strcpy(aux_elem->tipo_func, guarda2);
+        strcpy(aux_elem->tipo_devolve,guarda2);
+
+        char *guarda3 = ast->no->filhos->next->no->token;
+        aux_elem->identifier = (char*) malloc(strlen(guarda3) + 1);
+        strcpy(aux_elem->identifier,guarda3);
+
+        
+        aux_elem->param_t = NULL;
+
+        struct node_list *aux_irmaos = ast->no->filhos->next->no->irmaos->no->filhos;
+        int contador = 0;
+        while (aux_irmaos) {
+            char *tipo = tipo_func(aux_irmaos->no->filhos->no->tipo);
+            
+            aux_elem->param_t = (char**) realloc(aux_elem->param_t, (contador + 1) * sizeof(char*));
+            aux_elem->param_t[contador] = (char*) malloc((strlen(tipo) + 1) * sizeof(char));
+            strcpy(aux_elem->param_t[contador], tipo);
+
+            if(aux_irmaos->no->filhos->next->no->token != NULL){
+                char *identifier = aux_irmaos->no->filhos->next->no->token;
+                aux_elem->param_i = (char**) realloc(aux_elem->param_i, (contador + 1) * sizeof(char*));
+                aux_elem->param_i[contador] = (char*) malloc((strlen(identifier) + 1) * sizeof(char));
+                strcpy(aux_elem->param_i[contador], identifier);
+            }
+
+            contador++;
+            if (aux_irmaos->next != NULL) {
+                aux_irmaos = aux_irmaos->next;
+            } else {
+                aux_irmaos = aux_irmaos->no->irmaos;
+            }
+        }
+        aux_elem->nr_param = contador;
+
+        aux_elem->next = NULL;
+
+        
+        // Body
+        struct node_list *aux_body = ast->no->filhos->next->next->no->filhos;
+        while (aux_body)
+        {
+            aux_body = aux_body->next;
+        }
+        
         struct elementos *aux = tab->elem;
         if (tab->elem == NULL) {
             tab->elem = aux_elem;
@@ -341,12 +416,26 @@ void imprime_tabela(struct tabela *tab){
             printf("%s\t%s\n",current_elem->identifier,current_elem->tipo_func);
         } else {
                 printf("%s\t%s(",current_elem->identifier,current_elem->tipo_func);
-                param(current_elem->param,current_elem->nr_param);
+                param(current_elem->param_t,current_elem->nr_param);
                 printf(")\n");
         }
         current_elem = current_elem->next;
     }
     printf("\n");
+
+    struct elementos *aux = tab->elem;
+    while (aux != NULL) {
+        if (strcmp(aux->tipo, "FuncDefinition") == 0) {
+            printf("===== Function %s Symbol Table =====\n",aux->identifier);
+            printf("return\t%s\n",aux->tipo_devolve);
+            paramlist(aux->param_t,aux->param_i,aux->nr_param);
+            
+            
+        }
+        aux = aux->next;
+    }
+    printf("\n");
+
 }
 
 void param(char **parametros,int num){
@@ -355,6 +444,14 @@ void param(char **parametros,int num){
         if(num > 1 && i != num - 1){
             printf(",");
         } 
+    }
+}
+
+void paramlist(char **parametros,char **identifiers,int num){
+    for(int i = 0; i < num; i++){
+        if(identifiers[i] != NULL){
+            printf("%s\t%s\tparam\n",identifiers[i],parametros[i]);
+        }
     }
 }
 
