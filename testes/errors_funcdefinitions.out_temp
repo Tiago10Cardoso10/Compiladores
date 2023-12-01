@@ -1,3 +1,22 @@
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+var	int
+no_function	void(void)
+soma	int(int,int)
+no_name	void(void)
+
+===== Function no_function Symbol Table =====
+return	void
+
+===== Function soma Symbol Table =====
+return	int
+i	int	param
+j	int	param
+
+===== Function no_name Symbol Table =====
+return	void
+
 Program
 ..Declaration
 ....Int

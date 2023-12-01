@@ -1,4 +1,4 @@
-#include "tree.h"
+#include "uccompiler.h"
 
 //----------------Criar arvore ------------------
 
@@ -379,11 +379,19 @@ void functiondefinition(struct node_list *ast,struct tabela *tab){
 
         
         // Body
+        aux_elem->nova = body();
         struct node_list *aux_body = ast->no->filhos->next->next->no->filhos;
         while (aux_body)
         {
             // Fazer funcao auxiliar para adicionar em nova quando em Function Body é declaration
-            aux_body = aux_body->next;
+            if(strcmp(aux_body->no->tipo,"Declaration") == 0){
+                declaration(aux_body,aux_elem->nova);
+            }
+            if (aux_body->next != NULL){
+                aux_body = aux_body->next;
+            } else {
+                aux_body = aux_body->no->irmaos;
+            }
         }
         
         struct elementos *aux = tab->elem;
@@ -398,6 +406,14 @@ void functiondefinition(struct node_list *ast,struct tabela *tab){
             aux->next = aux_elem;
         }
     }
+}
+
+struct tabela* body(){
+    struct tabela *nova_tabela = malloc(sizeof(struct tabela));
+    if (nova_tabela != NULL) {
+        nova_tabela->elem = NULL;
+    }
+    return nova_tabela;
 }
 
 int repeticao(struct elementos *aux, char *tipo,char *identifier){
@@ -437,11 +453,14 @@ void imprime_tabela(struct tabela *tab){
             paramlist(aux->param_t,aux->param_i,aux->nr_param);
 
             // Falta dar print quando aparece Declaration dentro de FunctionBody
-            
+            while(aux->nova->elem){
+                printf("%s\t%s\n",aux->nova->elem->identifier,aux->nova->elem->tipo_func);
+                aux->nova->elem = aux->nova->elem->next;
+            }
+            printf("\n");
         }
         aux = aux->next;
     }
-    printf("\n");
 
 }
 

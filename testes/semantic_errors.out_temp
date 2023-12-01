@@ -1,3 +1,26 @@
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+r	void(double,void)
+s	void(int)
+d	double
+f	int(short)
+x	double
+dbl	double(int,double)
+ret	void(void)
+
+===== Function f Symbol Table =====
+return	int
+i	short	param
+
+===== Function dbl Symbol Table =====
+return	double
+i	int	param
+d	double	param
+
+===== Function ret Symbol Table =====
+return	void
+
 Program
 ..FuncDeclaration
 ....Void

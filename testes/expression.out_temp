@@ -1,3 +1,20 @@
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+f1	int(double)
+main	int(void)
+
+===== Function f1 Symbol Table =====
+return	int
+a	double	param
+
+===== Function main Symbol Table =====
+return	int
+a	char
+b	short
+c	int
+d	double
+
 Program
 ..FuncDefinition
 ....Int

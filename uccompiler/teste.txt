@@ -1,1 +1,4 @@
-int boas(int,double,short);
+int boas(int){
+    int teste;
+    int asd;
+}

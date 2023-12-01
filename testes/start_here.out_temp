@@ -1,3 +1,22 @@
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+a	int
+b	int
+c	double
+d	char
+e	char
+f	short
+g	short(int,double,char,short)
+
+===== Function g Symbol Table =====
+return	short
+h	int	param
+i	double	param
+j	char	param
+k	short	param
+l	int
+
 Program
 ..Declaration
 ....Int

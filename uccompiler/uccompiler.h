@@ -1,5 +1,5 @@
-#ifndef _TREE_H
-#define _TREE_H
+#ifndef _UCCOMPILER_H
+#define _UCCOMPILER_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,7 +44,7 @@ struct elementos{
     int  nr_param;
     char *tipo_devolve;
     struct elementos *next;
-    struct elementos *nova;
+    struct tabela *nova;
 };
 
 struct tabela {
@@ -66,7 +66,7 @@ void cria_especiasG(struct tabela *tab);
 void declaration(struct node_list *ast,struct tabela *tab);
 void functiondeclaration(struct node_list *ast,struct tabela *tab);
 void functiondefinition(struct node_list *ast,struct tabela *tab);
-void body(struct node_list *ast,struct tabela *tab);
+struct tabela* body();
 int repeticao(struct elementos *aux,char *tipo ,char *identifier);
 void imprime_tabela(struct tabela *tab);
 void param(char **parametros,int num);
