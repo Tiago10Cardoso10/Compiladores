@@ -6,7 +6,7 @@ Tiago Rafael Cardoso Santos - 2021229679
     int yylex(void);
     extern void yyerror(const char *s);
 
-    #include "tree.h"
+    #include "uccompiler.h"
     int nr_erro = 0;
     int vazio = 0;
     int conta = 0;

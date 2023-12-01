@@ -5,6 +5,7 @@ main	int(void)
 
 ===== Function main Symbol Table =====
 return	int
+i	char
 
 Program
 ..FuncDefinition

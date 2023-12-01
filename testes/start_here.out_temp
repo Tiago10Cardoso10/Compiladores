@@ -15,6 +15,7 @@ h	int	param
 i	double	param
 j	char	param
 k	short	param
+l	int
 
 Program
 ..Declaration

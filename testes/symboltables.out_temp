@@ -18,16 +18,22 @@ sf	short(short)
 
 ===== Function f1 Symbol Table =====
 return	char
+s	short
+i	int
+d	double
+
 ===== Function df Symbol Table =====
 return	double
 d	double	param
 dd	double	param
+
 ===== Function ii Symbol Table =====
 return	int
 i	int	param
 c	char	param
 d	double	param
 s	short	param
+
 ===== Function sf Symbol Table =====
 return	short
 s	short	param

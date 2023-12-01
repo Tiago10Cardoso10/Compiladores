@@ -1,7 +1,7 @@
 all: uccompiler
 
 uccompiler: lex.yy.c y.tab.c
-	cc lex.yy.c y.tab.c tree.c -o uccompiler -ll
+	cc lex.yy.c y.tab.c uccompiler.c -o uccompiler -ll
 
 lex.yy.c: uccompiler.l
 	lex uccompiler.l

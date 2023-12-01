@@ -54,55 +54,93 @@ return	int
 a	int	param
 b	int	param
 i	int	param
+
 ===== Function okokok Symbol Table =====
 return	int
+i	int
+
 ===== Function factorial Symbol Table =====
 return	int
 number	int	param
+answer	int
+
 ===== Function recursive_factorial Symbol Table =====
 return	int
 number	int	param
+
 ===== Function tail_recursive_fac Symbol Table =====
 return	int
 number	int	param
 k	int	param
+bola	int
+i	int
+
 ===== Function main Symbol Table =====
 return	int
+i	int
+
 ===== Function chama Symbol Table =====
 return	int
+
 ===== Function uauu Symbol Table =====
 return	int
+a	char
+b	int
+
 ===== Function ctoi Symbol Table =====
 return	int
 c	char	param
+
 ===== Function block Symbol Table =====
 return	char
 a	char	param
 b	char	param
+
 ===== Function check_your_priorities Symbol Table =====
 return	int
 a	int	param
 b	int	param
 d	int	param
+
 ===== Function not_block Symbol Table =====
 return	char
 a	char	param
 b	char	param
+
 ===== Function check_your_decimal Symbol Table =====
 return	double
 a	double	param
 b	double	param
+PI	double
+
 ===== Function main_0 Symbol Table =====
 return	int
+
 ===== Function pow Symbol Table =====
 return	int
 i	int	param
+
 ===== Function f1 Symbol Table =====
 return	char
+s	short
+i	int
+d	double
+e	double
+a	int
+b	double
+
 ===== Function df Symbol Table =====
 return	double
 d	double	param
 dd	double	param
+ch0	int
+calc	int
+ch1	char
+a	char
+b	short
+c	int
+d	double
+x	double
 
 Program
 ..FuncDeclaration

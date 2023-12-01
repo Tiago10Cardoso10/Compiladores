@@ -8,10 +8,12 @@ no_name	void(void)
 
 ===== Function no_function Symbol Table =====
 return	void
+
 ===== Function soma Symbol Table =====
 return	int
 i	int	param
 j	int	param
+
 ===== Function no_name Symbol Table =====
 return	void
 
