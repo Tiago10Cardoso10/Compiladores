@@ -24,6 +24,8 @@ struct node {
     enum tipo_no tipo_no;
     char *tipo;
     char *token;
+    int linha;
+    int coluna;
     struct node_list *filhos;
     struct node_list *irmaos;
 };
