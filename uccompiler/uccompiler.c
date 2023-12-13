@@ -454,10 +454,10 @@ void imprime_tabela(struct tabela *tab){
             }
             if (res){
                 printf("%s\t%s\n",current_elem->identifier,current_elem->tipo_func);
-                
+                repet[j] = current_elem->identifier;
+                j++;
             }
-            repet[j] = current_elem->identifier;
-            j++;
+            
         } else {
             while (res && i < j){
                 if (strcmp(repet[i], current_elem->identifier) == 0){
@@ -469,10 +469,10 @@ void imprime_tabela(struct tabela *tab){
                 printf("%s\t%s(",current_elem->identifier,current_elem->tipo_func);
                 param(current_elem->param_t,current_elem->nr_param);
                 printf(")\n");
-                
+                repet[j] = current_elem->identifier;
+                j++;
             }
-            repet[j] = current_elem->identifier;
-            j++;
+            
         }
         current_elem = current_elem->next;
         
