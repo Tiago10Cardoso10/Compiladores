@@ -1,3 +1,21 @@
+Line 11, column 9: Symbol soma already defined
+Line 15, column 10: Symbol soma already defined
+Line 19, column 9: Symbol soma already defined
+Line 7, column 9: Symbol soma already defined
+Line 11, column 9: Symbol soma already defined
+Line 15, column 10: Symbol soma already defined
+Line 19, column 9: Symbol soma already defined
+Line 23, column 13: Symbol no_name already defined
+Line 11, column 9: Symbol soma already defined
+Line 15, column 10: Symbol soma already defined
+Line 19, column 9: Symbol soma already defined
+Line 23, column 13: Symbol no_name already defined
+Line 15, column 10: Symbol soma already defined
+Line 19, column 9: Symbol soma already defined
+Line 23, column 13: Symbol no_name already defined
+Line 19, column 9: Symbol soma already defined
+Line 23, column 13: Symbol no_name already defined
+Line 23, column 13: Symbol no_name already defined
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)
