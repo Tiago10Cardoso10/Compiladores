@@ -170,7 +170,7 @@ struct tabela criar_tabela(struct node *raiz) {
                 }
                 save = save->no->irmaos;
             }
-            raiz_aux2 = raiz_aux2->no->irmaos;
+            raiz_aux2 = raiz_aux2->no->irmaos->next;
         }
         else{
             raiz_aux2 = raiz_aux2->next;
