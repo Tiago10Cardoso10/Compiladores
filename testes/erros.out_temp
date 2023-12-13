@@ -1,24 +1,21 @@
-===== Global Symbol Table =====
+fdsfdsfdsfdsfds===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)
 main	int(void)
 chara	void(int,double,void,double,int,char)
 a	int
-as	void
 p	double
 bs	double
 test	double
-b	void
-test	int(void,int)
 abcde	int(int,int,int)
 okokok	int(void)
 new	void(void)
 factorial	int(int)
 recursive_factorial	int(int)
 tail_recursive_fac	int(int,int)
-main	int(void)
 soma	void(int,char)
 subt	void(int,char,double)
+b	int
 d	int
 c	int
 t	double
@@ -40,13 +37,11 @@ ch0	char
 ch1	char
 ch2	char
 pow	double(double)
-pow	int(int)
 c1	char
 c2	char
 s	short
 f1	char(void)
 blah	int(void)
-df	double(double,double)
 df	double(double,double)
 
 ===== Function abcde Symbol Table =====

@@ -1,7 +1,5 @@
 #include "uccompiler.h"
 
-extern int linha,coluna;
-
 //----------------Criar arvore ------------------
 
 struct node *criar_no(enum tipo_no tipo_no,char *tipo, char *token){
@@ -248,6 +246,11 @@ void declaration(struct node_list *ast,struct tabela *tab){
         aux_elem->tipo_func = (char*) malloc(strlen(guarda2) + 1);
         strcpy(aux_elem->tipo_func, guarda2);
 
+        if(strcmp(aux_elem->tipo_func,"void")== 0){
+            printf("fds");
+            return;
+        }
+
         char *guarda3 = ast->no->filhos->next->no->token;
         aux_elem->identifier = (char*) malloc(strlen(guarda3) + 1);
         strcpy(aux_elem->identifier,guarda3);
@@ -423,7 +426,6 @@ int repeticao(struct elementos *aux, char *tipo,char *identifier){
         if(strcmp(aux->tipo,tipo) == 0){
             if(strcmp(aux->identifier,identifier) == 0){
                 val = 1;
-                printf("Line %d, column %d: Symbol %s already defined\n",linha,coluna,identifier);
             }
         }
         aux = aux->next;
@@ -434,17 +436,48 @@ int repeticao(struct elementos *aux, char *tipo,char *identifier){
 void imprime_tabela(struct tabela *tab){
     printf("===== Global Symbol Table =====\n");
     
+    int j = 0;
+    const int MAX_SIZE = 50;
+    char *repet[MAX_SIZE];
+    
     struct elementos *current_elem = tab->elem;
+
     while (current_elem != NULL) {
+        int i = 0;
+        bool res = true;
         if (strcmp(current_elem->tipo, "Declaration") == 0) {
-            printf("%s\t%s\n",current_elem->identifier,current_elem->tipo_func);
+            while (res && i < j){
+                if (strcmp(repet[i], current_elem->identifier) == 0){
+                    res = false;
+                }
+                i++;
+            }
+            if (res){
+                printf("%s\t%s\n",current_elem->identifier,current_elem->tipo_func);
+                
+            }
+            repet[j] = current_elem->identifier;
+            j++;
         } else {
+            while (res && i < j){
+                if (strcmp(repet[i], current_elem->identifier) == 0){
+                    res = false;
+                }
+                i++;
+            }
+            if (res){
                 printf("%s\t%s(",current_elem->identifier,current_elem->tipo_func);
                 param(current_elem->param_t,current_elem->nr_param);
                 printf(")\n");
+                
+            }
+            repet[j] = current_elem->identifier;
+            j++;
         }
         current_elem = current_elem->next;
-    }
+        
+        }
+    
     printf("\n");
 
     struct elementos *aux = tab->elem;
@@ -454,7 +487,6 @@ void imprime_tabela(struct tabela *tab){
             printf("return\t%s\n",aux->tipo_devolve);
             paramlist(aux->param_t,aux->param_i,aux->nr_param);
 
-            // Falta dar print quando aparece Declaration dentro de FunctionBody
             while(aux->nova->elem){
                 printf("%s\t%s\n",aux->nova->elem->identifier,aux->nova->elem->tipo_func);
                 aux->nova->elem = aux->nova->elem->next;
@@ -463,7 +495,7 @@ void imprime_tabela(struct tabela *tab){
         }
         aux = aux->next;
     }
-
+    
 }
 
 void param(char **parametros,int num){
@@ -506,4 +538,3 @@ char *tipo_func(char *tipo_func){
     }
     return tipo_func;
 }
-

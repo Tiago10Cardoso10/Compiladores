@@ -14,6 +14,8 @@ Tiago Rafael Cardoso Santos - 2021229679
     struct node *novo;
 %}
 
+%locations
+
 %union {
     char *v;
     struct node *no;
@@ -174,6 +176,8 @@ FunctionDeclaration:
 FunctionDeclarator:
     IDENTIFIER LPAR ParameterList RPAR                      {
                                                                 $$ = criar_no(no_terminais,"Identifier",$1);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_irmao($$,$3);
                                                             }
     ;
@@ -206,7 +210,10 @@ ParameterDeclaration:
     | TypeSpec IDENTIFIER                                   {
                                                                 $$ = criar_no(no_funcoes,"ParamDeclaration",NULL);
                                                                 adicionar_filho($$,$1);
-                                                                adicionar_filho($$,criar_no(no_terminais,"Identifier",$2));
+                                                                novo = criar_no(no_terminais,"Identifier",$2);
+                                                                novo->linha = @1.first_line;
+                                                                novo->coluna= @1.first_column;
+                                                                adicionar_filho($$,novo);
                                                             }
     ;
 
@@ -233,29 +240,45 @@ Declaration2:
 TypeSpec: 
     CHAR                                                    {
                                                                 $$ = criar_no(no_terminais,"Char",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                             }
     | INT                                                   {
                                                                 $$ = criar_no(no_terminais,"Int",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                             }
     | VOID                                                  {
                                                                 $$ = criar_no(no_terminais,"Void",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                             }
     | SHORT                                                 {
                                                                 $$ = criar_no(no_terminais,"Short",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                             }
     | DOUBLE                                                {
                                                                 $$ = criar_no(no_terminais,"Double",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                             }
     ;
 
 Declarator:
     IDENTIFIER                                              {
                                                                 $$ = criar_no(no_declaracao,"Declaration",NULL);
-                                                                adicionar_filho($$,criar_no(no_terminais,"Identifier",$1));
+                                                                novo = criar_no(no_terminais,"Identifier",$1);
+                                                                novo->linha = @1.first_line;
+                                                                novo->coluna= @1.first_column;
+                                                                adicionar_filho($$,novo);
                                                             }
     | IDENTIFIER ASSIGN Expr2                               {
                                                                 $$ = criar_no(no_declaracao,"Declaration",NULL);
-                                                                adicionar_filho($$,criar_no(no_terminais,"Identifier",$1));
+                                                                novo = criar_no(no_terminais,"Identifier",$1);
+                                                                novo->linha = @1.first_line;
+                                                                novo->coluna= @1.first_column;
+                                                                adicionar_filho($$,novo);
                                                                 adicionar_filho($$,$3);
                                                             }
     ;
@@ -584,6 +607,8 @@ Expr:
                                                                 
                                                                 $$ = criar_no(no_operadores,"Call",NULL);
                                                                 novo = criar_no(no_terminais,"Identifier",$1);
+                                                                novo->linha = @1.first_line;
+                                                                novo->coluna= @1.first_column;
                                                                 adicionar_filho($$,novo);
                                                                 adicionar_filho($$,$3);
                                                                 adicionar_filho($$,$4);
@@ -592,28 +617,35 @@ Expr:
     | IDENTIFIER LPAR RPAR                                  {
                                                                 $$ = criar_no(no_operadores,"Call",NULL);
                                                                 novo = criar_no(no_terminais,"Identifier",$1);
+                                                                novo->linha = @1.first_line;
+                                                                novo->coluna= @1.first_column;
                                                                 adicionar_filho($$,novo);
+                                                                
                                                             }
 
     | IDENTIFIER                                            {
                                                                 
                                                                 $$ = criar_no(no_terminais,"Identifier",$1);
-                                                                
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                             }
     | NATURAL                                               {
                                                                 
                                                                 $$ = criar_no(no_terminais,"Natural",$1);
-                                                                
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                             }
     | CHRLIT                                                {
                                                                 
                                                                 $$ = criar_no(no_terminais,"ChrLit",$1);
-                                                                
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                             }
     | DECIMAL                                               {
                                                                 
                                                                 $$ = criar_no(no_terminais,"Decimal",$1);
-                                                                
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                             }
     | LPAR Expr2 RPAR                                       {
                                                                 
