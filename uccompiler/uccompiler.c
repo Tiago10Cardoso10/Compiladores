@@ -434,17 +434,48 @@ int repeticao(struct elementos *aux, char *tipo,char *identifier){
 void imprime_tabela(struct tabela *tab){
     printf("===== Global Symbol Table =====\n");
     
+    int j = 0;
+    const int MAX_SIZE = 50;
+    char *repet[MAX_SIZE];
+    
     struct elementos *current_elem = tab->elem;
+
     while (current_elem != NULL) {
+        int i = 0;
+        bool res = true;
         if (strcmp(current_elem->tipo, "Declaration") == 0) {
-            printf("%s\t%s\n",current_elem->identifier,current_elem->tipo_func);
+            while (res && i < j){
+                if (strcmp(repet[i], current_elem->identifier) == 0){
+                    res = false;
+                }
+                i++;
+            }
+            if (res){
+                printf("%s\t%s\n",current_elem->identifier,current_elem->tipo_func);
+                
+            }
+            repet[j] = current_elem->identifier;
+            j++;
         } else {
+            while (res && i < j){
+                if (strcmp(repet[i], current_elem->identifier) == 0){
+                    res = false;
+                }
+                i++;
+            }
+            if (res){
                 printf("%s\t%s(",current_elem->identifier,current_elem->tipo_func);
                 param(current_elem->param_t,current_elem->nr_param);
                 printf(")\n");
+                
+            }
+            repet[j] = current_elem->identifier;
+            j++;
         }
         current_elem = current_elem->next;
-    }
+        
+        }
+    
     printf("\n");
 
     struct elementos *aux = tab->elem;
@@ -455,15 +486,10 @@ void imprime_tabela(struct tabela *tab){
             paramlist(aux->param_t,aux->param_i,aux->nr_param);
 
             // Falta dar print quando aparece Declaration dentro de FunctionBody
-            while(aux->nova->elem){
-                printf("%s\t%s\n",aux->nova->elem->identifier,aux->nova->elem->tipo_func);
-                aux->nova->elem = aux->nova->elem->next;
-            }
-            printf("\n");
         }
         aux = aux->next;
     }
-
+    printf("\n");
 }
 
 void param(char **parametros,int num){
