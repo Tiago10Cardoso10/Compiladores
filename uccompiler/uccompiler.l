@@ -224,6 +224,5 @@ int main(int argc, char* argv[]) {
         yyparse();
         yylex();
     }
-    
     return 0;
 }
