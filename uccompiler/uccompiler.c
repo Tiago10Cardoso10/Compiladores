@@ -146,29 +146,36 @@ struct tabela criar_tabela(struct node *raiz) {
     
     struct node_list *save = raiz_aux2;
 
+    struct node_list *save2;
+
     while (raiz_aux2 != NULL || save != NULL) {
+        
         if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
             functiondefinition(raiz_aux2,&tab);
         } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
             functiondeclaration(raiz_aux2,&tab);
         } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
+            printf("neste\n");
             declaration(raiz_aux2,&tab);
         }
-
+        printf("%s------", raiz_aux2->no->tipo);
         save = raiz_aux2;
+        
         if (raiz_aux2->next == NULL){
             save = raiz_aux2->no->irmaos;
+            save2 = save;
             while (save != NULL) {
                 if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
                     functiondefinition(save,&tab);
                 } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
                     functiondeclaration(save,&tab);
                 } else if (strcmp(save->no->tipo, "Declaration") == 0){
+                    printf("asdasd\n");
                     declaration(save,&tab);
                 }
                 save = save->no->irmaos;
             }
-            raiz_aux2 = raiz_aux2->no->irmaos->next;
+            raiz_aux2 = save2->no->irmaos->next;
         }
         else{
             raiz_aux2 = raiz_aux2->next;
@@ -245,8 +252,8 @@ void declaration(struct node_list *ast,struct tabela *tab){
 
     if(repeticao(aux_tab,ast->no->tipo,ast->no->filhos->next->no->token,ast->no->filhos->next->no->linha,ast->no->filhos->next->no->coluna) == 0){
         struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
-
-        if(strcmp(ast->no->filhos->no->tipo,"void")== 0){
+        printf("coco\n\n\n\n\n");
+        if(strcmp(ast->no->filhos->no->tipo,"Void")== 0){
             printf("Line %d, column %d: Invalid use of void type in declaration\n",ast->no->filhos->no->linha,ast->no->filhos->no->coluna);
             return;
         }
@@ -264,7 +271,7 @@ void declaration(struct node_list *ast,struct tabela *tab){
         char *guarda3 = ast->no->filhos->next->no->token;
         aux_elem->identifier = (char*) malloc(strlen(guarda3) + 1);
         strcpy(aux_elem->identifier,guarda3);
-
+        
         aux_elem->next = NULL;
 
         struct elementos *aux = tab->elem;
@@ -272,11 +279,12 @@ void declaration(struct node_list *ast,struct tabela *tab){
             tab->elem = aux_elem;
         } else {
             aux = tab->elem;
-            while (aux->next != NULL) {
+            while (aux!= NULL) {
+                printf("%s\n\n\n\n\n", aux->identifier);
                 aux = aux->next;
             }
             
-            aux->next = aux_elem;
+            aux = aux_elem;
         }
     }
 }
@@ -433,6 +441,7 @@ struct tabela* body(){
 int repeticao(struct elementos *aux,char *tipo ,char *identifier,int linha,int coluna){
     int val = 0;
     while(aux != NULL){
+        printf("%s - %s\n",aux->identifier,identifier);
         if(strcmp(aux->tipo,tipo) == 0){
             if(strcmp(aux->identifier,identifier) == 0){
                 val = 1;
