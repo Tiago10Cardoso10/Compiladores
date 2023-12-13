@@ -146,32 +146,55 @@ struct tabela criar_tabela(struct node *raiz) {
     
     struct node_list *save = raiz_aux2;
 
+    struct node_list *save2;
+
+    struct node_list *save3;
+
     while (raiz_aux2 != NULL || save != NULL) {
         if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
+            
             functiondefinition(raiz_aux2,&tab);
         } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
+            
             functiondeclaration(raiz_aux2,&tab);
         } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
+            
             declaration(raiz_aux2,&tab);
         }
 
-        save = raiz_aux2;
-        if (raiz_aux2->next == NULL){
-            save = raiz_aux2->no->irmaos;
+        save = raiz_aux2; //g
+        save2 = raiz_aux2->no->irmaos; //NULL
+        save3 = save; //g
+        
+        if (raiz_aux2->next == NULL){ //NULL
+            save = raiz_aux2->no->irmaos; //NULL
             while (save != NULL) {
                 if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
+                    
                     functiondefinition(save,&tab);
                 } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
+                    
                     functiondeclaration(save,&tab);
                 } else if (strcmp(save->no->tipo, "Declaration") == 0){
+                    
                     declaration(save,&tab);
+                    
                 }
-                save = save->no->irmaos;
+                
+                save = save->no->irmaos; //NULL
+                
             }
-            raiz_aux2 = raiz_aux2->no->irmaos;
+            
+            if(save2 != NULL && save2->no->irmaos != NULL){
+                raiz_aux2 = save2->no->irmaos->next;
+            }else if(save3 != NULL && save3->no->irmaos != NULL){
+                raiz_aux2 = save3->no->irmaos->next;
+            }else{
+                raiz_aux2 = raiz_aux2->next;
+            }
         }
         else{
-            raiz_aux2 = raiz_aux2->next;
+            raiz_aux2 = raiz_aux2->next; //
         }
     }
     return tab;
@@ -492,10 +515,10 @@ void imprime_tabela(struct tabela *tab){
             }
             if (res){
                 printf("%s\t%s\n",current_elem->identifier,current_elem->tipo_func);
-                
+                repet[j] = current_elem->identifier;
+                j++;
             }
-            repet[j] = current_elem->identifier;
-            j++;
+            
         } else {
             while (res && i < j){
                 if (strcmp(repet[i], current_elem->identifier) == 0){
@@ -507,10 +530,10 @@ void imprime_tabela(struct tabela *tab){
                 printf("%s\t%s(",current_elem->identifier,current_elem->tipo_func);
                 param(current_elem->param_t,current_elem->nr_param);
                 printf(")\n");
-                
+                repet[j] = current_elem->identifier;
+                j++;
             }
-            repet[j] = current_elem->identifier;
-            j++;
+            
         }
         current_elem = current_elem->next;
         
