@@ -1,3 +1,25 @@
+Line 13, column 7: Symbol f already defined
+Line 4, column 9: Symbol d already defined
+Line 6, column 6: Symbol f already defined
+Line 13, column 7: Symbol f already defined
+Line 15, column 9: Symbol x already defined
+Line 17, column 11: Symbol dbl already defined
+Line 26, column 9: Symbol ret already defined
+Line 6, column 6: Symbol f already defined
+Line 13, column 7: Symbol f already defined
+Line 15, column 9: Symbol x already defined
+Line 17, column 11: Symbol dbl already defined
+Line 26, column 9: Symbol ret already defined
+Line 13, column 7: Symbol f already defined
+Line 15, column 9: Symbol x already defined
+Line 17, column 11: Symbol dbl already defined
+Line 26, column 9: Symbol ret already defined
+Line 15, column 9: Symbol x already defined
+Line 17, column 11: Symbol dbl already defined
+Line 26, column 9: Symbol ret already defined
+Line 17, column 11: Symbol dbl already defined
+Line 26, column 9: Symbol ret already defined
+Line 26, column 9: Symbol ret already defined
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)
