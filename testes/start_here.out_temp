@@ -1,7 +1,3 @@
-Line 7, column 9: Symbol d already defined
-Line 7, column 12: Symbol e already defined
-Line 7, column 12: Symbol e already defined
-Line 12, column 8: Symbol g already defined
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)
@@ -10,16 +6,6 @@ b	int
 c	double
 d	char
 e	char
-f	short
-g	short(int,double,char,short)
-
-===== Function g Symbol Table =====
-return	short
-h	int	param
-i	double	param
-j	char	param
-k	short	param
-l	int
 
 Program
 ..Declaration

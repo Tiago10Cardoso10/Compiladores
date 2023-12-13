@@ -1,3 +1,8 @@
-int    a, b;
-double c;
-char   d,e,g;
+
+char sd,ud;
+int f;
+int a,v;
+char   d;
+char da;
+
+// Se o next for null , guarda o ultimo
