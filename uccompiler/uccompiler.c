@@ -152,7 +152,6 @@ struct tabela criar_tabela(struct node *raiz) {
         } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
             functiondeclaration(raiz_aux2,&tab);
         } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
-            printf("neste\n");
             declaration(raiz_aux2,&tab);
         }
 
@@ -165,7 +164,6 @@ struct tabela criar_tabela(struct node *raiz) {
                 } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
                     functiondeclaration(save,&tab);
                 } else if (strcmp(save->no->tipo, "Declaration") == 0){
-                    printf("asdasd\n");
                     declaration(save,&tab);
                 }
                 save = save->no->irmaos;
@@ -435,7 +433,6 @@ struct tabela* body(){
 int repeticao(struct elementos *aux,char *tipo ,char *identifier,int linha,int coluna){
     int val = 0;
     while(aux != NULL){
-        printf("%s - %s\n",aux->identifier,identifier);
         if(strcmp(aux->tipo,tipo) == 0){
             if(strcmp(aux->identifier,identifier) == 0){
                 val = 1;
