@@ -69,6 +69,7 @@ void declaration(struct node_list *ast,struct tabela *tab);
 void functiondeclaration(struct node_list *ast,struct tabela *tab);
 void functiondefinition(struct node_list *ast,struct tabela *tab);
 struct tabela* body();
+struct elementos *search_symbol(struct tabela *tab,char *identifier);
 int repeticao(struct elementos *aux,char *tipo ,char *identifier,int linha,int coluna);
 void imprime_tabela(struct tabela *tab);
 void param(char **parametros,int num);

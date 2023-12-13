@@ -1,21 +1,3 @@
-Line 2, column 11: Symbol t already defined
-Line 3, column 9: Symbol j already defined
-Line 4, column 12: Symbol e already defined
-Line 13, column 10: Symbol df already defined
-Line 15, column 10: Symbol df already defined
-Line 19, column 7: Symbol ii already defined
-Line 23, column 10: Symbol dd already defined
-Line 25, column 9: Symbol sf already defined
-Line 15, column 10: Symbol df already defined
-Line 19, column 7: Symbol ii already defined
-Line 23, column 10: Symbol dd already defined
-Line 25, column 9: Symbol sf already defined
-Line 19, column 7: Symbol ii already defined
-Line 23, column 10: Symbol dd already defined
-Line 25, column 9: Symbol sf already defined
-Line 23, column 10: Symbol dd already defined
-Line 25, column 9: Symbol sf already defined
-Line 25, column 9: Symbol sf already defined
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)

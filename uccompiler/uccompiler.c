@@ -152,7 +152,6 @@ struct tabela criar_tabela(struct node *raiz) {
         } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
             functiondeclaration(raiz_aux2,&tab);
         } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
-            printf("neste\n");
             declaration(raiz_aux2,&tab);
         }
 
@@ -165,7 +164,6 @@ struct tabela criar_tabela(struct node *raiz) {
                 } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
                     functiondeclaration(save,&tab);
                 } else if (strcmp(save->no->tipo, "Declaration") == 0){
-                    printf("asdasd\n");
                     declaration(save,&tab);
                 }
                 save = save->no->irmaos;
@@ -204,7 +202,16 @@ void cria_especiasP(struct tabela *tab){
 
     aux_elem->next = NULL;
 
-    tab->elem = aux_elem;
+    struct elementos *aux = tab->elem;
+    if (tab->elem == NULL) {
+        tab->elem = aux_elem;
+    } else {
+        aux = tab->elem;
+        while (aux->next != NULL) {
+            aux = aux->next;
+        }
+        aux->next = aux_elem;
+    }
 }
 
 void cria_especiasG(struct tabela *tab){
@@ -234,10 +241,7 @@ void cria_especiasG(struct tabela *tab){
     aux_elem->next = NULL;
 
     struct elementos *aux = tab->elem;
-    aux = tab->elem;
-    while (aux->next != NULL) {
-        aux = aux->next;
-    }
+    
     aux->next = aux_elem;
 }
 
@@ -247,7 +251,7 @@ void declaration(struct node_list *ast,struct tabela *tab){
 
     if(repeticao(aux_tab,ast->no->tipo,ast->no->filhos->next->no->token,ast->no->filhos->next->no->linha,ast->no->filhos->next->no->coluna) == 0){
         struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
-
+        
         if(strcmp(ast->no->filhos->no->tipo,"void")== 0){
             printf("Line %d, column %d: Invalid use of void type in declaration\n",ast->no->filhos->no->linha,ast->no->filhos->no->coluna);
             return;
@@ -257,29 +261,34 @@ void declaration(struct node_list *ast,struct tabela *tab){
         aux_elem->tipo = (char*) malloc(strlen(guarda1) + 1);
         strcpy(aux_elem->tipo, guarda1);
         
+        
         char *guarda2 = tipo_func(ast->no->filhos->no->tipo);
         aux_elem->tipo_func = (char*) malloc(strlen(guarda2) + 1);
         strcpy(aux_elem->tipo_func, guarda2);
-
         
-
         char *guarda3 = ast->no->filhos->next->no->token;
         aux_elem->identifier = (char*) malloc(strlen(guarda3) + 1);
         strcpy(aux_elem->identifier,guarda3);
+        
 
         aux_elem->next = NULL;
-
-        struct elementos *aux = tab->elem;
+        
         if (tab->elem == NULL) {
             tab->elem = aux_elem;
+            
         } else {
-            aux = tab->elem;
+            
+            struct elementos *aux = tab->elem;
+            
             while (aux->next != NULL) {
+                
                 aux = aux->next;
             }
             
             aux->next = aux_elem;
+            
         }
+        
     }
 }
 
@@ -402,7 +411,11 @@ void functiondefinition(struct node_list *ast,struct tabela *tab){
         {
             if(strcmp(aux_body->no->tipo,"Declaration") == 0){
                 declaration(aux_body,aux_elem->nova);
-            }
+            } 
+            
+            // Necessário ver os CALLS IF WHILE SOMAS ETC...
+
+            
             if (aux_body->next != NULL){
                 aux_body = aux_body->next;
             } else {
@@ -432,11 +445,22 @@ struct tabela* body(){
     return nova_tabela;
 }
 
+struct elementos *search_symbol(struct tabela *tab,char *identifier){
+    struct elementos *aux = tab->elem;
+    while(aux != NULL){
+        if(strcmp(aux->identifier,identifier)==0){
+            return aux;
+        }
+        aux = aux->next;
+    }
+    return NULL;
+}
+
 int repeticao(struct elementos *aux,char *tipo ,char *identifier,int linha,int coluna){
     int val = 0;
     while(aux != NULL){
-        printf("%s - %s\n",aux->identifier,identifier);
         if(strcmp(aux->tipo,tipo) == 0){
+            
             if(strcmp(aux->identifier,identifier) == 0){
                 val = 1;
                 printf("Line %d, column %d: Symbol %s already defined\n",linha,coluna,identifier);
@@ -490,7 +514,7 @@ void imprime_tabela(struct tabela *tab){
         }
         current_elem = current_elem->next;
         
-        }
+    }
     
     printf("\n");
 
