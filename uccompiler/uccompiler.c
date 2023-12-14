@@ -133,6 +133,7 @@ struct tabela criar_tabela(struct node *raiz) {
     cria_especiasP(&tab);
     cria_especiasG(&tab);
 
+
     struct node_list *raiz_aux = raiz->filhos;
     if (strcmp(raiz_aux->no->tipo, "FuncDefinition") == 0) {
         functiondefinition(raiz_aux,&tab);
@@ -569,10 +570,31 @@ void param(char **parametros,int num){
 }
 
 void paramlist(char **parametros,char **identifiers,int num){
+
+    const int MAX_SIZE = 50;
+    char *no_repet[MAX_SIZE];
+
+    int j = 0;
+    bool res = true;
+    int k = 0;
+
     for(int i = 0; i < num; i++){
         if(strcmp(identifiers[i],"NULL") != 0){
-            printf("%s\t%s\tparam\n",identifiers[i],parametros[i]);
+            while(k < j && res){
+                if(strcmp(no_repet[k],identifiers[i]) != 0){
+                    printf("%s\t%s\tparam\n",identifiers[i],parametros[i]);
+                    no_repet[j] = identifiers[i];
+                    j++;
+                }
+                k++;
+            }
+            if (j == 0){
+                printf("%s\t%s\tparam\n",identifiers[i],parametros[i]);
+                no_repet[j] = identifiers[i];
+                j++;
+            }
         }
+        k = 0;
     }
 }
 

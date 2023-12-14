@@ -1,69 +1,54 @@
-int a(void);
-int b(void){
+int bye(int a, int b);
+int bye(int a, int b){
 
 }
-int a(void){
-    double c;
-    char d;
-    c,d;
-    d,c;
+
+int error(int b, int b);
+
+int error1(int c, int c){
+
 }
 
-void f(double a){}
-int f1(void){}
-int f2(int b){}
+void error2(void) {}
+void error2(void, void);
 
-void a1(void){
-    return;
+void error3(void) {}
+void error3(void, void);
+
+int error4(int a, int a, int r);
+int error5(int a, int a, int r){
+    
 }
 
-void A1(void){}
+int ola(int a){
 
-void D1(void){}
-int d1(void){}
-
-
-int ac(void);
-int ap(void){}
-
-
-int az(void);
-int bz(void){
-    az+1;
 }
 
-
-
-int aa = 2.0;
-int bb = 2;
-double cc = 3.0;
-double dd = 4;
-char ee = 1;
-
-int frac(double s){
-    return s;
+int main(void){
+    1, ola;
+    ola, 1;
+    ola, ola; 
+    1, ola();
+    1, ola(1);
+    1, ola(1, 2);
+    ola, 1;
+    ola(), 1;
+    ola(1), 1;
+    1 + ola;
 }
 
-int kled(double a){
-    double res = aa + s, bb = 1.3 + a + res;
+void a(void a);
 
-    aa, bb, frac, res, s;
+void b(void a){
 
-    return 1;
 }
+void c(void a, void b);
 
-void z(void a);
+void d(void a, void b){
 
-void g1(void);
-void f34(void) {
+}
+void e(int ola, void a);
 
-    int a;
-
-    a = g1;
-
-    g1 = a;
-
-    !g1;
-
-    return g1;
+void f(int adeus, void a){
+    j, f;
 }
