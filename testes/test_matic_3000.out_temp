@@ -1,0 +1,289 @@
+Line 55, column 8: Invalid use of void type in declaration
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+a	int(void)
+b	int(void)
+f	void(double)
+f1	int(void)
+f2	int(int)
+a1	void(void)
+A1	void(void)
+D1	void(void)
+d1	int(void)
+ac	int(void)
+ap	int(void)
+az	int(void)
+bz	int(void)
+aa	int
+bb	int
+cc	double
+dd	double
+ee	char
+frac	int(double)
+kled	int(double)
+g1	void(void)
+f34	void(void)
+
+===== Function b Symbol Table =====
+return	int
+
+===== Function a Symbol Table =====
+return	int
+c	double
+d	char
+
+===== Function f Symbol Table =====
+return	void
+a	double	param
+
+===== Function f1 Symbol Table =====
+return	int
+
+===== Function f2 Symbol Table =====
+return	int
+b	int	param
+
+===== Function a1 Symbol Table =====
+return	void
+
+===== Function A1 Symbol Table =====
+return	void
+
+===== Function D1 Symbol Table =====
+return	void
+
+===== Function d1 Symbol Table =====
+return	int
+
+===== Function ap Symbol Table =====
+return	int
+
+===== Function bz Symbol Table =====
+return	int
+
+===== Function frac Symbol Table =====
+return	int
+s	double	param
+
+===== Function kled Symbol Table =====
+return	int
+a	double	param
+res	double
+bb	double
+
+===== Function f34 Symbol Table =====
+return	void
+a	int
+
+Program
+..FuncDeclaration
+....Int
+....Identifier(a)
+....ParamList
+......ParamDeclaration
+........Void
+..FuncDefinition
+....Int
+....Identifier(b)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+..FuncDefinition
+....Int
+....Identifier(a)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+......Declaration
+........Double
+........Identifier(c)
+......Declaration
+........Char
+........Identifier(d)
+......Comma
+........Identifier(c)
+........Identifier(d)
+......Comma
+........Identifier(d)
+........Identifier(c)
+..FuncDefinition
+....Void
+....Identifier(f)
+....ParamList
+......ParamDeclaration
+........Double
+........Identifier(a)
+....FuncBody
+..FuncDefinition
+....Int
+....Identifier(f1)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+..FuncDefinition
+....Int
+....Identifier(f2)
+....ParamList
+......ParamDeclaration
+........Int
+........Identifier(b)
+....FuncBody
+..FuncDefinition
+....Void
+....Identifier(a1)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+......Return
+........Null
+..FuncDefinition
+....Void
+....Identifier(A1)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+..FuncDefinition
+....Void
+....Identifier(D1)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+..FuncDefinition
+....Int
+....Identifier(d1)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+..FuncDeclaration
+....Int
+....Identifier(ac)
+....ParamList
+......ParamDeclaration
+........Void
+..FuncDefinition
+....Int
+....Identifier(ap)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+..FuncDeclaration
+....Int
+....Identifier(az)
+....ParamList
+......ParamDeclaration
+........Void
+..FuncDefinition
+....Int
+....Identifier(bz)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+......Add
+........Identifier(az)
+........Natural(1)
+..Declaration
+....Int
+....Identifier(aa)
+....Decimal(2.0)
+..Declaration
+....Int
+....Identifier(bb)
+....Natural(2)
+..Declaration
+....Double
+....Identifier(cc)
+....Decimal(3.0)
+..Declaration
+....Double
+....Identifier(dd)
+....Natural(4)
+..Declaration
+....Char
+....Identifier(ee)
+....Natural(1)
+..FuncDefinition
+....Int
+....Identifier(frac)
+....ParamList
+......ParamDeclaration
+........Double
+........Identifier(s)
+....FuncBody
+......Return
+........Identifier(s)
+..FuncDefinition
+....Int
+....Identifier(kled)
+....ParamList
+......ParamDeclaration
+........Double
+........Identifier(a)
+....FuncBody
+......Declaration
+........Double
+........Identifier(res)
+........Add
+..........Identifier(aa)
+..........Identifier(s)
+......Declaration
+........Double
+........Identifier(bb)
+........Add
+..........Add
+............Decimal(1.3)
+............Identifier(a)
+..........Identifier(res)
+......Comma
+........Comma
+..........Comma
+............Comma
+..............Identifier(aa)
+..............Identifier(bb)
+............Identifier(frac)
+..........Identifier(res)
+........Identifier(s)
+......Return
+........Natural(1)
+..FuncDeclaration
+....Void
+....Identifier(z)
+....ParamList
+......ParamDeclaration
+........Void
+........Identifier(a)
+..FuncDeclaration
+....Void
+....Identifier(g1)
+....ParamList
+......ParamDeclaration
+........Void
+..FuncDefinition
+....Void
+....Identifier(f34)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+......Declaration
+........Int
+........Identifier(a)
+......Store
+........Identifier(a)
+........Identifier(g1)
+......Store
+........Identifier(g1)
+........Identifier(a)
+......Not
+........Identifier(g1)
+......Return
+........Identifier(g1)

@@ -750,7 +750,7 @@ int colunareserved = 0;
 int flag = 0;
 
 extern int nr_erro;
-extern struct node *raiz;;
+extern struct node *raiz;
 
 
 #line 757 "lex.yy.c"
@@ -1259,7 +1259,7 @@ case 38:
 /* rule 38 can match eol */
 YY_RULE_SETUP
 #line 163 "uccompiler.l"
-{   linha++;coluna = 1;yylloc.first_line =  linha;}
+{   linha++;coluna = 1;yylloc.first_line =  linha;yylloc.first_column = coluna;}
 	YY_BREAK
 case 39:
 /* rule 39 can match eol */
@@ -1281,17 +1281,17 @@ case 42:
 /* rule 42 can match eol */
 YY_RULE_SETUP
 #line 170 "uccompiler.l"
-{   coluna = 1; linha++;}
+{   coluna = 1; linha++;yylloc.first_line =  linha;yylloc.first_column = coluna;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 #line 172 "uccompiler.l"
-{   BEGIN(INITIAL); coluna+=yyleng;}
+{   BEGIN(INITIAL); coluna+=yyleng;yylloc.first_column = coluna;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
 #line 174 "uccompiler.l"
-{   coluna+= yyleng; }
+{   coluna+= yyleng; yylloc.first_column = coluna;}
 	YY_BREAK
 case YY_STATE_EOF(COMMENT):
 #line 176 "uccompiler.l"
@@ -1303,18 +1303,18 @@ case YY_STATE_EOF(COMMENT):
 case 45:
 YY_RULE_SETUP
 #line 181 "uccompiler.l"
-{   coluna+=yyleng;}
+{   coluna+=yyleng;yylloc.first_column = coluna;}
 	YY_BREAK
 case 46:
 /* rule 46 can match eol */
 YY_RULE_SETUP
 #line 182 "uccompiler.l"
-{   BEGIN(INITIAL); coluna = 1; linha++;}
+{   BEGIN(INITIAL); coluna = 1; linha++;yylloc.first_column = coluna;yylloc.first_line =  linha;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
 #line 184 "uccompiler.l"
-{if(flag == 1)printf("CHRLIT(%s)\n", yytext); coluna += yyleng;yylloc.first_column = coluna;if(flag != 1){yylval.v = strdup(yytext);return CHRLIT;}}
+{if(flag == 1){printf("CHRLIT(%s)\n", yytext);} coluna += yyleng;yylloc.first_column = coluna;if(flag != 1){yylval.v = strdup(yytext);return CHRLIT;}}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
@@ -2374,7 +2374,8 @@ int main(int argc, char* argv[]) {
             flag = 2;
             yyparse();
             if(nr_erro == 0){
-                struct tabela t = criar_tabela(raiz);
+                struct node *raiz2 = raiz;
+                struct tabela t = criar_tabela(raiz2);
                 imprime_tabela(&t);
                 imprime_arvore(raiz,0);
             }

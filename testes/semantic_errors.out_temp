@@ -1,4 +1,5 @@
-Line 13, column 7: Symbol f already defined
+Line 13, column 6: Symbol f already defined
+Line 27, column 11: Conflicting types (got double, expected void)
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)

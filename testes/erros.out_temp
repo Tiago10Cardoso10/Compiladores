@@ -1,8 +1,8 @@
+Line 3, column 33: Invalid use of void type in declaration
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)
 main	int(void)
-chara	void(int,double,void,double,int,char)
 a	int
 as	void
 p	double
@@ -1045,17 +1045,14 @@ Program
 ......Add
 ........Call
 ..........Identifier(function)
-..........Natural(1)
 ........Call
 ..........Identifier(function)
-..........Natural(1)
 ......Mul
 ........Natural(10)
 ........Lt
 ..........Natural(5)
 ..........Call
 ............Identifier(function)
-............Natural(1)
 ......Mod
 ........Decimal(5.5)
 ........Call
