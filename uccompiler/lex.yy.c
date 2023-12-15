@@ -2374,8 +2374,7 @@ int main(int argc, char* argv[]) {
             flag = 2;
             yyparse();
             if(nr_erro == 0){
-                struct node *raiz2 = raiz;
-                struct tabela t = criar_tabela(raiz2);
+                struct tabela t = criar_tabela(raiz);
                 imprime_tabela(&t);
                 imprime_arvore(raiz,0);
             }
@@ -2386,6 +2385,7 @@ int main(int argc, char* argv[]) {
         yyparse();
         yylex();
     }
+    
     return 0;
 }
 

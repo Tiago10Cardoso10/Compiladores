@@ -65,9 +65,9 @@ void imprime_arvore(struct node *no, int num);
 struct tabela criar_tabela(struct node *raiz);
 void cria_especiasP(struct tabela *tab);
 void cria_especiasG(struct tabela *tab);
-void declaration(struct node_list *ast,struct tabela *tab);
-void functiondeclaration(struct node_list *ast,struct tabela *tab);
-void functiondefinition(struct node_list *ast,struct tabela *tab);
+int declaration(struct node_list *ast,struct tabela *tab);
+int functiondeclaration(struct node_list *ast,struct tabela *tab);
+int functiondefinition(struct node_list *ast,struct tabela *tab);
 struct tabela* body();
 struct elementos *search_symbol(struct tabela *tab,char *identifier);
 int repeticao(struct elementos *aux,char *tipo ,char *identifier,int linha,int coluna);
@@ -75,5 +75,5 @@ void imprime_tabela(struct tabela *tab);
 void param(char **parametros,int num);
 void paramlist(char **parametros,char **identifiers,int num);
 char *tipo_func(char *tipo_func);
-
+struct elementos *verifica(struct elementos *elem,struct elementos *atual);    
 #endif

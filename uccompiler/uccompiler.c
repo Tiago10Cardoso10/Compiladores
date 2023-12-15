@@ -146,47 +146,121 @@ struct tabela criar_tabela(struct node *raiz) {
     
     struct node_list *save = raiz_aux2;
 
-    struct node_list *save2;
+    int j = 0;
+    const int MAX_SIZE = 300;
+    char *repet[MAX_SIZE];
 
-    struct node_list *save3;
-
+    struct tabela so_verifica;
     while (raiz_aux2 != NULL || save != NULL) {
+        int i = 0;
+        bool res = true;
         if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
-            functiondefinition(raiz_aux2,&tab);
+            while (res && i < j){
+                if (strcmp(repet[i], raiz_aux2->no->filhos->next->no->token) == 0){
+                    res = false;
+                }
+                i++;
+            }
+            if (res){
+
+                if(functiondefinition(raiz_aux2,&tab) != 1){
+                    repet[j] = raiz_aux2->no->filhos->next->no->token;
+                    j++;
+                }
+            }
+            repet[j] = raiz_aux2->no->filhos->next->no->token;
+            j++;
+            
         } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
-            functiondeclaration(raiz_aux2,&tab);
+            while (res && i < j){
+                if (strcmp(repet[i], raiz_aux2->no->filhos->next->no->token) == 0){
+                    res = false;
+                }
+                i++;
+            }
+            if (res){
+                if(functiondeclaration(raiz_aux2,&tab) != 1){
+                    repet[j] = raiz_aux2->no->filhos->next->no->token;
+                    j++;
+                }
+            }
         } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
-            declaration(raiz_aux2,&tab);
+            while (res && i < j){
+                if (strcmp(repet[i], raiz_aux2->no->filhos->next->no->token) == 0){
+                    res = false;
+                }
+                i++;
+            }
+            if (res){
+                if(declaration(raiz_aux2,&tab) != 1){
+                    repet[j] = raiz_aux2->no->filhos->next->no->token;
+                    j++;
+                }
+            }
         }
 
-        save = raiz_aux2; //g
-        save2 = raiz_aux2->no->irmaos; //NULL
-        save3 = save; //g
-        
-        if (raiz_aux2->next == NULL){ //NULL
-            save = raiz_aux2->no->irmaos; //NULL
-            while (save != NULL) {
-                if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
-                    functiondefinition(save,&tab);
-                } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
-                    functiondeclaration(save,&tab);
-                } else if (strcmp(save->no->tipo, "Declaration") == 0){
-                    declaration(save,&tab);
-                }
-                save = save->no->irmaos; //NULL
-            }
+        save = raiz_aux2;
+        if (raiz_aux2->next == NULL){
             
-            if(save2 != NULL && save2->no->irmaos != NULL){
-                raiz_aux2 = save2->no->irmaos->next;
-            }else if(save3 != NULL && save3->no->irmaos != NULL){
-                raiz_aux2 = save3->no->irmaos->next;
-            }else{
-                raiz_aux2 = raiz_aux2->next;
+            save = raiz_aux2->no->irmaos;
+            while (save != NULL) {
+                i = 0;
+                bool res = true;
+                if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
+                    while (res && i < j){
+                        if (strcmp(repet[i], save->no->filhos->next->no->token) == 0){
+                            res = false;
+                        }
+                        i++;
+                    }
+                    if (res){
+                        if(functiondefinition(save,&tab) != 1){
+                            repet[j] = save->no->filhos->next->no->token;
+                            j++;
+                        } 
+                    }
+                    
+                } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
+                    while (res && i < j){
+                        if (strcmp(repet[i], save->no->filhos->next->no->token) == 0){
+                            res = false;
+                        }
+                        i++;
+                    }
+                    if (res){
+                        if(functiondeclaration(save,&tab) != 1){
+                            repet[j] = save->no->filhos->next->no->token;
+                            j++;
+                        } 
+                    }
+                    repet[j] = save->no->filhos->next->no->token;
+                    j++;
+                    
+                } else if (strcmp(save->no->tipo, "Declaration") == 0){
+                    while (res && i < j){
+                        if (strcmp(repet[i], save->no->filhos->next->no->token) == 0){
+                            res = false;
+                        }
+                        i++;
+                    }
+                    if (res){
+                        if(declaration(save,&tab) != 1){
+                            repet[j] = save->no->filhos->next->no->token;
+                            j++;
+                        } 
+                    }
+                    
+                    
+                }
+                save = save->no->irmaos;
             }
+            raiz_aux2 = raiz_aux2->no->irmaos;
         }
         else{
-            raiz_aux2 = raiz_aux2->next; //
+            raiz_aux2 = raiz_aux2->next;
         }
+        
+        
     }
     return tab;
 }
@@ -260,15 +334,16 @@ void cria_especiasG(struct tabela *tab){
 }
 
 
-void declaration(struct node_list *ast,struct tabela *tab){
+int declaration(struct node_list *ast,struct tabela *tab){
     struct elementos *aux_tab = tab->elem;
 
     if(repeticao(aux_tab,ast->no->tipo,ast->no->filhos->next->no->token,ast->no->filhos->next->no->linha,ast->no->filhos->next->no->coluna) == 0){
         struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
         
-        if(strcmp(ast->no->filhos->no->tipo,"void")== 0){
-            printf("Line %d, column %ld: Invalid use of void type in declaration\n",ast->no->filhos->no->linha,ast->no->filhos->no->coluna-strlen(ast->no->filhos->no->tipo));
-            return;
+        
+        if(strcmp(ast->no->filhos->no->tipo,"Void")== 0){
+            printf("Line %d, column %ld: Invalid use of void type in declaration\n",ast->no->filhos->no->linha,ast->no->filhos->no->coluna-strlen(ast->no->filhos->next->no->token));
+            return 1;
         }
         
         char *guarda1 = ast->no->tipo;
@@ -301,7 +376,7 @@ void declaration(struct node_list *ast,struct tabela *tab){
     }
 }
 
-void functiondeclaration(struct node_list *ast,struct tabela *tab){
+int functiondeclaration(struct node_list *ast,struct tabela *tab){
     struct elementos *aux_tab = tab->elem;
 
     if(repeticao(aux_tab,ast->no->tipo,ast->no->filhos->next->no->token,ast->no->filhos->next->no->linha,ast->no->filhos->next->no->coluna) == 0){        
@@ -337,6 +412,7 @@ void functiondeclaration(struct node_list *ast,struct tabela *tab){
             if(aux_irmaos->no->filhos->next != NULL){
                 char *identifier = aux_irmaos->no->filhos->next->no->token;
 
+                
                 for(int i=0; i < contador; i++){
                     if(strcmp(tipo,aux_elem->param_t[i])== 0){
                         if(strcmp(identifier, aux_elem->param_i[i]) == 0){
@@ -344,23 +420,26 @@ void functiondeclaration(struct node_list *ast,struct tabela *tab){
                         }
                     }    
                 }
-
+                
+                
+                
                 if (strcmp(tipo,"void") == 0){
                     printf("Line %d, column %ld: Invalid use of void type in declaration\n",aux_irmaos->no->filhos->no->linha,aux_irmaos->no->filhos->no->coluna-strlen(tipo));
-                    return;
+                    return 1;
                 }
+                
                 aux_elem->param_i = (char**) realloc(aux_elem->param_i, (contador + 1) * sizeof(char*));
                 aux_elem->param_i[contador] = (char*) malloc((strlen(identifier) + 1) * sizeof(char));
                 strcpy(aux_elem->param_i[contador], identifier);
             } else {
                 char *identifier = "NULL";
-
+                
                 if (strcmp(tipo,"void") == 0){
                     contador_void++;
                 }
                 if(contador_void >= 1 && contador > 0){
                     printf("Line %d, column %ld: Invalid use of void type in declaration\n",aux_irmaos->no->filhos->no->linha,aux_irmaos->no->filhos->no->coluna-strlen(tipo));
-                    return;
+                    return 1;
                 } else{
                     aux_elem->param_i = (char**) realloc(aux_elem->param_i, (contador + 1) * sizeof(char*));
                     aux_elem->param_i[contador] = (char*) malloc((strlen(identifier) + 1) * sizeof(char));
@@ -394,7 +473,7 @@ void functiondeclaration(struct node_list *ast,struct tabela *tab){
     }
 }
 
-void functiondefinition(struct node_list *ast,struct tabela *tab){
+int functiondefinition(struct node_list *ast,struct tabela *tab){
     struct elementos *aux_tab = tab->elem;
 
     if(repeticao(aux_tab,ast->no->tipo,ast->no->filhos->next->no->token,ast->no->filhos->next->no->linha,ast->no->filhos->next->no->coluna) == 0){        
@@ -431,7 +510,7 @@ void functiondefinition(struct node_list *ast,struct tabela *tab){
 
             if(aux_irmaos->no->filhos->next != NULL){
                 char *identifier = aux_irmaos->no->filhos->next->no->token;
-
+                
                 for(int i=0; i < contador; i++){
                     if(strcmp(tipo,aux_elem->param_t[i])== 0){
                         if(strcmp(identifier, aux_elem->param_i[i]) == 0){
@@ -439,11 +518,13 @@ void functiondefinition(struct node_list *ast,struct tabela *tab){
                         }
                     }    
                 }
-
+                
+                
                 if (strcmp(tipo,"void") == 0){
                     printf("Line %d, column %ld: Invalid use of void type in declaration\n",aux_irmaos->no->filhos->no->linha,aux_irmaos->no->filhos->no->coluna-strlen(tipo));
-                    return;
+                    return 1;
                 }
+                
                 aux_elem->param_i = (char**) realloc(aux_elem->param_i, (contador + 1) * sizeof(char*));
                 aux_elem->param_i[contador] = (char*) malloc((strlen(identifier) + 1) * sizeof(char));
                 strcpy(aux_elem->param_i[contador], identifier);
@@ -455,7 +536,7 @@ void functiondefinition(struct node_list *ast,struct tabela *tab){
                 }
                 if(contador_void >= 1 && contador > 0){
                     printf("Line %d, column %ld: Invalid use of void type in declaration\n",aux_irmaos->no->filhos->no->linha,aux_irmaos->no->filhos->no->coluna-strlen(tipo));
-                    return;
+                    return 1;
                 } else{
                     aux_elem->param_i = (char**) realloc(aux_elem->param_i, (contador + 1) * sizeof(char*));
                     aux_elem->param_i[contador] = (char*) malloc((strlen(identifier) + 1) * sizeof(char));
@@ -483,6 +564,7 @@ void functiondefinition(struct node_list *ast,struct tabela *tab){
             if(strcmp(aux_body->no->tipo,"Declaration") == 0){
                 declaration(aux_body,aux_elem->nova);
             } 
+            
             else if (strcmp(aux_body->no->tipo,"Return") == 0){
                 if (strcmp(aux_body->no->filhos->no->tipo,"Identifier") == 0){
                     struct elementos *aux2 = search_symbol(tab,aux_body->no->filhos->no->token);
@@ -493,6 +575,7 @@ void functiondefinition(struct node_list *ast,struct tabela *tab){
                     }
                 }
             }
+            
             
             // Necessário ver os CALLS IF WHILE SOMAS ETC...
             
@@ -534,7 +617,7 @@ struct elementos *search_symbol(struct tabela *tab,char *identifier){
         }
         aux = aux->next;
     }
-    // Fazer procurar em parametros tbm se for preciso dar erro
+    
     return NULL;
 }
 
@@ -574,7 +657,6 @@ void imprime_tabela(struct tabela *tab){
             }
             if (res){
                 printf("%s\t%s\n",current_elem->identifier,current_elem->tipo_func);
-                
             }
             repet[j] = current_elem->identifier;
             j++;
@@ -599,24 +681,79 @@ void imprime_tabela(struct tabela *tab){
     }
     
     printf("\n");
+    // Ver erro do tes_matic3000
+    // Criar uma lista para verificar se já deu print ou não aquele identifier
+    int l = 0;
+    const int MAX_SIZEE = 50;
+    char *repet_fd[MAX_SIZEE];
 
     struct elementos *aux = tab->elem;
     while (aux != NULL) {
-        // Ver erro do tes_matic3000
-        if (strcmp(aux->tipo, "FuncDefinition") == 0) {
-            printf("===== Function %s Symbol Table =====\n",aux->identifier);
-            printf("return\t%s\n",aux->tipo_devolve);
-            paramlist(aux->param_t,aux->param_i,aux->nr_param);
+        int i = 0;
+        bool res = true;
+        struct elementos *veri = verifica(aux,aux);
+        if (veri == NULL){
+            if (strcmp(aux->tipo, "FuncDefinition") == 0) {
+                while (res && i < l){
+                    if (strcmp(repet_fd[i], aux->identifier) == 0){
+                        res = false;
+                    }
+                    i++;
+                }
+                if(res){
+                    printf("===== Function %s Symbol Table =====\n",aux->identifier);
+                    printf("return\t%s\n",aux->tipo_devolve);
+                    paramlist(aux->param_t,aux->param_i,aux->nr_param);
+                    while(aux->nova->elem){
+                        printf("%s\t%s\n",aux->nova->elem->identifier,aux->nova->elem->tipo_func);
+                        aux->nova->elem = aux->nova->elem->next;
+                    }
+                    printf("\n");
+                }
+                repet_fd[l] = aux->identifier;
+                l++;
+            } 
+        } else {
+            if (strcmp(veri->tipo, "FuncDefinition") == 0) {
+                while (res && i < l){
+                    if (strcmp(repet_fd[i], veri->identifier) == 0){
+                        res = false;
+                    }
+                    i++;
+                }
+                if(res){
+                    printf("===== Function %s Symbol Table =====\n",veri->identifier);
+                    printf("return\t%s\n",veri->tipo_devolve);
+                    paramlist(veri->param_t,veri->param_i,veri->nr_param);
 
-            while(aux->nova->elem){
-                printf("%s\t%s\n",aux->nova->elem->identifier,aux->nova->elem->tipo_func);
-                aux->nova->elem = aux->nova->elem->next;
-            }
-            printf("\n");
+                    while(veri->nova->elem){
+                        printf("%s\t%s\n",veri->nova->elem->identifier,veri->nova->elem->tipo_func);
+                        veri->nova->elem = veri->nova->elem->next;
+                    }
+                    printf("\n");
+                }
+                repet_fd[l] = veri->identifier;
+                l++;
+            } 
         }
         aux = aux->next;
     }
+}
+
+struct elementos *verifica(struct elementos *elem,struct elementos *atual){
     
+    while(elem != NULL){
+        if(strcmp(elem->tipo,atual->tipo) !=0 ){
+            if (strcmp(elem->tipo,"FuncDefinition")==0){
+                if(strcmp(elem->identifier,atual->identifier)==0){
+                    return elem;
+                }   
+            }
+            
+        }
+        elem = elem->next;
+    }
+    return NULL;
 }
 
 void param(char **parametros,int num){

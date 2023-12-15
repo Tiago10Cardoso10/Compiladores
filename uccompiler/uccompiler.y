@@ -88,8 +88,6 @@ Program:
     error                                                   {   nr_erro = 1;}
     | FunctionsAndDeclarations                              {   
                                                                 $$ = raiz = criar_no(no_raiz,"Program",NULL);
-                                                                $$->linha = @1.first_line;
-                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                             }
 
@@ -130,8 +128,6 @@ FunctionDefinition:
     TypeSpec FunctionDeclarator FunctionBody                {   
                                                                 
                                                                 $$ = criar_no(no_funcoes,"FuncDefinition",NULL);
-                                                                $$->linha = @1.first_line;
-                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_filho($$,$2);
                                                                 adicionar_filho($$,$3);
@@ -141,13 +137,9 @@ FunctionDefinition:
 FunctionBody: 
     LBRACE RBRACE                                           {
                                                                 $$ = criar_no(no_funcoes,"FuncBody",NULL);
-                                                                $$->linha = @1.first_line;
-                                                                $$->coluna= @1.first_column;
                                                             }
     | LBRACE DeclarationsAndStatements RBRACE               {
                                                                 $$ = criar_no(no_funcoes,"FuncBody",NULL);
-                                                                $$->linha = @1.first_line;
-                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$2);
                                                             }
     ;
@@ -176,8 +168,6 @@ DeclarationsAndStatements:
 FunctionDeclaration:
     TypeSpec FunctionDeclarator SEMI                        {
                                                                 $$ = criar_no(no_funcoes,"FuncDeclaration",NULL);
-                                                                $$->linha = @1.first_line;
-                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_filho($$,$2);
                                                             }
@@ -314,8 +304,8 @@ StatementsERROR:
     | LBRACE Statement2 RBRACE                              {
                                                                 if ($2!=NULL && $2->irmaos!=NULL){
                                                                     $$ = criar_no (no_statments,"StatList",NULL);
-                                                                    $$->linha = @1.first_line;
-                                                                    $$->coluna= @1.first_column;
+                                                                    $$->linha = @2.first_line;
+                                                                    $$->coluna= @2.first_column;
                                                                     adicionar_filho($$,$2);
                                                                 } else {
                                                                     $$=$2;
@@ -425,8 +415,8 @@ StatementERROR:
     | LBRACE Statement2 RBRACE                              {
                                                                 if ($2!=NULL && $2->irmaos!=NULL){
                                                                     $$ = criar_no (no_statments,"StatList",NULL);
-                                                                    $$->linha = @1.first_line;
-                                                                    $$->coluna= @1.first_column;
+                                                                    $$->linha = @2.first_line;
+                                                                    $$->coluna= @2.first_column;
                                                                     adicionar_filho($$,$2);
                                                                 } else {
                                                                     $$=$2;
