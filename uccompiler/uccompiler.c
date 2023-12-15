@@ -586,6 +586,7 @@ void paramlist(char **parametros,char **identifiers,int num){
                     no_repet[j] = identifiers[i];
                     j++;
                 }
+                res = false;
                 k++;
             }
             if (j == 0){
@@ -595,6 +596,7 @@ void paramlist(char **parametros,char **identifiers,int num){
             }
         }
         k = 0;
+        res = true;
     }
 }
 
