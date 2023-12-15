@@ -1,4 +1,6 @@
-int a(void);
-int b(void){}
-int a(void){}
+int v;
+int a;
+void as;
+double p,bs, test;
+void x, b;
 

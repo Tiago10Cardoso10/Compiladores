@@ -134,6 +134,8 @@ struct tabela criar_tabela(struct node *raiz) {
     cria_especiasG(&tab);
 
     struct node_list *raiz_aux = raiz->filhos;
+
+    /*
     if (strcmp(raiz_aux->no->tipo, "FuncDefinition") == 0) {
         functiondefinition(raiz_aux,&tab);
     } else if (strcmp(raiz_aux->no->tipo, "FuncDeclaration") == 0) {
@@ -141,53 +143,47 @@ struct tabela criar_tabela(struct node *raiz) {
     } else if (strcmp(raiz_aux->no->tipo, "Declaration") == 0) {
         declaration(raiz_aux,&tab);
     }
+    */
+
+    // Criar um contador de quantos irmaos estão na lista,ter em conta que está o primeiro da proxima linha
+    // Quando for maior que 2, sem contar com o da proxima lista o irmao sera o proximo da lista
+    // raiz_aux2->no->irmaos->next; sendo raiz_aux2 o p e se fizer novamente raiz_aux2 = raiz_aux2->no->irmaos->next; vamos para o x
+    // pois não havia mais irmaos de p da mesma linha, senão era esse
     
-    struct node_list *raiz_aux2 = raiz_aux->no->irmaos;
+
     
-    struct node_list *save = raiz_aux2;
+    /*
+        int v;
+        int a;
+        void as;
+        double p,bs, test;
+        void x, b;
 
-    struct node_list *save2;
+        printf("1-%s-%s\n",raiz_aux->no->tipo,raiz_aux->no->filhos->next->no->token);
+        raiz_aux = raiz_aux->no->irmaos;
+        printf("2-%s-%s\n",raiz_aux->no->tipo,raiz_aux->no->filhos->next->no->token);
+        raiz_aux = raiz_aux->no->irmaos;
+        printf("3-%s-%s\n",raiz_aux->no->tipo,raiz_aux->no->filhos->next->no->token);
+        raiz_aux = raiz_aux->no->irmaos;
+        struct node_list *raiz_aux2 = raiz_aux;
+        printf("4-%s-%s\n",raiz_aux->no->tipo,raiz_aux->no->filhos->next->no->token);
+        raiz_aux = raiz_aux->no->irmaos;
+        printf("5-%s-%s\n",raiz_aux->no->tipo,raiz_aux->no->filhos->next->no->token);
 
-    struct node_list *save3;
+        raiz_aux2 = raiz_aux2->no->irmaos->next;
+        printf("6-%s-%s\n",raiz_aux2->no->tipo,raiz_aux2->no->filhos->next->no->token);
+        raiz_aux2 = raiz_aux2->next;
+        printf("7-%s-%s\n",raiz_aux2->no->tipo,raiz_aux2->no->filhos->next->no->token);
 
-    while (raiz_aux2 != NULL || save != NULL) {
-        if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
-            functiondefinition(raiz_aux2,&tab);
-        } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
-            functiondeclaration(raiz_aux2,&tab);
-        } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
-            declaration(raiz_aux2,&tab);
-        }
+        raiz_aux2 = raiz_aux2->no->irmaos;
+        printf("8-%s-%s\n",raiz_aux2->no->tipo,raiz_aux2->no->filhos->next->no->token);
+    */
 
-        save = raiz_aux2; //a
-        save2 = raiz_aux2->no->irmaos; //as
-        save3 = save; //a
-        
-        if (raiz_aux2->next == NULL){ //NULL
-            save = raiz_aux2->no->irmaos; //as
-            while (save != NULL) {
-                if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
-                    functiondefinition(save,&tab);
-                } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
-                    functiondeclaration(save,&tab);
-                } else if (strcmp(save->no->tipo, "Declaration") == 0){
-                    declaration(save,&tab);
-                }
-                save = save->no->irmaos; //p bs test NULL
-            }
-            
-            if(save2 != NULL && save2->no->irmaos != NULL){
-                raiz_aux2 = save2->no->irmaos->next; 
-            }else if(save3 != NULL && save3->no->irmaos != NULL){
-                raiz_aux2 = save3->no->irmaos->next;
-            }else{
-                raiz_aux2 = raiz_aux2->next;
-            }
-        }
-        else{
-            raiz_aux2 = raiz_aux2->next; //
-        }
-    }
+
+
+    
+    
+    
     return tab;
 }
 
