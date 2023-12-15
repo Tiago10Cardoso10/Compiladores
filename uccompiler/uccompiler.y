@@ -227,8 +227,8 @@ ParameterDeclaration:
                                                                 $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 novo = criar_no(no_terminais,"Identifier",$2);
-                                                                novo->linha = @1.first_line;
-                                                                novo->coluna= @1.first_column;
+                                                                novo->linha = @2.first_line;
+                                                                novo->coluna= @2.first_column;
                                                                 adicionar_filho($$,novo);
                                                             }
     ;

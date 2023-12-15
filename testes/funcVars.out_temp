@@ -1,9 +1,9 @@
-Line 6, column 20: Symbol b already defined
-Line 8, column 21: Symbol c already defined
+Line 6, column 22: Symbol b already defined
+Line 8, column 23: Symbol c already defined
 Line 13, column 13: Invalid use of void type in declaration
 Line 16, column 13: Invalid use of void type in declaration
-Line 18, column 21: Symbol a already defined
-Line 19, column 21: Symbol a already defined
+Line 18, column 23: Symbol a already defined
+Line 19, column 23: Symbol a already defined
 Line 40, column 8: Invalid use of void type in declaration
 Line 42, column 8: Invalid use of void type in declaration
 Line 45, column 8: Invalid use of void type in declaration
@@ -31,7 +31,6 @@ b	int	param
 ===== Function error1 Symbol Table =====
 return	int
 c	int	param
-c	int	param
 
 ===== Function error2 Symbol Table =====
 return	void
@@ -41,7 +40,6 @@ return	void
 
 ===== Function error5 Symbol Table =====
 return	int
-a	int	param
 a	int	param
 r	int	param
 
