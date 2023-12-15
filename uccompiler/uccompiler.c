@@ -168,9 +168,6 @@ struct tabela criar_tabela(struct node *raiz) {
                     j++;
                 }
             }
-            repet[j] = raiz_aux2->no->filhos->next->no->token;
-            j++;
-            
         } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
             while (res && i < j){
                 if (strcmp(repet[i], raiz_aux2->no->filhos->next->no->token) == 0){
@@ -681,8 +678,6 @@ void imprime_tabela(struct tabela *tab){
     }
     
     printf("\n");
-    // Ver erro do tes_matic3000
-    // Criar uma lista para verificar se já deu print ou não aquele identifier
     int l = 0;
     const int MAX_SIZEE = 50;
     char *repet_fd[MAX_SIZEE];
@@ -697,8 +692,10 @@ void imprime_tabela(struct tabela *tab){
                 while (res && i < l){
                     if (strcmp(repet_fd[i], aux->identifier) == 0){
                         res = false;
+                        printf("1\n");
                     }
                     i++;
+                    printf("2\n");
                 }
                 if(res){
                     printf("===== Function %s Symbol Table =====\n",aux->identifier);
@@ -709,6 +706,7 @@ void imprime_tabela(struct tabela *tab){
                         aux->nova->elem = aux->nova->elem->next;
                     }
                     printf("\n");
+                    printf("3\n");
                 }
                 repet_fd[l] = aux->identifier;
                 l++;
@@ -718,8 +716,10 @@ void imprime_tabela(struct tabela *tab){
                 while (res && i < l){
                     if (strcmp(repet_fd[i], veri->identifier) == 0){
                         res = false;
+                        printf("4\n");
                     }
                     i++;
+                    printf("5\n");
                 }
                 if(res){
                     printf("===== Function %s Symbol Table =====\n",veri->identifier);
@@ -731,6 +731,7 @@ void imprime_tabela(struct tabela *tab){
                         veri->nova->elem = veri->nova->elem->next;
                     }
                     printf("\n");
+                    printf("6\n");
                 }
                 repet_fd[l] = veri->identifier;
                 l++;
