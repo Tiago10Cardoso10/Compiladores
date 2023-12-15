@@ -314,8 +314,8 @@ StatementsERROR:
     | LBRACE Statement2 RBRACE                              {
                                                                 if ($2!=NULL && $2->irmaos!=NULL){
                                                                     $$ = criar_no (no_statments,"StatList",NULL);
-                                                                    $$->linha = @1.first_line;
-                                                                    $$->coluna= @1.first_column;
+                                                                    $$->linha = @2.first_line;
+                                                                    $$->coluna= @2.first_column;
                                                                     adicionar_filho($$,$2);
                                                                 } else {
                                                                     $$=$2;
@@ -425,8 +425,8 @@ StatementERROR:
     | LBRACE Statement2 RBRACE                              {
                                                                 if ($2!=NULL && $2->irmaos!=NULL){
                                                                     $$ = criar_no (no_statments,"StatList",NULL);
-                                                                    $$->linha = @1.first_line;
-                                                                    $$->coluna= @1.first_column;
+                                                                    $$->linha = @2.first_line;
+                                                                    $$->coluna= @2.first_column;
                                                                     adicionar_filho($$,$2);
                                                                 } else {
                                                                     $$=$2;

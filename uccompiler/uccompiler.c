@@ -159,12 +159,12 @@ struct tabela criar_tabela(struct node *raiz) {
             declaration(raiz_aux2,&tab);
         }
 
-        save = raiz_aux2; //g
-        save2 = raiz_aux2->no->irmaos; //NULL
-        save3 = save; //g
+        save = raiz_aux2; //a
+        save2 = raiz_aux2->no->irmaos; //as
+        save3 = save; //a
         
         if (raiz_aux2->next == NULL){ //NULL
-            save = raiz_aux2->no->irmaos; //NULL
+            save = raiz_aux2->no->irmaos; //as
             while (save != NULL) {
                 if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
                     functiondefinition(save,&tab);
@@ -173,11 +173,11 @@ struct tabela criar_tabela(struct node *raiz) {
                 } else if (strcmp(save->no->tipo, "Declaration") == 0){
                     declaration(save,&tab);
                 }
-                save = save->no->irmaos; //NULL
+                save = save->no->irmaos; //p bs test NULL
             }
             
             if(save2 != NULL && save2->no->irmaos != NULL){
-                raiz_aux2 = save2->no->irmaos->next;
+                raiz_aux2 = save2->no->irmaos->next; 
             }else if(save3 != NULL && save3->no->irmaos != NULL){
                 raiz_aux2 = save3->no->irmaos->next;
             }else{
@@ -534,7 +534,7 @@ struct elementos *search_symbol(struct tabela *tab,char *identifier){
         }
         aux = aux->next;
     }
-    // Fazer procurar em parametros tbm se for preciso dar erro
+    
     return NULL;
 }
 
@@ -602,21 +602,54 @@ void imprime_tabela(struct tabela *tab){
 
     struct elementos *aux = tab->elem;
     while (aux != NULL) {
-        // Ver erro do tes_matic3000
-        if (strcmp(aux->tipo, "FuncDefinition") == 0) {
-            printf("===== Function %s Symbol Table =====\n",aux->identifier);
-            printf("return\t%s\n",aux->tipo_devolve);
-            paramlist(aux->param_t,aux->param_i,aux->nr_param);
 
-            while(aux->nova->elem){
-                printf("%s\t%s\n",aux->nova->elem->identifier,aux->nova->elem->tipo_func);
-                aux->nova->elem = aux->nova->elem->next;
-            }
-            printf("\n");
+        // Ver erro do tes_matic3000
+        // Criar uma lista para verificar se já deu print ou não aquele identifier
+        struct elementos *veri = verifica(aux,aux);
+        if (veri == NULL){
+            if (strcmp(aux->tipo, "FuncDefinition") == 0) {
+                printf("===== Function %s Symbol Table =====\n",aux->identifier);
+                printf("return\t%s\n",aux->tipo_devolve);
+                paramlist(aux->param_t,aux->param_i,aux->nr_param);
+
+                while(aux->nova->elem){
+                    printf("%s\t%s\n",aux->nova->elem->identifier,aux->nova->elem->tipo_func);
+                    aux->nova->elem = aux->nova->elem->next;
+                }
+                printf("\n");
+            } 
+        } else {
+            if (strcmp(veri->tipo, "FuncDefinition") == 0) {
+                printf("===== Function %s Symbol Table =====\n",veri->identifier);
+                printf("return\t%s\n",veri->tipo_devolve);
+                paramlist(veri->param_t,veri->param_i,veri->nr_param);
+
+                while(veri->nova->elem){
+                    printf("%s\t%s\n",veri->nova->elem->identifier,veri->nova->elem->tipo_func);
+                    veri->nova->elem = veri->nova->elem->next;
+                }
+                printf("\n");
+            } 
         }
         aux = aux->next;
     }
     
+}
+
+struct elementos *verifica(struct elementos *elem,struct elementos *atual){
+    
+    while(elem != NULL){
+        if(strcmp(elem->tipo,atual->tipo) !=0 ){
+            if (strcmp(elem->tipo,"FuncDefinition")==0){
+                if(strcmp(elem->identifier,atual->identifier)==0){
+                    return elem;
+                }   
+            }
+            
+        }
+        elem = elem->next;
+    }
+    return NULL;
 }
 
 void param(char **parametros,int num){

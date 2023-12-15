@@ -1,7 +1,7 @@
 Line 6, column 22: Symbol b already defined
 Line 8, column 23: Symbol c already defined
-Line 13, column 13: Invalid use of void type in declaration
-Line 16, column 13: Invalid use of void type in declaration
+Line 13, column 19: Invalid use of void type in declaration
+Line 16, column 19: Invalid use of void type in declaration
 Line 18, column 23: Symbol a already defined
 Line 19, column 23: Symbol a already defined
 Line 40, column 8: Invalid use of void type in declaration

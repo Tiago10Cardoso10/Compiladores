@@ -1797,8 +1797,8 @@ yyreduce:
                                                                 (yyval.no)->coluna= (yylsp[-1]).first_column;
                                                                 adicionar_filho((yyval.no),(yyvsp[-1].no));
                                                                 novo = criar_no(no_terminais,"Identifier",(yyvsp[0].v));
-                                                                novo->linha = (yylsp[-1]).first_line;
-                                                                novo->coluna= (yylsp[-1]).first_column;
+                                                                novo->linha = (yylsp[0]).first_line;
+                                                                novo->coluna= (yylsp[0]).first_column;
                                                                 adicionar_filho((yyval.no),novo);
                                                             }
 #line 1805 "y.tab.c"
@@ -1938,8 +1938,8 @@ yyreduce:
                                                             {
                                                                 if ((yyvsp[-1].no)!=NULL && (yyvsp[-1].no)->irmaos!=NULL){
                                                                     (yyval.no) = criar_no (no_statments,"StatList",NULL);
-                                                                    (yyval.no)->linha = (yylsp[-2]).first_line;
-                                                                    (yyval.no)->coluna= (yylsp[-2]).first_column;
+                                                                    (yyval.no)->linha = (yylsp[-1]).first_line;
+                                                                    (yyval.no)->coluna= (yylsp[-1]).first_column;
                                                                     adicionar_filho((yyval.no),(yyvsp[-1].no));
                                                                 } else {
                                                                     (yyval.no)=(yyvsp[-1].no);
@@ -2090,8 +2090,8 @@ yyreduce:
                                                             {
                                                                 if ((yyvsp[-1].no)!=NULL && (yyvsp[-1].no)->irmaos!=NULL){
                                                                     (yyval.no) = criar_no (no_statments,"StatList",NULL);
-                                                                    (yyval.no)->linha = (yylsp[-2]).first_line;
-                                                                    (yyval.no)->coluna= (yylsp[-2]).first_column;
+                                                                    (yyval.no)->linha = (yylsp[-1]).first_line;
+                                                                    (yyval.no)->coluna= (yylsp[-1]).first_column;
                                                                     adicionar_filho((yyval.no),(yyvsp[-1].no));
                                                                 } else {
                                                                     (yyval.no)=(yyvsp[-1].no);
