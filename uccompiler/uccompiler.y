@@ -88,6 +88,8 @@ Program:
     error                                                   {   nr_erro = 1;}
     | FunctionsAndDeclarations                              {   
                                                                 $$ = raiz = criar_no(no_raiz,"Program",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                             }
 
@@ -128,6 +130,8 @@ FunctionDefinition:
     TypeSpec FunctionDeclarator FunctionBody                {   
                                                                 
                                                                 $$ = criar_no(no_funcoes,"FuncDefinition",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_filho($$,$2);
                                                                 adicionar_filho($$,$3);
@@ -137,9 +141,13 @@ FunctionDefinition:
 FunctionBody: 
     LBRACE RBRACE                                           {
                                                                 $$ = criar_no(no_funcoes,"FuncBody",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                             }
     | LBRACE DeclarationsAndStatements RBRACE               {
                                                                 $$ = criar_no(no_funcoes,"FuncBody",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$2);
                                                             }
     ;
@@ -168,6 +176,8 @@ DeclarationsAndStatements:
 FunctionDeclaration:
     TypeSpec FunctionDeclarator SEMI                        {
                                                                 $$ = criar_no(no_funcoes,"FuncDeclaration",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_filho($$,$2);
                                                             }
@@ -185,6 +195,8 @@ FunctionDeclarator:
 ParameterList:
     ParameterDeclaration ParameterList2                     {
                                                                 $$ = criar_no(no_funcoes,"ParamList",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 
                                                                 if ($2 != NULL){
@@ -205,14 +217,18 @@ ParameterList2: /* empty */                                 {   $$ = NULL;}
 ParameterDeclaration: 
     TypeSpec                                                {
                                                                 $$ = criar_no(no_funcoes,"ParamDeclaration",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                             }
     | TypeSpec IDENTIFIER                                   {
                                                                 $$ = criar_no(no_funcoes,"ParamDeclaration",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 novo = criar_no(no_terminais,"Identifier",$2);
-                                                                novo->linha = @1.first_line;
-                                                                novo->coluna= @1.first_column;
+                                                                novo->linha = @2.first_line;
+                                                                novo->coluna= @2.first_column;
                                                                 adicionar_filho($$,novo);
                                                             }
     ;
@@ -268,6 +284,8 @@ TypeSpec:
 Declarator:
     IDENTIFIER                                              {
                                                                 $$ = criar_no(no_declaracao,"Declaration",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 novo = criar_no(no_terminais,"Identifier",$1);
                                                                 novo->linha = @1.first_line;
                                                                 novo->coluna= @1.first_column;
@@ -275,6 +293,8 @@ Declarator:
                                                             }
     | IDENTIFIER ASSIGN Expr2                               {
                                                                 $$ = criar_no(no_declaracao,"Declaration",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 novo = criar_no(no_terminais,"Identifier",$1);
                                                                 novo->linha = @1.first_line;
                                                                 novo->coluna= @1.first_column;
@@ -294,6 +314,8 @@ StatementsERROR:
     | LBRACE Statement2 RBRACE                              {
                                                                 if ($2!=NULL && $2->irmaos!=NULL){
                                                                     $$ = criar_no (no_statments,"StatList",NULL);
+                                                                    $$->linha = @1.first_line;
+                                                                    $$->coluna= @1.first_column;
                                                                     adicionar_filho($$,$2);
                                                                 } else {
                                                                     $$=$2;
@@ -306,12 +328,16 @@ StatementsERROR:
 
     | IF LPAR Expr2 RPAR StatementERROR ELSE StatementERROR {
                                                                 $$ = criar_no(no_statments,"If",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 if($5 == NULL){
                                                                         adicionar_filho($$, criar_no(no_especial,"Null",NULL));
                                                                     } else if($5->irmaos != NULL){
                                                                         novo = criar_no(no_statments,"StatList",NULL);
+                                                                        novo->linha = @1.first_line;
+                                                                        novo->coluna= @1.first_column;
                                                                         adicionar_filho($$, novo);
                                                                         adicionar_irmao(novo->filhos->no, $5);
                                                                     } else {
@@ -321,6 +347,8 @@ StatementsERROR:
                                                                     adicionar_filho($$, criar_no(no_especial,"Null",NULL));
                                                                 } else if($7->irmaos != NULL){
                                                                     novo = criar_no(no_statments,"StatList",NULL);
+                                                                    novo->linha = @1.first_line;
+                                                                    novo->coluna= @1.first_column;
                                                                     adicionar_filho($$, novo);
                                                                     adicionar_irmao(novo->filhos->no, $7);
                                                                 } else {
@@ -330,26 +358,34 @@ StatementsERROR:
     | IF LPAR Expr2 RPAR StatementERROR                     {
                                                                 
                                                                 $$ = criar_no(no_statments,"If",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 if($5 == NULL){
                                                                     adicionar_irmao($3, criar_no(no_especial,"Null",NULL));
                                                                 } else if ($5->irmaos != NULL){ 
                                                                     novo = criar_no(no_statments,"StatList",NULL);
+                                                                    novo->linha = @1.first_line;
+                                                                    novo->coluna= @1.first_column;
                                                                     adicionar_filho($$,novo);
                                                                     adicionar_irmao(novo->filhos->no,$5);
                                                                 } else{
                                                                     adicionar_filho($$, $5);
                                                                 }
-                                                                adicionar_filho($$, criar_no(no_especial,"Null", NULL));
+                                                                
+                                                                adicionar_filho($$, criar_no(no_especial,"Null",NULL));
                                                             }
 
     | WHILE LPAR Expr2 RPAR StatementERROR                  {
                                                                 
                                                                 $$ = criar_no(no_statments,"While",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 if($5 == NULL){
+                                                                    
                                                                     adicionar_filho($$, criar_no(no_especial,"Null",NULL));
                                                                 } else {
                                                                     adicionar_filho($$,$5);
@@ -359,11 +395,17 @@ StatementsERROR:
 
     | RETURN Expr2 SEMI                                     {
                                                                 $$ = criar_no(no_statments,"Return",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$2);
                                                             }
     | RETURN SEMI                                           {
                                                                 $$ = criar_no(no_statments,"Return",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 novo = criar_no(no_especial, "Null",NULL);
+                                                                novo->linha = @1.first_line;
+                                                                novo->coluna= @1.first_column;
                                                                 adicionar_filho($$,novo); 
                                                             }
 
@@ -383,6 +425,8 @@ StatementERROR:
     | LBRACE Statement2 RBRACE                              {
                                                                 if ($2!=NULL && $2->irmaos!=NULL){
                                                                     $$ = criar_no (no_statments,"StatList",NULL);
+                                                                    $$->linha = @1.first_line;
+                                                                    $$->coluna= @1.first_column;
                                                                     adicionar_filho($$,$2);
                                                                 } else {
                                                                     $$=$2;
@@ -393,21 +437,29 @@ StatementERROR:
                                                             }
     | IF LPAR Expr2 RPAR StatementERROR ELSE StatementERROR {
                                                                 $$ = criar_no(no_statments,"If",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 if($5 == NULL){
+                                                                        
                                                                         adicionar_filho($$, criar_no(no_especial,"Null",NULL));
                                                                     } else if($5->irmaos != NULL){
                                                                         novo = criar_no(no_statments,"StatList",NULL);
+                                                                        novo->linha = @1.first_line;
+                                                                        novo->coluna= @1.first_column;
                                                                         adicionar_filho($$, novo);
                                                                         adicionar_irmao(novo->filhos->no, $5);
                                                                     } else {
                                                                         adicionar_filho($$, $5);
                                                                     }
                                                                 if($7 == NULL){
+                                                                    
                                                                     adicionar_filho($$, criar_no(no_especial,"Null",NULL));
                                                                 } else if($7->irmaos != NULL){
                                                                     novo = criar_no(no_statments,"StatList",NULL);
+                                                                    novo->linha = @1.first_line;
+                                                                    novo->coluna= @1.first_column;
                                                                     adicionar_filho($$, novo);
                                                                     adicionar_irmao(novo->filhos->no, $7);
                                                                 } else {
@@ -417,26 +469,35 @@ StatementERROR:
     | IF LPAR Expr2 RPAR StatementERROR                      {
                                                                 
                                                                 $$ = criar_no(no_statments,"If",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 if($5 == NULL){
+                                                                    
                                                                     adicionar_irmao($3, criar_no(no_especial,"Null",NULL));
                                                                 } else if ($5->irmaos != NULL){ 
                                                                     novo = criar_no(no_statments,"StatList",NULL);
+                                                                    novo->linha = @1.first_line;
+                                                                    novo->coluna= @1.first_column;
                                                                     adicionar_filho($$,novo);
                                                                     adicionar_irmao(novo->filhos->no,$5);
                                                                 } else{
                                                                     adicionar_filho($$, $5);
                                                                 }
-                                                                adicionar_filho($$, criar_no(no_especial,"Null", NULL));
+                                                                
+                                                                adicionar_filho($$, criar_no(no_especial,"Null",NULL));
                                                             }
     
     | WHILE LPAR Expr2 RPAR StatementERROR                  {
                                                                 
                                                                 $$ = criar_no(no_statments,"While",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$3);
                                                                 
                                                                 if($5 == NULL){
+                                                                
                                                                     adicionar_filho($$, criar_no(no_especial,"Null",NULL));
                                                                 } else {
                                                                     adicionar_filho($$,$5);
@@ -445,11 +506,17 @@ StatementERROR:
     | RETURN Expr2 SEMI                                     {
                                                                 
                                                                 $$ = criar_no(no_statments,"Return",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$2);
                                                             }
     | RETURN SEMI                                           {
                                                                 $$ = criar_no(no_statments,"Return",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 novo = criar_no(no_especial, "Null",NULL);
+                                                                novo->linha = @1.first_line;
+                                                                novo->coluna= @1.first_column;
                                                                 adicionar_filho($$,novo);
                                                             }
     
@@ -478,6 +545,8 @@ Expr:
     Expr ASSIGN Expr                                        {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Store",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
@@ -486,6 +555,8 @@ Expr:
     | Expr PLUS Expr                                        {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Add",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
@@ -493,6 +564,8 @@ Expr:
     | Expr MINUS Expr                                       {   
                                                                 
                                                                 $$ = criar_no(no_operadores,"Sub",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
@@ -500,6 +573,8 @@ Expr:
     | Expr MUL Expr                                         {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Mul",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
@@ -507,6 +582,8 @@ Expr:
     | Expr DIV Expr                                         {   
                                                                 
                                                                 $$ = criar_no(no_operadores,"Div",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
@@ -514,6 +591,8 @@ Expr:
     | Expr MOD Expr                                         {   
                                                                 
                                                                 $$ = criar_no(no_operadores,"Mod",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
@@ -522,6 +601,8 @@ Expr:
     | Expr OR Expr                                          {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Or",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
@@ -529,6 +610,8 @@ Expr:
     | Expr AND Expr                                         {
                                                                 
                                                                 $$ = criar_no(no_operadores,"And",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
@@ -536,51 +619,69 @@ Expr:
     | Expr BITWISEAND Expr                                  {
                                                                 
                                                                 $$ = criar_no(no_operadores,"BitWiseAnd",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
                                                             }
     | Expr BITWISEOR Expr                                   {
                                                                 $$ = criar_no(no_operadores,"BitWiseOr",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                             }
     | Expr BITWISEXOR Expr                                  {
                                                                 $$ = criar_no(no_operadores,"BitWiseXor",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                             }
 
     | Expr EQ Expr                                          {
                                                                 $$ = criar_no(no_operadores,"Eq",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                             }
     | Expr NE Expr                                          {   
                                                                 $$ = criar_no(no_operadores,"Ne",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                             }
     | Expr LE Expr                                          {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Le",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
                                                             }
     | Expr GE Expr                                          {
                                                                 $$ = criar_no(no_operadores,"Ge",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                             }
     | Expr LT Expr                                          {
                                                                 $$ = criar_no(no_operadores,"Lt",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                                 
                                                             }
     | Expr GT Expr                                          {
                                                                 $$ = criar_no(no_operadores,"Gt",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$1);
                                                                 adicionar_irmao($1,$3);
                                                             }
@@ -588,17 +689,23 @@ Expr:
     | PLUS Expr   %prec MUL                             {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Plus",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$2);
                                                                 
                                                             }
     | MINUS Expr  %prec MUL                             {   
                                                                 
                                                                 $$ = criar_no(no_operadores,"Minus",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$2);
                                                             }
     | NOT Expr                                   {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Not",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 adicionar_filho($$,$2);
                                                                 
                                                             }
@@ -606,6 +713,8 @@ Expr:
     | IDENTIFIER LPAR Expr Expr3 RPAR                       {
                                                                 
                                                                 $$ = criar_no(no_operadores,"Call",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 novo = criar_no(no_terminais,"Identifier",$1);
                                                                 novo->linha = @1.first_line;
                                                                 novo->coluna= @1.first_column;
@@ -616,6 +725,8 @@ Expr:
                                                             }
     | IDENTIFIER LPAR RPAR                                  {
                                                                 $$ = criar_no(no_operadores,"Call",NULL);
+                                                                $$->linha = @1.first_line;
+                                                                $$->coluna= @1.first_column;
                                                                 novo = criar_no(no_terminais,"Identifier",$1);
                                                                 novo->linha = @1.first_line;
                                                                 novo->coluna= @1.first_column;
@@ -662,6 +773,8 @@ Expr2:
     Expr                                                    {   $$ = $1;}
     | Expr2 COMMA Expr                                      {   if($1 != NULL){
                                                                     $$ = criar_no(no_operadores,"Comma",NULL);
+                                                                    $$->linha = @1.first_line;
+                                                                    $$->coluna= @1.first_column;
                                                                     adicionar_filho($$,$1);
                                                                     adicionar_irmao($1,$3);
                                                                 } else {

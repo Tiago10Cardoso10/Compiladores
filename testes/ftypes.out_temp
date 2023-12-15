@@ -1,0 +1,64 @@
+Line 3, column 8: Invalid use of void type in declaration
+Line 11, column 9: Conflicting types (got void, expected int)
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+f	void(int)
+g	double(void)
+main	int(void)
+
+===== Function f Symbol Table =====
+return	void
+f	int	param
+
+===== Function main Symbol Table =====
+return	int
+
+Program
+..FuncDefinition
+....Void
+....Identifier(f)
+....ParamList
+......ParamDeclaration
+........Int
+........Identifier(f)
+....FuncBody
+..FuncDeclaration
+....Double
+....Identifier(g)
+....ParamList
+......ParamDeclaration
+........Void
+..FuncDeclaration
+....Void
+....Identifier(h)
+....ParamList
+......ParamDeclaration
+........Void
+........Identifier(v)
+..FuncDefinition
+....Int
+....Identifier(main)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+......Add
+........Identifier(f)
+........Identifier(g)
+......Store
+........Identifier(f)
+........Call
+..........Identifier(g)
+......Comma
+........Identifier(g)
+........Identifier(_)
+......Not
+........Call
+..........Identifier(g)
+......BitWiseXor
+........Call
+..........Identifier(g)
+........Identifier(f)
+......Return
+........Identifier(f)

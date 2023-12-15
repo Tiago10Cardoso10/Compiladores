@@ -1,6 +1,7 @@
-Line 11, column 9: Symbol soma already defined
-Line 15, column 10: Symbol soma already defined
-Line 19, column 9: Symbol soma already defined
+Line 11, column 5: Symbol soma already defined
+Line 15, column 6: Symbol soma already defined
+Line 19, column 5: Symbol soma already defined
+Line 24, column 8: Conflicting types (got int, expected void)
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)

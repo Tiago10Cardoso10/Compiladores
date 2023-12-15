@@ -1,0 +1,274 @@
+Line 6, column 22: Symbol b already defined
+Line 8, column 23: Symbol c already defined
+Line 13, column 13: Invalid use of void type in declaration
+Line 16, column 13: Invalid use of void type in declaration
+Line 18, column 23: Symbol a already defined
+Line 19, column 23: Symbol a already defined
+Line 28, column 6: Operator , cannot be applied to types int, int(int)
+Line 29, column 8: Operator , cannot be applied to types int(int), int
+Line 30, column 8: Operator , cannot be applied to types int(int), int(int)
+Line 31, column 8: Wrong number of arguments to function ola (got 0, required 1)
+Line 33, column 8: Wrong number of arguments to function ola (got 2, required 1)
+Line 34, column 8: Operator , cannot be applied to types int(int), int
+Line 35, column 5: Wrong number of arguments to function ola (got 0, required 1)
+Line 37, column 7: Operator + cannot be applied to types int, int(int)
+Line 40, column 8: Invalid use of void type in declaration
+Line 42, column 8: Invalid use of void type in declaration
+Line 45, column 8: Invalid use of void type in declaration
+Line 47, column 8: Invalid use of void type in declaration
+Line 50, column 17: Invalid use of void type in declaration
+Line 52, column 19: Invalid use of void type in declaration
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+bye	int(int,int)
+error	int(int,int)
+error1	int(int,int)
+error2	void(void)
+error3	void(void)
+error4	int(int,int,int)
+error5	int(int,int,int)
+ola	int(int)
+main	int(void)
+
+===== Function bye Symbol Table =====
+return	int
+a	int	param
+b	int	param
+
+===== Function error1 Symbol Table =====
+return	int
+c	int	param
+
+===== Function error2 Symbol Table =====
+return	void
+
+===== Function error3 Symbol Table =====
+return	void
+
+===== Function error5 Symbol Table =====
+return	int
+a	int	param
+r	int	param
+
+===== Function ola Symbol Table =====
+return	int
+a	int	param
+
+===== Function main Symbol Table =====
+return	int
+
+Program
+..FuncDeclaration
+....Int
+....Identifier(bye)
+....ParamList
+......ParamDeclaration
+........Int
+........Identifier(a)
+......ParamDeclaration
+........Int
+........Identifier(b)
+..FuncDefinition
+....Int
+....Identifier(bye)
+....ParamList
+......ParamDeclaration
+........Int
+........Identifier(a)
+......ParamDeclaration
+........Int
+........Identifier(b)
+....FuncBody
+..FuncDeclaration
+....Int
+....Identifier(error)
+....ParamList
+......ParamDeclaration
+........Int
+........Identifier(b)
+......ParamDeclaration
+........Int
+........Identifier(b)
+..FuncDefinition
+....Int
+....Identifier(error1)
+....ParamList
+......ParamDeclaration
+........Int
+........Identifier(c)
+......ParamDeclaration
+........Int
+........Identifier(c)
+....FuncBody
+..FuncDefinition
+....Void
+....Identifier(error2)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+..FuncDeclaration
+....Void
+....Identifier(error2)
+....ParamList
+......ParamDeclaration
+........Void
+......ParamDeclaration
+........Void
+..FuncDefinition
+....Void
+....Identifier(error3)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+..FuncDeclaration
+....Void
+....Identifier(error3)
+....ParamList
+......ParamDeclaration
+........Void
+......ParamDeclaration
+........Void
+..FuncDeclaration
+....Int
+....Identifier(error4)
+....ParamList
+......ParamDeclaration
+........Int
+........Identifier(a)
+......ParamDeclaration
+........Int
+........Identifier(a)
+......ParamDeclaration
+........Int
+........Identifier(r)
+..FuncDefinition
+....Int
+....Identifier(error5)
+....ParamList
+......ParamDeclaration
+........Int
+........Identifier(a)
+......ParamDeclaration
+........Int
+........Identifier(a)
+......ParamDeclaration
+........Int
+........Identifier(r)
+....FuncBody
+..FuncDefinition
+....Int
+....Identifier(ola)
+....ParamList
+......ParamDeclaration
+........Int
+........Identifier(a)
+....FuncBody
+..FuncDefinition
+....Int
+....Identifier(main)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+......Comma - undef
+........Natural(1) - int
+........Identifier(ola) - int(int)
+......Comma - int
+........Identifier(ola) - int(int)
+........Natural(1) - int
+......Comma - undef
+........Identifier(ola) - int(int)
+........Identifier(ola) - int(int)
+......Comma - int
+........Natural(1) - int
+........Call - int
+..........Identifier(ola) - int(int)
+......Comma - int
+........Natural(1) - int
+........Call - int
+..........Identifier(ola) - int(int)
+..........Natural(1) - int
+......Comma - int
+........Natural(1) - int
+........Call - int
+..........Identifier(ola) - int(int)
+..........Natural(1) - int
+..........Natural(2) - int
+......Comma - int
+........Identifier(ola) - int(int)
+........Natural(1) - int
+......Comma - int
+........Call - int
+..........Identifier(ola) - int(int)
+........Natural(1) - int
+......Comma - int
+........Call - int
+..........Identifier(ola) - int(int)
+..........Natural(1) - int
+........Natural(1) - int
+......Add - undef
+........Natural(1) - int
+........Identifier(ola) - int(int)
+..FuncDeclaration
+....Void
+....Identifier(a)
+....ParamList
+......ParamDeclaration
+........Void
+........Identifier(a)
+..FuncDefinition
+....Void
+....Identifier(b)
+....ParamList
+......ParamDeclaration
+........Void
+........Identifier(a)
+....FuncBody
+..FuncDeclaration
+....Void
+....Identifier(c)
+....ParamList
+......ParamDeclaration
+........Void
+........Identifier(a)
+......ParamDeclaration
+........Void
+........Identifier(b)
+..FuncDefinition
+....Void
+....Identifier(d)
+....ParamList
+......ParamDeclaration
+........Void
+........Identifier(a)
+......ParamDeclaration
+........Void
+........Identifier(b)
+....FuncBody
+..FuncDeclaration
+....Void
+....Identifier(e)
+....ParamList
+......ParamDeclaration
+........Int
+........Identifier(ola)
+......ParamDeclaration
+........Void
+........Identifier(a)
+..FuncDefinition
+....Void
+....Identifier(f)
+....ParamList
+......ParamDeclaration
+........Int
+........Identifier(adeus)
+......ParamDeclaration
+........Void
+........Identifier(a)
+....FuncBody
+......Comma
+........Identifier(j)
+........Identifier(f)

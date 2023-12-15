@@ -20,7 +20,7 @@ int colunareserved = 0;
 int flag = 0;
 
 extern int nr_erro;
-extern struct node *raiz;;
+extern struct node *raiz;
 
 
 %}
@@ -160,28 +160,28 @@ semi ";"
                                                     }
                                                 }
 
-{enter}                 {   linha++;coluna = 1;yylloc.first_line =  linha;}
+{enter}                 {   linha++;coluna = 1;yylloc.first_line =  linha;yylloc.first_column = coluna;}
 
 [ \t\n]                 {   coluna+=yyleng;yylloc.first_column = coluna;}
 
 "/*"                    {   BEGIN(COMMENT); colunareserved = coluna; linhareserved = linha; coluna+=yyleng;yylloc.first_column = coluna;}
 "//"                    {   BEGIN(COMMENT2); colunareserved = coluna; linhareserved = linha; coluna+=yyleng;yylloc.first_column = coluna;}
 
-<COMMENT>\n|\r|(\n\r)   {   coluna = 1; linha++;}
+<COMMENT>\n|\r|(\n\r)   {   coluna = 1; linha++;yylloc.first_line =  linha;yylloc.first_column = coluna;}
 
-<COMMENT>"*/"           {   BEGIN(INITIAL); coluna+=yyleng;}
+<COMMENT>"*/"           {   BEGIN(INITIAL); coluna+=yyleng;yylloc.first_column = coluna;}
 
-<COMMENT>.              {   coluna+= yyleng; }
+<COMMENT>.              {   coluna+= yyleng; yylloc.first_column = coluna;}
 
 <COMMENT><<EOF>>        {   
                             printf("Line %d, column %d: unterminated comment\n",linhareserved,colunareserved);
                             return 0;
                         }
 
-<COMMENT2>.             {   coluna+=yyleng;}
-<COMMENT2>\n|\r|(\n\r)  {   BEGIN(INITIAL); coluna = 1; linha++;}
+<COMMENT2>.             {   coluna+=yyleng;yylloc.first_column = coluna;}
+<COMMENT2>\n|\r|(\n\r)  {   BEGIN(INITIAL); coluna = 1; linha++;yylloc.first_column = coluna;yylloc.first_line =  linha;}
 
-{achrlit}                           {if(flag == 1)printf("CHRLIT(%s)\n", yytext); coluna += yyleng;yylloc.first_column = coluna;if(flag != 1){yylval.v = strdup(yytext);return CHRLIT;}}
+{achrlit}                           {if(flag == 1){printf("CHRLIT(%s)\n", yytext);} coluna += yyleng;yylloc.first_column = coluna;if(flag != 1){yylval.v = strdup(yytext);return CHRLIT;}}
 '(({chrlit})*|([^\n\r'])*)          {printf("Line %d, column %d: unterminated char constant\n", linha, coluna); coluna += yyleng; yylloc.first_column = coluna;}
 '({chrlit}|\\[^\n'])*'              {printf("Line %d, column %d: invalid char constant (%s)\n", linha, coluna, yytext); coluna += yyleng; yylloc.first_column = coluna;}
 
