@@ -844,11 +844,44 @@ void imprime_tabela(struct tabela *tab){
                 if(res){
                     printf("===== Function %s Symbol Table =====\n",aux->identifier);
                     printf("return\t%s\n",aux->tipo_devolve);
-                    paramlist(aux->param_t,aux->param_i,aux->nr_param);
-                    while(aux->nova->elem){
-                        printf("%s\t%s\n",aux->nova->elem->identifier,aux->nova->elem->tipo_func);
-                        aux->nova->elem = aux->nova->elem->next;
 
+                    const int MAX_SIZE = 50;
+                    char **no_repet = (char **)malloc(MAX_SIZE * sizeof(char *));
+
+                    if (no_repet != NULL) {
+                        int j = 0;
+                        bool res = true;
+                        int k = 0;
+
+                        for (int i = 0; i < aux->nr_param; i++) {
+                            if (strcmp(aux->param_i[i], "NULL") != 0) {
+                                while (k < j && res) {
+                                    if (strcmp(no_repet[k], aux->param_i[i]) != 0) {
+                                        printf("%s\t%s\tparam\n", aux->param_i[i], aux->param_t[i]);
+                                        no_repet[j] = aux->param_i[i];
+                                        j++;
+                                    }
+                                    res = false;
+                                    k++;
+                                }
+                                if (j == 0) {
+                                    printf("%s\t%s\tparam\n", aux->param_i[i], aux->param_t[i]);
+                                    no_repet[j] = aux->param_i[i];
+                                    j++;
+                                }
+                            }
+                            k = 0;
+                            res = true;
+                        }
+                    }
+
+                    while(aux->nova->elem){
+                        for(int i = 0; i < aux->nr_param; i++){
+                            if(strcmp(no_repet[i], aux->nova->elem->identifier)== 0){
+                                printf("%s\t%s\n",aux->nova->elem->identifier,aux->nova->elem->tipo_func);
+                            }
+                        }
+                        aux->nova->elem = aux->nova->elem->next;
                     }
                     printf("\n");
                 }
@@ -866,10 +899,43 @@ void imprime_tabela(struct tabela *tab){
                 if(res){
                     printf("===== Function %s Symbol Table =====\n",veri->identifier);
                     printf("return\t%s\n",veri->tipo_devolve);
-                    paramlist(veri->param_t,veri->param_i,veri->nr_param);
+
+                    const int MAX_SIZEE = 50;
+                    char **no_repet2 = (char **)malloc(MAX_SIZEE * sizeof(char *));
+
+                    if (no_repet2 != NULL) {
+                        int j = 0;
+                        bool res = true;
+                        int k = 0;
+
+                        for (int i = 0; i < veri->nr_param; i++) {
+                            if (strcmp(veri->param_i[i], "NULL") != 0) {
+                                while (k < j && res) {
+                                    if (strcmp(no_repet2[k], veri->param_i[i]) != 0) {
+                                        printf("%s\t%s\tparam\n", veri->param_i[i], veri->param_t[i]);
+                                        no_repet2[j] = veri->param_i[i];
+                                        j++;
+                                    }
+                                    res = false;
+                                    k++;
+                                }
+                                if (j == 0) {
+                                    printf("%s\t%s\tparam\n", veri->param_i[i], veri->param_t[i]);
+                                    no_repet2[j] = veri->param_i[i];
+                                    j++;
+                                }
+                            }
+                            k = 0;
+                            res = true;
+                        }
+                    }
 
                     while(veri->nova->elem){
-                        printf("%s\t%s\n",veri->nova->elem->identifier,veri->nova->elem->tipo_func);
+                        for(int i = 0; i < veri->nr_param; i++){
+                            if(strcmp(no_repet2[i], veri->nova->elem->identifier)== 0){
+                                printf("%s\t%s\n",veri->nova->elem->identifier,veri->nova->elem->tipo_func);
+                            }
+                        }
                         veri->nova->elem = veri->nova->elem->next;
                     }
                     printf("\n");
@@ -909,36 +975,35 @@ void param(char **parametros,int num){
     }
 }
 
-void paramlist(char **parametros,char **identifiers,int num){
-
+void paramlist(char **parametros, char **identifiers, int num) {
     const int MAX_SIZE = 50;
-    char *no_repet[MAX_SIZE];
+    char **no_repet = (char **)malloc(MAX_SIZE * sizeof(char *));
 
-    int j = 0;
-    bool res = true;
-    int k = 0;
+    if (no_repet != NULL) {
+        int j = 0;
+        bool res = true;
+        int k = 0;
 
-    for(int i = 0; i < num; i++){
-        if(strcmp(identifiers[i],"NULL") != 0){
-            
-            while(k < j && res){
-                if(strcmp(no_repet[k],identifiers[i]) != 0){
-                    printf("%s\t%s\tparam\n",identifiers[i],parametros[i]);
+        for (int i = 0; i < num; i++) {
+            if (strcmp(identifiers[i], "NULL") != 0) {
+                while (k < j && res) {
+                    if (strcmp(no_repet[k], identifiers[i]) != 0) {
+                        printf("%s\t%s\tparam\n", identifiers[i], parametros[i]);
+                        no_repet[j] = identifiers[i];
+                        j++;
+                    }
+                    res = false;
+                    k++;
+                }
+                if (j == 0) {
+                    printf("%s\t%s\tparam\n", identifiers[i], parametros[i]);
                     no_repet[j] = identifiers[i];
                     j++;
                 }
-                res = false;
-                k++;
             }
-            if (j == 0){
-                printf("%s\t%s\tparam\n",identifiers[i],parametros[i]);
-                no_repet[j] = identifiers[i];
-                j++;
-            }
-            
+            k = 0;
+            res = true;
         }
-        k = 0;
-        res = true;
     }
 }
 

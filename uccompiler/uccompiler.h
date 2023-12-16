@@ -73,7 +73,7 @@ struct elementos *search_symbol(struct tabela *tab,char *identifier);
 int repeticao(struct elementos *aux,char *tipo ,char *identifier,int linha,int coluna);
 void imprime_tabela(struct tabela *tab);
 void param(char **parametros,int num);
-void paramlist(char **parametros,char **identifiers,int num);
+void paramlist(char **parametros, char **identifiers, int num);
 char *tipo_func(char *tipo_func);
 struct elementos *verifica(struct elementos *elem,struct elementos *atual);    
 #endif
