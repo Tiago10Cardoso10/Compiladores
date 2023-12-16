@@ -124,7 +124,7 @@ void imprime_arvore(struct node *no, int num){
 
 //----------------Criar Tabelas ------------------
 
-
+/*
 struct tabela criar_tabela(struct node *raiz) {
     struct tabela tab;
 
@@ -261,7 +261,121 @@ struct tabela criar_tabela(struct node *raiz) {
     }
     return tab;
 }
+*/
+struct tabela criar_tabela(struct node *raiz) {
+    
+    /*
+        int v;
+        int a;
+        void as;
+        double p,bs, test;
+        void x, b;
 
+        printf("1-%s-%s\n",raiz_aux->no->tipo,raiz_aux->no->filhos->next->no->token);
+        raiz_aux = raiz_aux->no->irmaos;
+        printf("2-%s-%s\n",raiz_aux->no->tipo,raiz_aux->no->filhos->next->no->token);
+        raiz_aux = raiz_aux->no->irmaos;
+        printf("3-%s-%s\n",raiz_aux->no->tipo,raiz_aux->no->filhos->next->no->token);
+        raiz_aux = raiz_aux->no->irmaos;
+        struct node_list *raiz_aux2 = raiz_aux;
+        printf("4-%s-%s\n",raiz_aux->no->tipo,raiz_aux->no->filhos->next->no->token);
+        raiz_aux = raiz_aux->no->irmaos;
+        printf("5-%s-%s\n",raiz_aux->no->tipo,raiz_aux->no->filhos->next->no->token);
+
+        raiz_aux2 = raiz_aux2->no->irmaos->next;
+        printf("6-%s-%s\n",raiz_aux2->no->tipo,raiz_aux2->no->filhos->next->no->token);
+        raiz_aux2 = raiz_aux2->next;
+        printf("7-%s-%s\n",raiz_aux2->no->tipo,raiz_aux2->no->filhos->next->no->token);
+
+        raiz_aux2 = raiz_aux2->no->irmaos;
+        printf("8-%s-%s\n",raiz_aux2->no->tipo,raiz_aux2->no->filhos->next->no->token);
+    */
+
+
+    struct tabela tab;
+
+    tab.elem = NULL;
+
+    cria_especiasP(&tab);
+    cria_especiasG(&tab);
+
+    struct node_list *raiz_aux = raiz->filhos;
+    if (strcmp(raiz_aux->no->tipo, "FuncDefinition") == 0) {
+        functiondefinition(raiz_aux,&tab);
+    } else if (strcmp(raiz_aux->no->tipo, "FuncDeclaration") == 0) {
+        functiondeclaration(raiz_aux,&tab);
+    } else if (strcmp(raiz_aux->no->tipo, "Declaration") == 0) {
+        printf("1-%s-%s\n",raiz_aux->no->tipo,raiz_aux->no->filhos->next->no->token);
+        declaration(raiz_aux,&tab);
+    }
+    
+    struct node_list *raiz_aux2 = raiz_aux->no->irmaos;// a 
+    
+    struct node_list *save = raiz_aux2; // a
+    struct node_list *save2;
+    struct node_list *save3;
+
+    while (raiz_aux2 != NULL || save != NULL) {
+        if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
+            functiondefinition(raiz_aux2,&tab);
+        } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
+            functiondeclaration(raiz_aux2,&tab);
+        } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
+            printf("2-%s-%s\n",raiz_aux2->no->tipo,raiz_aux2->no->filhos->next->no->token);// a 
+            declaration(raiz_aux2,&tab);
+        }
+
+        save = raiz_aux2; // a
+        if (raiz_aux2->next == NULL){
+            bool res = true;
+            save2 = raiz_aux2->no->irmaos; // as
+            
+                if (strcmp(save2->no->tipo, "FuncDefinition") == 0) {
+                    functiondefinition(save2,&tab);
+                } else if (strcmp(save2->no->tipo, "FuncDeclaration") == 0) {
+                    functiondeclaration(save2,&tab);
+                } else if (strcmp(save2->no->tipo, "Declaration") == 0){
+                    printf("3-%s-%s\n",save2->no->tipo,save2->no->filhos->next->no->token); // as
+                    declaration(save2,&tab);
+                }
+                while(save2 != NULL){// as p
+                    if(res){
+                        save = save2->no->irmaos; //p bs
+                    }else{
+                        save = save2; //test x
+                    }
+                    if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
+                        functiondefinition(save,&tab);
+                    } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
+                        functiondeclaration(save,&tab);
+                    } else if (strcmp(save->no->tipo, "Declaration") == 0){
+                        printf("4-%s-%s\n",save->no->tipo,save->no->filhos->next->no->token); 
+                        declaration(save,&tab);
+                    }
+                    save3 = save2->no->irmaos->next;
+                    if (save2 == save3){
+                        
+                    } // NULL test x
+                    if(save2 == NULL){
+                        save2 = save; //p
+                    }else{
+                        res = false;
+                    }
+                }
+                
+                
+                
+            
+            raiz_aux2 = raiz_aux2->no->irmaos; // as
+        }
+        else{
+            raiz_aux2 = raiz_aux2->next;
+        }
+        
+        
+    }
+    return tab;
+}
 void cria_especiasP(struct tabela *tab){
     struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
 
@@ -637,7 +751,7 @@ void imprime_tabela(struct tabela *tab){
     printf("===== Global Symbol Table =====\n");
     
     int j = 0;
-    const int MAX_SIZE = 50;
+    const int MAX_SIZE = 300;
     char *repet[MAX_SIZE];
     
     struct elementos *current_elem = tab->elem;
@@ -679,7 +793,7 @@ void imprime_tabela(struct tabela *tab){
     
     printf("\n");
     int l = 0;
-    const int MAX_SIZEE = 50;
+    const int MAX_SIZEE = 300;
     char *repet_fd[MAX_SIZEE];
 
     struct elementos *aux = tab->elem;
