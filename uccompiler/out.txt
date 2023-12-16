@@ -1,0 +1,47 @@
+1-Declaration-v
+1-Declaration-a
+1-Declaration-as
+1-Declaration-p
+2-Declaration-bs
+2-Declaration-test
+2-Declaration-k
+1-Declaration-bs
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+v	int
+a	int
+as	void
+p	double
+bs	double
+test	double
+k	double
+
+Program
+..Declaration
+....Int
+....Identifier(v)
+..Declaration
+....Int
+....Identifier(a)
+..Declaration
+....Void
+....Identifier(as)
+..Declaration
+....Double
+....Identifier(p)
+..Declaration
+....Double
+....Identifier(bs)
+..Declaration
+....Double
+....Identifier(test)
+..Declaration
+....Double
+....Identifier(k)
+..Declaration
+....Void
+....Identifier(x)
+..Declaration
+....Void
+....Identifier(b)

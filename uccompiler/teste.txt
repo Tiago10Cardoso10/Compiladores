@@ -1,6 +1,6 @@
-int v;
-int a;
-void as;
-double p,bs, test;
-void x, b;
 
+double pow(double i);
+double pow(double i);
+double pow(int i);
+int pow(int i){
+}
