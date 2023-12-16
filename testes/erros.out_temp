@@ -1,12 +1,160 @@
 Line 3, column 33: Invalid use of void type in declaration
+Line 5, column 3: Invalid use of void type in declaration
+Line 7, column 6: Symbol a already defined
+Line 7, column 4: Invalid use of void type in declaration
+Line 8, column 10: Invalid use of void type in declaration
+Line 135, column 5: Symbol a already defined
+Line 156, column 10: Symbol a already defined
+Line 280, column 10: Symbol t already defined
+Line 281, column 5: Symbol i already defined
+Line 281, column 8: Symbol j already defined
+Line 287, column 12: Symbol d already defined
+Line 288, column 16: Symbol a already defined
+Line 289, column 11: Symbol b already defined
+Line 289, column 13: Symbol a already defined
+Line 293, column 6: Symbol a already defined
+Line 293, column 14: Symbol a already defined
+Line 293, column 26: Symbol b already defined
+Line 312, column 6: Symbol a already defined
+Line 312, column 10: Symbol b already defined
+Line 312, column 14: Symbol c already defined
+Line 314, column 8: Symbol d already defined
+Line 316, column 7: Symbol c already defined
+Line 319, column 15: Symbol a already defined
+Line 320, column 10: Symbol c already defined
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)
 main	int(void)
 a	int
-as	void
 p	double
 bs	double
+test	double
+abcde	int(int,int,int)
+okokok	int(void)
+new	void(void)
+factorial	int(int)
+recursive_factorial	int(int)
+tail_recursive_fac	int(int,int)
+soma	void(int,char)
+subt	void(int,char,double)
+b	int
+d	int
+c	int
+t	double
+chama	int(void)
+uauu	int(void)
+ctoi	int(char)
+block	char(char,char)
+check_your_priorities	int(int,int,int)
+not_block	char(char,char)
+x	int
+y	int
+z	int
+check_your_decimal	double(double,double)
+main_0	int(void)
+i	int
+j	int
+k	int
+ch0	char
+ch1	char
+ch2	char
+pow	double(double)
+c1	char
+c2	char
+s	short
+f1	char(void)
+blah	int(void)
+df	double(double,double)
+
+===== Function main Symbol Table =====
+return	int
+i	int
+
+===== Function abcde Symbol Table =====
+return	int
+a	int	param
+b	int	param
+i	int	param
+
+===== Function okokok Symbol Table =====
+return	int
+i	int
+
+===== Function factorial Symbol Table =====
+return	int
+number	int	param
+answer	int
+
+===== Function recursive_factorial Symbol Table =====
+return	int
+number	int	param
+
+===== Function tail_recursive_fac Symbol Table =====
+return	int
+number	int	param
+k	int	param
+bola	int
+i	int
+
+===== Function chama Symbol Table =====
+return	int
+
+===== Function uauu Symbol Table =====
+return	int
+a	char
+b	int
+
+===== Function ctoi Symbol Table =====
+return	int
+c	char	param
+
+===== Function block Symbol Table =====
+return	char
+a	char	param
+b	char	param
+
+===== Function check_your_priorities Symbol Table =====
+return	int
+a	int	param
+b	int	param
+d	int	param
+
+===== Function not_block Symbol Table =====
+return	char
+a	char	param
+b	char	param
+
+===== Function check_your_decimal Symbol Table =====
+return	double
+a	double	param
+b	double	param
+PI	double
+
+===== Function main_0 Symbol Table =====
+return	int
+
+===== Function f1 Symbol Table =====
+return	char
+s	short
+i	int
+d	double
+e	double
+a	int
+b	double
+
+===== Function df Symbol Table =====
+return	double
+d	double	param
+dd	double	param
+ch0	int
+calc	int
+ch1	char
+a	char
+b	short
+c	int
+d	double
+x	double
 
 Program
 ..FuncDeclaration

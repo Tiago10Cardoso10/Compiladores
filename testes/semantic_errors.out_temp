@@ -1,9 +1,9 @@
+Line 1, column 16: Invalid use of void type in declaration
 Line 13, column 6: Symbol f already defined
 Line 27, column 11: Conflicting types (got double, expected void)
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)
-r	void(double,void)
 s	void(int)
 d	double
 f	int(short)

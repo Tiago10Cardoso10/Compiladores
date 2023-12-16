@@ -124,144 +124,7 @@ void imprime_arvore(struct node *no, int num){
 
 //----------------Criar Tabelas ------------------
 
-/*
-struct tabela criar_tabela(struct node *raiz) {
-    struct tabela tab;
 
-    tab.elem = NULL;
-
-    cria_especiasP(&tab);
-    cria_especiasG(&tab);
-
-    struct node_list *raiz_aux = raiz->filhos;
-    if (strcmp(raiz_aux->no->tipo, "FuncDefinition") == 0) {
-        functiondefinition(raiz_aux,&tab);
-    } else if (strcmp(raiz_aux->no->tipo, "FuncDeclaration") == 0) {
-        functiondeclaration(raiz_aux,&tab);
-    } else if (strcmp(raiz_aux->no->tipo, "Declaration") == 0) {
-        declaration(raiz_aux,&tab);
-    }
-    
-    struct node_list *raiz_aux2 = raiz_aux->no->irmaos;
-    
-    struct node_list *save = raiz_aux2;
-
-    int j = 0;
-    const int MAX_SIZE = 300;
-    char *repet[MAX_SIZE];
-
-    struct tabela so_verifica;
-    while (raiz_aux2 != NULL || save != NULL) {
-        int i = 0;
-        bool res = true;
-        if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
-            while (res && i < j){
-                if (strcmp(repet[i], raiz_aux2->no->filhos->next->no->token) == 0){
-                    res = false;
-                }
-                i++;
-            }
-            if (res){
-
-                if(functiondefinition(raiz_aux2,&tab) != 1){
-                    repet[j] = raiz_aux2->no->filhos->next->no->token;
-                    j++;
-                }
-            }
-        } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
-            while (res && i < j){
-                if (strcmp(repet[i], raiz_aux2->no->filhos->next->no->token) == 0){
-                    res = false;
-                }
-                i++;
-            }
-            if (res){
-                if(functiondeclaration(raiz_aux2,&tab) != 1){
-                    repet[j] = raiz_aux2->no->filhos->next->no->token;
-                    j++;
-                }
-            }
-        } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
-            while (res && i < j){
-                if (strcmp(repet[i], raiz_aux2->no->filhos->next->no->token) == 0){
-                    res = false;
-                }
-                i++;
-            }
-            if (res){
-                if(declaration(raiz_aux2,&tab) != 1){
-                    repet[j] = raiz_aux2->no->filhos->next->no->token;
-                    j++;
-                }
-            }
-        }
-
-        save = raiz_aux2;
-        if (raiz_aux2->next == NULL){
-            
-            save = raiz_aux2->no->irmaos;
-            while (save != NULL) {
-                i = 0;
-                bool res = true;
-                if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
-                    while (res && i < j){
-                        if (strcmp(repet[i], save->no->filhos->next->no->token) == 0){
-                            res = false;
-                        }
-                        i++;
-                    }
-                    if (res){
-                        if(functiondefinition(save,&tab) != 1){
-                            repet[j] = save->no->filhos->next->no->token;
-                            j++;
-                        } 
-                    }
-                    
-                } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
-                    while (res && i < j){
-                        if (strcmp(repet[i], save->no->filhos->next->no->token) == 0){
-                            res = false;
-                        }
-                        i++;
-                    }
-                    if (res){
-                        if(functiondeclaration(save,&tab) != 1){
-                            repet[j] = save->no->filhos->next->no->token;
-                            j++;
-                        } 
-                    }
-                    repet[j] = save->no->filhos->next->no->token;
-                    j++;
-                    
-                } else if (strcmp(save->no->tipo, "Declaration") == 0){
-                    while (res && i < j){
-                        if (strcmp(repet[i], save->no->filhos->next->no->token) == 0){
-                            res = false;
-                        }
-                        i++;
-                    }
-                    if (res){
-                        if(declaration(save,&tab) != 1){
-                            repet[j] = save->no->filhos->next->no->token;
-                            j++;
-                        } 
-                    }
-                    
-                    
-                }
-                save = save->no->irmaos;
-            }
-            raiz_aux2 = raiz_aux2->no->irmaos;
-        }
-        else{
-            raiz_aux2 = raiz_aux2->next;
-        }
-        
-        
-    }
-    return tab;
-}
-*/
 struct tabela criar_tabela(struct node *raiz) {
     
     /*
@@ -299,74 +162,225 @@ struct tabela criar_tabela(struct node *raiz) {
     cria_especiasP(&tab);
     cria_especiasG(&tab);
 
+    
+    struct node_list *raiz_aux;
+    struct node_list *raiz_aux2;
+
+    int conta_first = 0;
+    while(raiz_aux2){
+
+        if (conta_first == 0){
+            raiz_aux2 = raiz->filhos;
+        } 
+        conta_first++;
+
+        if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
+                functiondefinition(raiz_aux2,&tab);
+            } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
+                functiondeclaration(raiz_aux2,&tab);
+            } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0) {
+                declaration(raiz_aux2,&tab);
+            }
+        
+        
+        
+        int conta = 0;
+        struct node_list *raiz_aux3 = raiz_aux2->no->irmaos;
+        struct node_list *raiz_aux4;
+        struct node_list *lista[300];
+        while(raiz_aux3){
+            lista[conta] = raiz_aux3;
+            conta++;
+            if(raiz_aux3->next == NULL){
+                raiz_aux4 = raiz_aux3;
+            }
+            raiz_aux3 = raiz_aux3->next;
+        }
+        
+        for(int i=0;i<conta-1;i++){
+            if (strcmp(lista[i]->no->tipo,"FuncDefinition") == 0) {
+                functiondefinition(lista[i],&tab);
+            } else if (strcmp(lista[i]->no->tipo, "FuncDeclaration") == 0) {
+                functiondeclaration(lista[i],&tab);
+            } else if (strcmp(lista[i]->no->tipo, "Declaration") == 0) {
+                declaration(lista[i],&tab);
+            }
+        }
+
+        if (conta != 0){
+            raiz_aux2 = raiz_aux4;
+        } else {
+            raiz_aux2 = NULL;
+        }
+    }
+    return tab;
+}
+
+
+
+/*
+struct tabela criar_tabela(struct node *raiz) {
+    
+    /*
+        struct node_list *atual = raiz->filhos;
+        while (atual && atual->no) {
+        criar_tabela(atual->no, conta + 1,0);
+        atual = atual->next;
+        } 
+        struct node_list *atual2 = raiz->irmaos;
+        while (atual2 && atual2->no) {
+        criar_tabela(atual->no, conta + 2,0);
+        atual2 = atual2->next;
+        }
+    */
+
+    
+
+
+    /*
+    struct tabela tab;
+
+    tab.elem = NULL;
+
+    cria_especiasP(&tab);
+    cria_especiasG(&tab);
+
     struct node_list *raiz_aux = raiz->filhos;
     if (strcmp(raiz_aux->no->tipo, "FuncDefinition") == 0) {
         functiondefinition(raiz_aux,&tab);
     } else if (strcmp(raiz_aux->no->tipo, "FuncDeclaration") == 0) {
         functiondeclaration(raiz_aux,&tab);
     } else if (strcmp(raiz_aux->no->tipo, "Declaration") == 0) {
-        printf("1-%s-%s\n",raiz_aux->no->tipo,raiz_aux->no->filhos->next->no->token);
         declaration(raiz_aux,&tab);
     }
     
-    struct node_list *raiz_aux2 = raiz_aux->no->irmaos;// a 
+    struct node_list *raiz_aux2 = raiz_aux->no->irmaos;
     
-    struct node_list *save = raiz_aux2; // a
-    struct node_list *save2;
-    struct node_list *save3;
+    struct node_list *save = raiz_aux2;
+
+    int j = 0;
+    const int MAX_SIZE = 300;
+
+    char *repetI[MAX_SIZE];
+    char *repetT[MAX_SIZE];
 
     while (raiz_aux2 != NULL || save != NULL) {
+        int i = 0;
+        bool res = true;
         if (strcmp(raiz_aux2->no->tipo, "FuncDefinition") == 0) {
-            functiondefinition(raiz_aux2,&tab);
-        } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
-            functiondeclaration(raiz_aux2,&tab);
-        } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
-            printf("2-%s-%s\n",raiz_aux2->no->tipo,raiz_aux2->no->filhos->next->no->token);// a 
-            declaration(raiz_aux2,&tab);
-        }
-
-        save = raiz_aux2; // a
-        if (raiz_aux2->next == NULL){
-            bool res = true;
-            save2 = raiz_aux2->no->irmaos; // as
-            
-                if (strcmp(save2->no->tipo, "FuncDefinition") == 0) {
-                    functiondefinition(save2,&tab);
-                } else if (strcmp(save2->no->tipo, "FuncDeclaration") == 0) {
-                    functiondeclaration(save2,&tab);
-                } else if (strcmp(save2->no->tipo, "Declaration") == 0){
-                    printf("3-%s-%s\n",save2->no->tipo,save2->no->filhos->next->no->token); // as
-                    declaration(save2,&tab);
-                }
-                while(save2 != NULL){// as p
-                    if(res){
-                        save = save2->no->irmaos; //p bs
-                    }else{
-                        save = save2; //test x
-                    }
-                    if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
-                        functiondefinition(save,&tab);
-                    } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
-                        functiondeclaration(save,&tab);
-                    } else if (strcmp(save->no->tipo, "Declaration") == 0){
-                        printf("4-%s-%s\n",save->no->tipo,save->no->filhos->next->no->token); 
-                        declaration(save,&tab);
-                    }
-                    save3 = save2->no->irmaos->next;
-                    if (save2 == save3){
-                        
-                    } // NULL test x
-                    if(save2 == NULL){
-                        save2 = save; //p
-                    }else{
+            while (res && i < j){
+                if (strcmp(repetT[i], raiz_aux2->no->tipo) == 0){
+                    if (strcmp(repetI[i], raiz_aux2->no->filhos->next->no->token) == 0){
                         res = false;
                     }
                 }
-                
-                
-                
+                i++;
+            }
+            if (res){
+                if(functiondefinition(raiz_aux2,&tab) != 1){
+                    repetI[j] = raiz_aux2->no->filhos->next->no->token;
+                    repetT[j] = raiz_aux2->no->tipo;
+                    j++;
+                }
+            }
+        } else if (strcmp(raiz_aux2->no->tipo, "FuncDeclaration") == 0) {
+            while (res && i < j){
+                if (strcmp(repetT[i], raiz_aux2->no->tipo) == 0){
+                    if (strcmp(repetI[i], raiz_aux2->no->filhos->next->no->token) == 0){
+                        res = false;
+                    }
+                }
+                i++;
+            }
+            if (res){
+                if(functiondeclaration(raiz_aux2,&tab) != 1){
+
+                    repetI[j] = raiz_aux2->no->filhos->next->no->token;
+                    repetT[j] = raiz_aux2->no->tipo;
+                    j++;
+                }
+            }
+        } else if (strcmp(raiz_aux2->no->tipo, "Declaration") == 0){
+            while (res && i < j){
+                if (strcmp(repetT[i], raiz_aux2->no->tipo) == 0){
+                    if (strcmp(repetI[i], raiz_aux2->no->filhos->next->no->token) == 0){
+                        res = false;
+                    }
+                }
+                i++;
+            }
+            if (res){
+                if(declaration(raiz_aux2,&tab) != 1){
+                    repetI[j] = raiz_aux2->no->filhos->next->no->token;
+                    repetT[j] = raiz_aux2->no->tipo;
+                    j++;
+                }
+            }
+        }
+
+        save = raiz_aux2;
+        if (raiz_aux2->next == NULL){
             
-            raiz_aux2 = raiz_aux2->no->irmaos; // as
+            save = raiz_aux2->no->irmaos;
+            while (save != NULL) {
+                i = 0;
+                bool res = true;
+                if (strcmp(save->no->tipo, "FuncDefinition") == 0) {
+                    while (res && i < j){
+                        if (strcmp(repetT[i], save->no->tipo) == 0){
+                            if (strcmp(repetI[i], save->no->filhos->next->no->token) == 0){
+                                res = false;
+                            }
+                        }
+                        i++;
+                    }
+                    if (res){
+                        if(functiondefinition(save,&tab) != 1){
+                            repetI[j] = save->no->filhos->next->no->token;
+                            repetT[j] = save->no->tipo;
+                            j++;
+                        } 
+                    }
+                    
+                } else if (strcmp(save->no->tipo, "FuncDeclaration") == 0) {
+                    while (res && i < j){
+                        if (strcmp(repetT[i], save->no->tipo) == 0){
+                            if (strcmp(repetI[i], save->no->filhos->next->no->token) == 0){
+                                res = false;
+                            }
+                        }
+                        i++;
+                    }
+                    if (res){
+                        if(functiondeclaration(save,&tab) != 1){
+                            repetI[j] = save->no->filhos->next->no->token;
+                            repetT[j] = save->no->tipo;
+                            j++;
+                        } 
+                    }
+                    
+                } else if (strcmp(save->no->tipo, "Declaration") == 0){
+                    while (res && i < j){
+                        if (strcmp(repetT[i], save->no->tipo) == 0){
+                            if (strcmp(repetI[i], save->no->filhos->next->no->token) == 0){
+                                res = false;
+                            }
+                        }
+                        i++;
+                    }
+                    if (res){
+                        if(declaration(save,&tab) != 1){
+                            repetI[j] = save->no->filhos->next->no->token;
+                            repetT[j] = save->no->tipo;
+                            j++;
+                        } 
+                    }
+                    
+                    
+                }
+                save = save->no->irmaos;
+            }
+            raiz_aux2 = raiz_aux2->no->irmaos;
         }
         else{
             raiz_aux2 = raiz_aux2->next;
@@ -376,6 +390,7 @@ struct tabela criar_tabela(struct node *raiz) {
     }
     return tab;
 }
+*/
 void cria_especiasP(struct tabela *tab){
     struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
 
@@ -457,6 +472,7 @@ int declaration(struct node_list *ast,struct tabela *tab){
             return 1;
         }
         
+        
         char *guarda1 = ast->no->tipo;
         aux_elem->tipo = (char*) malloc(strlen(guarda1) + 1);
         strcpy(aux_elem->tipo, guarda1);
@@ -490,7 +506,7 @@ int declaration(struct node_list *ast,struct tabela *tab){
 int functiondeclaration(struct node_list *ast,struct tabela *tab){
     struct elementos *aux_tab = tab->elem;
 
-    if(repeticao(aux_tab,ast->no->tipo,ast->no->filhos->next->no->token,ast->no->filhos->next->no->linha,ast->no->filhos->next->no->coluna) == 0){        
+            
         struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
 
         char *guarda1 = ast->no->tipo;
@@ -581,7 +597,7 @@ int functiondeclaration(struct node_list *ast,struct tabela *tab){
             
             aux->next = aux_elem;
         }
-    }
+    
 }
 
 int functiondefinition(struct node_list *ast,struct tabela *tab){
@@ -589,6 +605,8 @@ int functiondefinition(struct node_list *ast,struct tabela *tab){
 
     if(repeticao(aux_tab,ast->no->tipo,ast->no->filhos->next->no->token,ast->no->filhos->next->no->linha,ast->no->filhos->next->no->coluna) == 0){        
         struct elementos *aux_elem = (struct elementos*) malloc(sizeof(struct elementos));
+        struct elementos *aux_tab2 = tab->elem;
+
 
         char *guarda1 = ast->no->tipo;
         aux_elem->tipo = (char*) malloc(strlen(guarda1) + 1);
@@ -603,6 +621,21 @@ int functiondefinition(struct node_list *ast,struct tabela *tab){
         char *guarda3 = ast->no->filhos->next->no->token;
         aux_elem->identifier = (char*) malloc(strlen(guarda3) + 1);
         strcpy(aux_elem->identifier,guarda3);
+
+        while (aux_tab2 != NULL) {
+            if(strcmp(aux_tab2->tipo,aux_elem->identifier) != 0){
+                if (strcmp(aux_tab2->tipo,"FuncDeclaration") == 0){
+                    if(strcmp(aux_tab2->identifier,aux_elem->identifier)==0){
+                        if(strcmp(aux_tab2->tipo_func,aux_elem->tipo_func) !=0){
+                            return 4;
+                        }   
+                    }
+                }
+            }
+            aux_tab2 = aux_tab2->next;
+        }
+            
+        
 
         
         aux_elem->param_t = NULL;
@@ -736,12 +769,11 @@ int repeticao(struct elementos *aux,char *tipo ,char *identifier,int linha,int c
     int val = 0;
     while(aux != NULL){
         if(strcmp(aux->tipo,tipo) == 0){
-            
             if(strcmp(aux->identifier,identifier) == 0){
                 val = 1;
                 printf("Line %d, column %ld: Symbol %s already defined\n",linha,coluna-strlen(identifier),identifier);
-            }
-        }
+            } 
+        } 
         aux = aux->next;
     }
     return val;
@@ -793,7 +825,7 @@ void imprime_tabela(struct tabela *tab){
     
     printf("\n");
     int l = 0;
-    const int MAX_SIZEE = 300;
+    const int MAX_SIZEE = 50;
     char *repet_fd[MAX_SIZEE];
 
     struct elementos *aux = tab->elem;
@@ -806,10 +838,8 @@ void imprime_tabela(struct tabela *tab){
                 while (res && i < l){
                     if (strcmp(repet_fd[i], aux->identifier) == 0){
                         res = false;
-                        printf("1\n");
                     }
                     i++;
-                    printf("2\n");
                 }
                 if(res){
                     printf("===== Function %s Symbol Table =====\n",aux->identifier);
@@ -818,9 +848,9 @@ void imprime_tabela(struct tabela *tab){
                     while(aux->nova->elem){
                         printf("%s\t%s\n",aux->nova->elem->identifier,aux->nova->elem->tipo_func);
                         aux->nova->elem = aux->nova->elem->next;
+
                     }
                     printf("\n");
-                    printf("3\n");
                 }
                 repet_fd[l] = aux->identifier;
                 l++;
@@ -830,10 +860,8 @@ void imprime_tabela(struct tabela *tab){
                 while (res && i < l){
                     if (strcmp(repet_fd[i], veri->identifier) == 0){
                         res = false;
-                        printf("4\n");
                     }
                     i++;
-                    printf("5\n");
                 }
                 if(res){
                     printf("===== Function %s Symbol Table =====\n",veri->identifier);
@@ -845,7 +873,6 @@ void imprime_tabela(struct tabela *tab){
                         veri->nova->elem = veri->nova->elem->next;
                     }
                     printf("\n");
-                    printf("6\n");
                 }
                 repet_fd[l] = veri->identifier;
                 l++;
@@ -861,8 +888,10 @@ struct elementos *verifica(struct elementos *elem,struct elementos *atual){
         if(strcmp(elem->tipo,atual->tipo) !=0 ){
             if (strcmp(elem->tipo,"FuncDefinition")==0){
                 if(strcmp(elem->identifier,atual->identifier)==0){
-                    return elem;
-                }   
+                    if(strcmp(elem->tipo_func,atual->tipo_func)==0){
+                        return elem;
+                    }   
+                }
             }
             
         }
